@@ -141,9 +141,9 @@ const Header = () => {
               size="default"
               asChild
             >
-              <a href="/question-drills">
+              <Link to="/pre-register">
                 Pre-register
-              </a>
+              </Link>
             </Button>
           </div>
 
@@ -217,9 +217,9 @@ const Header = () => {
                 </Link>
 
                 <Button variant="hero" className="mt-6 w-full" asChild>
-                  <a href="/question-drills">
-                    Start Reviewing
-                  </a>
+                  <Link to="/pre-register">
+                    Pre-register
+                  </Link>
                 </Button>
               </div>
             </motion.nav>
