@@ -82,50 +82,6 @@ const cards = [
     imageClass: "w-[90%]",
   },
   {
-    title: "BoardPrep Coach (Coming Soon)",
-    description: (
-      <ul className="text-left space-y-4">
-        <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Bot className="w-6 h-6 text-emerald-600" /> AI-Powered Study Plans
-        </li>
-        <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <TrendingUp className="w-6 h-6 text-emerald-600" /> Real-time
-          Performance Analytics
-        </li>
-        <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Target className="w-6 h-6 text-emerald-600" /> Personalized Question
-          Targeting
-        </li>
-      </ul>
-    ),
-    image: laptop,
-    imageAlt: "AI Coach Interface",
-    color: "bg-[#C4F5E1]", // Mint Green
-    textColor: "text-slate-900",
-    imageClass: "w-[90%]",
-  },
-  {
-    title: "Question Drills",
-    description: (
-      <ul className="text-left space-y-4">
-        <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Zap className="w-6 h-6 text-yellow-600" /> Rapid Fire Mode
-        </li>
-        <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Brain className="w-6 h-6 text-yellow-600" /> Spaced Repetition Logic
-        </li>
-        <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Trophy className="w-6 h-6 text-yellow-600" /> Daily Challenges
-        </li>
-      </ul>
-    ),
-    image: phone,
-    imageAlt: "Question Drills Interface",
-    color: "bg-[#FFE8A3]", // Soft Yellow/Gold
-    textColor: "text-slate-900",
-    imageClass: "w-[60%]",
-  },
-  {
     title: "iOS (Coming Soon)",
     description: (
       <ul className="text-left space-y-4">

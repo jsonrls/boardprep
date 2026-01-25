@@ -85,7 +85,7 @@ const Header = () => {
                       <ListItem href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US" target="_blank" rel="noopener noreferrer" title="Mobile App">
                         Download our mobile application.
                       </ListItem>
-                      <ListItem href="/classroom" title="BoardPrep Classroom">
+                      <ListItem href="https://lms2.myboardprep.com/" target="_blank" rel="noopener noreferrer" title="BoardPrep Classroom">
                         Interactive classroom environment.
                       </ListItem>
                       <ListItem title="iOS (Coming Soon)" href="#" className="opacity-50 cursor-not-allowed">
