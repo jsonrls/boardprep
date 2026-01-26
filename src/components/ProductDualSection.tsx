@@ -53,6 +53,7 @@ const cards = [
     color: "bg-[#A7A7FF]", // Vibrant purple-ish blue
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
+    link: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
   },
   {
     title: "LMS for Universities & Centers",
@@ -80,6 +81,7 @@ const cards = [
     color: "bg-[#FFD4E2]", // Soft pink/rose
     textColor: "text-slate-900",
     imageClass: "w-[90%]",
+    link: "https://lms2.myboardprep.com/",
   },
   {
     title: "iOS (Coming Soon)",
@@ -102,6 +104,7 @@ const cards = [
     color: "bg-[#E0F4FF]", // Sky Blue
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
+    link: "#",
   },
   {
     title: "BoardPrep Lite (Coming Soon)",
@@ -123,6 +126,7 @@ const cards = [
     color: "bg-[#FFD6C4]", // Peach/Apricot
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
+    link: "#",
   },
 ];
 
@@ -138,6 +142,7 @@ const Card = ({
   range,
   targetScale,
   imageClass,
+  link,
 }: {
   i: number;
   title: string;
@@ -150,6 +155,7 @@ const Card = ({
   range: number[];
   targetScale: number;
   imageClass?: string;
+  link?: string;
 }) => {
   const container = useRef(null);
   const scale = useTransform(progress, range, [1, targetScale]);
@@ -181,12 +187,17 @@ const Card = ({
             <div className="py-4">{description}</div>
 
             <div className="pt-2">
-              <Button
-                variant="link"
-                className={`p-0 h-auto text-lg font-semibold gap-2 ${textColor} hover:opacity-80 transition-opacity`}
-              >
-                See more <ArrowRight size={20} />
-              </Button>
+              {link && (
+                <Button
+                  variant="link"
+                  className={`p-0 h-auto text-lg font-semibold gap-2 ${textColor} hover:opacity-80 transition-opacity`}
+                  asChild
+                >
+                  <a href={link} target="_blank" rel="noopener noreferrer">
+                    Learn More <ArrowRight size={20} />
+                  </a>
+                </Button>
+              )}
             </div>
           </div>
 

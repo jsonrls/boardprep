@@ -8,9 +8,9 @@ const Footer = () => {
   const location = useLocation();
 
   const quickLinks = [
-    { label: "Question Drills", href: "/question-drills", isHash: false },
-    { label: "BoardPrep Classroom", href: "/classroom", isHash: false },
-    { label: "Mobile App", href: "/mobile-app", isHash: false },
+    { label: "Question Drills", href: "https://www.myboardprep.com", isHash: false },
+    { label: "BoardPrep Classroom", href: "https://lms2.myboardprep.com/", isHash: false },
+    { label: "Mobile App", href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US", isHash: false },
     { label: "About Us", href: "/about", isHash: false },
     { label: "Contact Us", href: "/contact", isHash: false },
   ];
@@ -36,7 +36,7 @@ const Footer = () => {
                 href="https://www.facebook.com/sentinelvetdiagnostics"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors duration-300"
+                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors duration-300"
               >
                 <Facebook size={18} />
               </a>
@@ -44,9 +44,37 @@ const Footer = () => {
                 href="https://www.instagram.com/sentinel.vet/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-primary transition-colors duration-300"
+                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#E4405F] hover:text-white transition-colors duration-300"
               >
                 <Instagram size={18} />
+              </a>
+              <a
+                href="https://ph.linkedin.com/company/board-prep"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white transition-colors duration-300"
+              >
+                <Linkedin size={18} />
+              </a>
+              <a
+                href="https://www.tiktok.com/@myboardprep"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#000000] hover:text-white transition-colors duration-300"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                </svg>
               </a>
             </div>
           </div>

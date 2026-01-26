@@ -79,7 +79,7 @@ const Header = () => {
                   <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">Product</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-popover">
-                      <ListItem href="/question-drills" title="Question Drills">
+                      <ListItem href="https://www.myboardprep.com" target="_blank" rel="noopener noreferrer" title="Question Drills">
                         Practice with our comprehensive question bank.
                       </ListItem>
                       <ListItem href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US" target="_blank" rel="noopener noreferrer" title="Mobile App">

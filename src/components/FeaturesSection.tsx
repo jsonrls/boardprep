@@ -1,4 +1,4 @@
-import { Zap, Target, Shield, Clock } from "lucide-react";
+import { BadgePercent, Target, Shield, Clock } from "lucide-react";
 
 const features = [
   {
@@ -12,7 +12,7 @@ const features = [
     description: "Review at your own speed with accessible materials anytime, anywhere.",
   },
   {
-    icon: Zap,
+    icon: BadgePercent,
     title: "Affordable Quality",
     description: "Our subscription allows you to save a swooping average of 94% of review costs.",
   },

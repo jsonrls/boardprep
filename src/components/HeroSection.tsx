@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-img-2.png";
+import heroImage from "@/assets/hero-img-3.png";
 
 const HeroSection = () => {
   return (
     <section 
-      className="relative min-h-[90vh] flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20 bg-cover bg-center bg-no-repeat"
+      className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${heroImage})` }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
