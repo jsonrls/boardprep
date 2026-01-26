@@ -125,6 +125,14 @@ const Header = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
+                    <Link to="/blogs" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2")}>
+                      Blogs
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
                     <Link to="/contact" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2")}>
                       Contact
                     </Link>
@@ -207,6 +215,13 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   About
+                </Link>
+                <Link
+                  to="/blogs"
+                  className="text-sm font-medium py-3 border-b border-border/50 text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Blogs
                 </Link>
                 <Link
                   to="/contact"
