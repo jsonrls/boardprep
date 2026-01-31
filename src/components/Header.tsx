@@ -50,7 +50,12 @@ const Header = () => {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-card shadow-soft py-3 lg:py-4 transition-all duration-300"
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled 
+          ? "bg-card/80 backdrop-blur-md shadow-soft py-3" 
+          : "bg-transparent py-3 lg:py-4"
+      )}
     >
       <div className="container mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between">
@@ -146,7 +151,7 @@ const Header = () => {
           <div className="hidden lg:block">
             <Button
               variant="hero"
-              size="default"
+              size="sm"
               asChild
             >
               <Link to="/pre-register">
@@ -177,7 +182,7 @@ const Header = () => {
               <div className="py-4 flex flex-col space-y-2">
                 <Link
                   to="/"
-                  className="text-sm font-medium py-3 border-b border-border/50 text-foreground"
+                  className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Home
@@ -185,7 +190,7 @@ const Header = () => {
 
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="products" className="border-b border-border/50">
-                    <AccordionTrigger className="text-sm font-medium py-3 hover:no-underline text-foreground">Product</AccordionTrigger>
+                    <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">Product</AccordionTrigger>
                     <AccordionContent>
                       <div className="flex flex-col space-y-2 pl-4 py-2">
                         <Link to="/question-drills" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>Question Drills</Link>
@@ -198,7 +203,7 @@ const Header = () => {
                   </AccordionItem>
 
                   <AccordionItem value="review" className="border-b border-border/50">
-                    <AccordionTrigger className="text-sm font-medium py-3 hover:no-underline text-foreground">Review Class</AccordionTrigger>
+                    <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">Review Class</AccordionTrigger>
                     <AccordionContent>
                       <div className="flex flex-col space-y-2 pl-4 py-2">
                         <Link to="/review/vet" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>VET</Link>
@@ -211,21 +216,21 @@ const Header = () => {
 
                 <Link
                   to="/about"
-                  className="text-sm font-medium py-3 border-b border-border/50 text-foreground"
+                  className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   About
                 </Link>
                 <Link
                   to="/blogs"
-                  className="text-sm font-medium py-3 border-b border-border/50 text-foreground"
+                  className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Blogs
                 </Link>
                 <Link
                   to="/contact"
-                  className="text-sm font-medium py-3 border-b border-border/50 text-foreground"
+                  className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Contact

@@ -22,9 +22,9 @@ const buttonVariants = cva(
         link:
           "text-primary underline-offset-4 hover:underline",
         hero:
-          "bg-gradient-primary rounded-none text-primary-foreground tracking-wide uppercase text-xs font-semibold shadow-lg hover:shadow-glow",
+          "bg-gradient-primary rounded-none text-primary-foreground tracking-wide uppercase text-xs font-semibold shadow-lg hover:shadow-glow hover:scale-[1.02] active:scale-[0.98]",
         heroOutline:
-          "border border-accent bg-transparent text-primary tracking-wide uppercase text-xs font-semibold hover:bg-accent/50 hover:border-accent rounded-none",
+          "border border-accent bg-transparent text-primary tracking-wide uppercase text-xs font-semibold hover:bg-accent/50 hover:border-accent rounded-none hover:scale-[1.02] active:scale-[0.98]",
         checkoutOutline:
           "border border-primary/40 bg-transparent text-primary tracking-wide uppercase text-xs font-semibold hover:bg-primary/10 hover:border-primary rounded-none",
         elegant:
@@ -35,8 +35,8 @@ const buttonVariants = cva(
       size: {
         default: "h-11 px-6 py-2",
         sm: "h-9 px-4 text-xs",
-        lg: "h-14 px-10 py-4",
-        xl: "h-16 px-12 py-5",
+        lg: "h-12 px-8 py-3",
+        xl: "h-14 px-10 py-4",
         icon: "h-10 w-10",
       },
     },

@@ -5,26 +5,30 @@ import heroImage from "@/assets/hero-img-3.png";
 const HeroSection = () => {
   return (
     <section 
-      className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${heroImage})` }}
+      className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+      <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-transparent z-0" />
+      <div 
+        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat z-10"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-20">
         <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-12">
           {/* Text Content */}
           <div className="w-full md:w-1/2 max-w-2xl">
             {/* Tagline */}
-            <p className="animate-fade-up text-accent font-medium tracking-[0.2em] uppercase text-sm mb-6">
+            <p className="animate-fade-up text-accent font-medium tracking-[0.2em] uppercase text-sm mb-6 text-center md:text-left">
               Ed-Tech Board Exam Prep
             </p>
 
             {/* Headline */}
-            <h1 className="animate-fade-up delay-100 font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-[1.1] mb-8">
+            <h1 className="animate-fade-up delay-100 font-display text-6xl md:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-[1.1] mb-8 text-center md:text-left">
               Master your board exam with{" "}
               <em className="not-italic text-accent">top-notch</em> drills.
             </h1>
 
             {/* Subheadline */}
-            <p className="animate-fade-up delay-200 text-lg md:text-xl text-foreground mb-10 leading-relaxed max-w-xl font-light">
+            <p className="animate-fade-up delay-200 text-lg md:text-xl text-foreground mb-10 leading-relaxed max-w-xl font-light text-center md:text-left">
               Affordable but high-quality question drills curated by board topnotchers.
               Join our self-paced review classes and study at your own convenience.
             </p>

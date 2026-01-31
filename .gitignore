@@ -32,3 +32,6 @@ dist-ssr
 # Build output
 build/
 out/
+
+# Agent
+.agent
