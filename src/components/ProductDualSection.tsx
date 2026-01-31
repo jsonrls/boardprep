@@ -200,11 +200,15 @@ const Card = ({
               {link && (
                 <Button
                   variant="link"
-                  className={`p-0 h-auto text-lg font-semibold gap-2 ${textColor} hover:opacity-80 transition-opacity`}
+                  className={`p-0 h-auto text-lg font-semibold gap-2 ${textColor} hover:opacity-80 transition-opacity group`}
                   asChild
                 >
                   <a href={link} target="_blank" rel="noopener noreferrer">
-                    Learn More <ArrowRight size={20} />
+                    Learn More{" "}
+                    <ArrowRight
+                      size={20}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
                   </a>
                 </Button>
               )}

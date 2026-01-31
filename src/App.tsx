@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import VetDetails from "./pages/VetDetails";
 import FtleDetails from "./pages/FtleDetails";
 import FisheriesDetails from "./pages/FisheriesDetails";
+import AbeDetails from "./pages/AbeDetails";
 import QuestionDrills from "./pages/QuestionDrills";
 import MobileApp from "./pages/MobileApp";
 import Classroom from "./pages/Classroom";
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/review/vet" element={<VetDetails />} />
             <Route path="/review/ftle" element={<FtleDetails />} />
             <Route path="/review/fisheries" element={<FisheriesDetails />} />
+            <Route path="/review/abe" element={<AbeDetails />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/pre-register" element={<PreRegister />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

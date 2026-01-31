@@ -59,21 +59,25 @@ const speakers = [
     name: "Dr. Maria Santos",
     specialty: "Veterinary Pathology",
     credential: "Board Topnotcher 2023",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MariaSantos",
   },
   {
     name: "Dr. Juan dela Cruz",
     specialty: "Veterinary Anatomy",
     credential: "15+ Years Teaching Experience",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=JuanDelaCruz",
   },
   {
     name: "Dr. Sarah Johnson",
     specialty: "Veterinary Pharmacology",
     credential: "Board Topnotcher 2022",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahJohnson",
   },
   {
     name: "Dr. Michael Chen",
     specialty: "Clinical Medicine",
     credential: "Specialist Veterinarian",
+    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MichaelChen",
   },
 ];
 
@@ -125,14 +129,21 @@ const VetDetails = () => {
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="#"
+                  href="https://lms2.myboardprep.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto"
                 >
-                  <Button variant="hero" size="lg" className="w-full sm:w-auto">
+                  <Button
+                    variant="hero"
+                    size="lg"
+                    className="w-full sm:w-auto group"
+                  >
                     Access LMS
-                    <ArrowRight size={18} />
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
                   </Button>
                 </a>
                 <a href="#curriculum" className="w-full sm:w-auto">
@@ -287,8 +298,15 @@ const VetDetails = () => {
                   key={speaker.name}
                   className={`animate-fade-up delay-${(index + 3) * 100} bg-card rounded-sm p-8 shadow-soft hover-lift border border-border/50 text-center`}
                 >
-                  <div className="w-20 h-20 rounded-full bg-gradient-primary mx-auto mb-6 flex items-center justify-center">
-                    <Users className="w-10 h-10 text-white" />
+                  <div className="relative inline-block mb-4">
+                    <img
+                      src={speaker.image}
+                      alt={speaker.name}
+                      className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20"
+                    />
+                    <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                      <Star className="w-5 h-5 text-white fill-white" />
+                    </div>
                   </div>
                   <h3 className="font-display text-xl text-foreground mb-2">
                     {speaker.name}
@@ -297,8 +315,8 @@ const VetDetails = () => {
                     {speaker.specialty}
                   </p>
                   <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1">
-                    <Award className="w-3 h-3 text-accent" />
-                    <span className="text-xs font-medium text-accent">
+                    <Award className="w-3 h-3 text-secondary" />
+                    <span className="text-xs font-medium text-secondary">
                       {speaker.credential}
                     </span>
                   </div>
@@ -311,7 +329,7 @@ const VetDetails = () => {
         {/* CTA Section */}
         <section className="py-28 lg:py-36 bg-muted/30">
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="relative bg-secondary overflow-hidden">
+            <div className="relative bg-secondary overflow-hidden rounded-3xl">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
@@ -341,10 +359,13 @@ const VetDetails = () => {
                     <Button
                       variant="hero"
                       size="lg"
-                      className="w-full sm:w-auto"
+                      className="w-full sm:w-auto group"
                     >
                       Access Learning Platform
-                      <ArrowRight size={18} />
+                      <ArrowRight
+                        size={18}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
                     </Button>
                   </a>
                   <a

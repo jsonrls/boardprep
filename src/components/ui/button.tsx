@@ -10,21 +10,19 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-soft hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] rounded-sm",
+          "bg-primary text-primary-foreground shadow-soft hover:shadow-glow hover:brightness-110 rounded-sm",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-sm",
         outline:
           "border border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground rounded-sm",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:scale-[1.02] rounded-sm",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:brightness-110 rounded-sm",
         ghost:
           "text-foreground hover:bg-accent hover:text-accent-foreground rounded-sm",
-        link:
-          "text-primary underline-offset-4 hover:underline",
-        hero:
-          "bg-gradient-primary rounded-none text-primary-foreground tracking-wide uppercase text-xs font-semibold shadow-lg hover:shadow-glow hover:scale-[1.02] active:scale-[0.98]",
+        link: "text-primary underline-offset-4 hover:underline",
+        hero: "bg-gradient-primary rounded-full text-primary-foreground tracking-wide uppercase text-xs font-semibold shadow-lg hover:shadow-glow hover:brightness-110",
         heroOutline:
-          "border border-accent bg-transparent text-primary tracking-wide uppercase text-xs font-semibold hover:bg-accent/50 hover:border-accent rounded-none hover:scale-[1.02] active:scale-[0.98]",
+          "border border-accent bg-transparent text-primary tracking-wide uppercase text-xs font-semibold hover:bg-accent/50 hover:border-accent rounded-full",
         checkoutOutline:
           "border border-primary/40 bg-transparent text-primary tracking-wide uppercase text-xs font-semibold hover:bg-primary/10 hover:border-primary rounded-none",
         elegant:
@@ -44,20 +42,27 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
-  }
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    );
+  },
 );
 Button.displayName = "Button";
 

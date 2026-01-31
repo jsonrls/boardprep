@@ -4,11 +4,9 @@ import heroImage from "@/assets/hero-img-3.png";
 
 const HeroSection = () => {
   return (
-    <section 
-      className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20"
-    >
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20">
       <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-transparent z-0" />
-      <div 
+      <div
         className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat z-10"
         style={{ backgroundImage: `url(${heroImage})` }}
       />
@@ -29,26 +27,37 @@ const HeroSection = () => {
 
             {/* Subheadline */}
             <p className="animate-fade-up delay-200 text-lg md:text-xl text-foreground mb-10 leading-relaxed max-w-xl font-light text-center md:text-left">
-              Affordable but high-quality question drills curated by board topnotchers.
-              Join our self-paced review classes and study at your own convenience.
+              Affordable but high-quality question drills curated by board
+              topnotchers. Join our self-paced review classes and study at your
+              own convenience.
             </p>
 
             {/* CTAs */}
             <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4">
               <a href="/pre-register" className="w-full sm:w-auto">
-                <Button variant="hero" size="lg" className="w-full sm:w-auto">
+                <Button
+                  variant="hero"
+                  size="lg"
+                  className="w-full sm:w-auto group"
+                >
                   <span>Pre-Register Now!</span>
-                  <ArrowRight size={18} />
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
                 </Button>
               </a>
-              <Button variant="heroOutline" size="lg" className="text-foreground w-full sm:w-auto" asChild>
-                <a href="/review/vet">
-                  Start Practice Drills
-                </a>
+              <Button
+                variant="heroOutline"
+                size="lg"
+                className="text-foreground w-full sm:w-auto"
+                asChild
+              >
+                <a href="/review/vet">Start Practice Drills</a>
               </Button>
             </div>
           </div>
-          
+
           {/* Image spacer - Optional: if we want to ensure text stays left and doesn't center if we used justify-center. 
               The current flex is "items-center". If there is only one child, it will sit there.
               However, if the user wants the text on the left, we should verify "container" width.
