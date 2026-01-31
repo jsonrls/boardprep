@@ -52,9 +52,9 @@ const Header = () => {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled 
-          ? "bg-card/80 backdrop-blur-md shadow-soft py-3" 
-          : "bg-transparent py-3 lg:py-4"
+        isScrolled
+          ? "bg-card/80 backdrop-blur-md shadow-soft py-3"
+          : "bg-transparent py-3 lg:py-4",
       )}
     >
       <div className="container mx-auto px-6 lg:px-12">
@@ -74,29 +74,60 @@ const Header = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link to="/" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2")}>
+                    <Link
+                      to="/"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                      )}
+                    >
                       Home
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">Product</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">
+                    Product
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-popover">
-                      <ListItem href="https://www.myboardprep.com" target="_blank" rel="noopener noreferrer" title="Question Drills">
+                      <ListItem
+                        href="https://www.myboardprep.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Question Drills"
+                      >
                         Practice with our comprehensive question bank.
                       </ListItem>
-                      <ListItem href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US" target="_blank" rel="noopener noreferrer" title="Mobile App">
+                      <ListItem
+                        href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="Mobile App"
+                      >
                         Download our mobile application.
                       </ListItem>
-                      <ListItem href="https://lms2.myboardprep.com/" target="_blank" rel="noopener noreferrer" title="BoardPrep Classroom">
+                      <ListItem
+                        href="https://lms2.myboardprep.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title="BoardPrep Classroom"
+                      >
                         Interactive classroom environment.
                       </ListItem>
-                      <ListItem title="iOS (Coming Soon)" href="#" className="opacity-50 cursor-not-allowed">
+                      <ListItem
+                        title="iOS (Coming Soon)"
+                        href="#"
+                        className="opacity-50 cursor-not-allowed"
+                      >
                         iOS version is currently in development.
                       </ListItem>
-                      <ListItem title="BoardPrep Lite (Coming App)" href="#" className="opacity-50 cursor-not-allowed">
+                      <ListItem
+                        title="BoardPrep Lite (Coming App)"
+                        href="#"
+                        className="opacity-50 cursor-not-allowed"
+                      >
                         A lighter version for quick review.
                       </ListItem>
                     </ul>
@@ -104,16 +135,27 @@ const Header = () => {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">Review Class</NavigationMenuTrigger>
+                  <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">
+                    Review Class
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-popover">
-                      <ListItem href="/review/vet" title="Veterinary Licensure Exam">
+                      <ListItem
+                        href="/review/vet"
+                        title="Veterinary Licensure Exam"
+                      >
                         Review for Veterinary Licensure Exam.
                       </ListItem>
-                      <ListItem href="/review/ftle" title="Fisheries Licensure Exam">
-                        Review for Fisheries Technologist Licensure Ezxam.
+                      <ListItem
+                        href="/review/ftle"
+                        title="Food Technology Licensure Exam"
+                      >
+                        Review for Food Technology Licensure Exam.
                       </ListItem>
-                      <ListItem href="/review/fisheries" title="Fisheries Licensure Exam">
+                      <ListItem
+                        href="/review/fisheries"
+                        title="Fisheries Licensure Exam"
+                      >
                         Fisheries specialized review materials.
                       </ListItem>
                     </ul>
@@ -122,7 +164,13 @@ const Header = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link to="/about" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2")}>
+                    <Link
+                      to="/about"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                      )}
+                    >
                       About
                     </Link>
                   </NavigationMenuLink>
@@ -130,7 +178,13 @@ const Header = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link to="/blogs" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2")}>
+                    <Link
+                      to="/blogs"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                      )}
+                    >
                       Blogs
                     </Link>
                   </NavigationMenuLink>
@@ -138,7 +192,13 @@ const Header = () => {
 
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link to="/contact" className={cn(navigationMenuTriggerStyle(), "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2")}>
+                    <Link
+                      to="/contact"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                      )}
+                    >
                       Contact
                     </Link>
                   </NavigationMenuLink>
@@ -149,14 +209,8 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <Button
-              variant="hero"
-              size="sm"
-              asChild
-            >
-              <Link to="/pre-register">
-                Pre-register
-              </Link>
+            <Button variant="hero" size="sm" asChild>
+              <Link to="/pre-register">Pre-register</Link>
             </Button>
           </div>
 
@@ -189,26 +243,76 @@ const Header = () => {
                 </Link>
 
                 <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="products" className="border-b border-border/50">
-                    <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">Product</AccordionTrigger>
+                  <AccordionItem
+                    value="products"
+                    className="border-b border-border/50"
+                  >
+                    <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">
+                      Product
+                    </AccordionTrigger>
                     <AccordionContent>
                       <div className="flex flex-col space-y-2 pl-4 py-2">
-                        <Link to="/question-drills" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>Question Drills</Link>
-                        <Link to="/mobile-app" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>Mobile App</Link>
-                        <span className="text-sm py-2 text-muted-foreground/50">iOS (Coming Soon)</span>
-                        <span className="text-sm py-2 text-muted-foreground/50">BoarPrep Lite (Coming App)</span>
-                        <Link to="/classroom" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>BoardPrep Classroom</Link>
+                        <Link
+                          to="/question-drills"
+                          className="text-sm py-2 text-muted-foreground"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Question Drills
+                        </Link>
+                        <Link
+                          to="/mobile-app"
+                          className="text-sm py-2 text-muted-foreground"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Mobile App
+                        </Link>
+                        <span className="text-sm py-2 text-muted-foreground/50">
+                          iOS (Coming Soon)
+                        </span>
+                        <span className="text-sm py-2 text-muted-foreground/50">
+                          BoarPrep Lite (Coming App)
+                        </span>
+                        <Link
+                          to="/classroom"
+                          className="text-sm py-2 text-muted-foreground"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          BoardPrep Classroom
+                        </Link>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
 
-                  <AccordionItem value="review" className="border-b border-border/50">
-                    <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">Review Class</AccordionTrigger>
+                  <AccordionItem
+                    value="review"
+                    className="border-b border-border/50"
+                  >
+                    <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">
+                      Review Class
+                    </AccordionTrigger>
                     <AccordionContent>
                       <div className="flex flex-col space-y-2 pl-4 py-2">
-                        <Link to="/review/vet" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>VET</Link>
-                        <Link to="/review/ftle" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>FTLE</Link>
-                        <Link to="/review/fisheries" className="text-sm py-2 text-muted-foreground" onClick={() => setIsMenuOpen(false)}>Fisheries</Link>
+                        <Link
+                          to="/review/vet"
+                          className="text-sm py-2 text-muted-foreground"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          VET
+                        </Link>
+                        <Link
+                          to="/review/ftle"
+                          className="text-sm py-2 text-muted-foreground"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          FTLE
+                        </Link>
+                        <Link
+                          to="/review/fisheries"
+                          className="text-sm py-2 text-muted-foreground"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Fisheries
+                        </Link>
                       </div>
                     </AccordionContent>
                   </AccordionItem>
@@ -237,9 +341,7 @@ const Header = () => {
                 </Link>
 
                 <Button variant="hero" className="mt-6 w-full" asChild>
-                  <Link to="/pre-register">
-                    Pre-register
-                  </Link>
+                  <Link to="/pre-register">Pre-register</Link>
                 </Button>
               </div>
             </motion.nav>
@@ -261,7 +363,7 @@ const ListItem = forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >

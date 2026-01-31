@@ -1,25 +1,29 @@
-import { BadgePercent, Target, Shield, Clock } from "lucide-react";
+import { GraduationCap, PlayCircle, Wallet, ShieldCheck } from "lucide-react";
 
 const features = [
   {
-    icon: Target,
+    icon: GraduationCap,
     title: "Curated by Topnotchers",
-    description: "Drills and materials expertly crafted by board exam topnotchers for maximum relevance.",
+    description:
+      "Drills and materials expertly crafted by board exam topnotchers for maximum relevance.",
   },
   {
-    icon: Clock,
+    icon: PlayCircle,
     title: "Self-Paced Learning",
-    description: "Review at your own speed with accessible materials anytime, anywhere.",
+    description:
+      "Review at your own speed with accessible materials anytime, anywhere.",
   },
   {
-    icon: BadgePercent,
+    icon: Wallet,
     title: "Affordable Quality",
-    description: "Our subscription allows you to save a swooping average of 94% of review costs.",
+    description:
+      "Our subscription allows you to save a swooping average of 94% of review costs.",
   },
   {
-    icon: Shield,
+    icon: ShieldCheck,
     title: "Proven Effective",
-    description: "Designed to build confidence and mastery for your upcoming board examination.",
+    description:
+      "Designed to build confidence and mastery for your upcoming board examination.",
   },
 ];
 
@@ -37,8 +41,8 @@ const FeaturesSection = () => {
             <em className="not-italic text-accent">licensure</em> journey
           </h2>
           <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
-            We bridge the gap between affordability and quality, offering you the best
-            resources to secure your professional license.
+            We bridge the gap between affordability and quality, offering you
+            the best resources to secure your professional license.
           </p>
         </div>
 

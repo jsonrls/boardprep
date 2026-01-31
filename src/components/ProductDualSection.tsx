@@ -1,4 +1,8 @@
 "use client";
+
+import React, { useMemo } from "react";
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import phone from "@/assets/phone.png";
 import laptop from "@/assets/laptop.png";
@@ -26,6 +30,12 @@ import {
   Wallet,
 } from "lucide-react";
 import Blocks from "@/components/ui/blocks";
+
+export interface BoxesProps {
+  className?: string;
+  rows?: number;
+  cols?: number;
+}
 
 const cards = [
   {

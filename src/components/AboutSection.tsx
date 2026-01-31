@@ -1,3 +1,7 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 import logoShort from "@/assets/logo-full.png";
 
 const AboutSection = () => {
@@ -16,25 +20,37 @@ const AboutSection = () => {
             </h2>
             <div className="space-y-6">
               <p className="animate-fade-up delay-200 text-muted-foreground leading-relaxed text-lg">
-                BoardPrep redefines licensure preparation by combining <strong>gamified drills for students</strong> with <strong>powerful analytics for universities</strong>. We bridge the gap between hard work and smart study.
+                BoardPrep redefines licensure preparation by combining{" "}
+                <strong>gamified drills for students</strong> with{" "}
+                <strong>powerful analytics for universities</strong>. We bridge
+                the gap between hard work and smart study.
               </p>
               <p className="animate-fade-up delay-300 text-muted-foreground leading-relaxed text-lg">
-                Study smarter, train harder, and predict your success with every click. Whether you're a student aiming for the top spot or an institution tracking performance, BoardPrep is your ultimate partner.
+                Study smarter, train harder, and predict your success with every
+                click. Whether you're a student aiming for the top spot or an
+                institution tracking performance, BoardPrep is your ultimate
+                partner.
               </p>
             </div>
 
             {/* Key Points */}
             <div className="animate-fade-up delay-400 grid sm:grid-cols-2 gap-6 mt-10">
               <div className="border-l-2 border-primary pl-6">
-                <h4 className="font-display text-xl text-foreground mb-2">Gamified Learning</h4>
+                <h4 className="font-display text-xl text-foreground mb-2">
+                  Gamified Learning
+                </h4>
                 <p className="text-muted-foreground text-sm">
-                  Engaging question banks and drills designed to keep students motivated and retention high.
+                  Engaging question banks and drills designed to keep students
+                  motivated and retention high.
                 </p>
               </div>
               <div className="border-l-2 border-primary pl-6">
-                <h4 className="font-display text-xl text-foreground mb-2">Predictive Analytics</h4>
+                <h4 className="font-display text-xl text-foreground mb-2">
+                  Predictive Analytics
+                </h4>
                 <p className="text-muted-foreground text-sm">
-                  Data-driven insights that help universities identify strengths and weaknesses to improve board passing rates.
+                  Data-driven insights that help universities identify strengths
+                  and weaknesses to improve board passing rates.
                 </p>
               </div>
             </div>
