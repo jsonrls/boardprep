@@ -345,7 +345,8 @@ const Header = () => {
                             className="text-sm py-2 text-muted-foreground"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Agricultural and Biosystems Engineering Licensure Exam
+                            Agricultural and Biosystems Engineering Licensure
+                            Exam
                           </Link>
                         </div>
                       </AccordionContent>
@@ -396,12 +397,40 @@ const Header = () => {
 const ListItem = forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+>(({ className, title, children, href, ...props }, ref) => {
+  const isExternal =
+    href?.startsWith("http") ||
+    href?.startsWith("mailto") ||
+    href?.startsWith("tel");
+
+  if (!isExternal && href) {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <Link
+            to={href}
+            className={cn(
+              "block select-none space-y-1 rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
+              className,
+            )}
+            {...(props as any)}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+          </Link>
+        </NavigationMenuLink>
+      </li>
+    );
+  }
+
   return (
     <li>
       <NavigationMenuLink asChild>
         <a
           ref={ref}
+          href={href}
           className={cn(
             "block select-none space-y-1 rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
             className,

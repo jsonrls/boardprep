@@ -3,8 +3,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
-import { Check, ChevronRight, User, BookOpen, Send, ChevronLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Check,
+  ChevronRight,
+  User,
+  BookOpen,
+  Send,
+  ChevronLeft,
+  CheckCircle,
+} from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +40,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -57,7 +73,9 @@ const steps = [
 ];
 
 const PreRegister = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -98,11 +116,7 @@ const PreRegister = () => {
 
   const onSubmit = (data: FormValues) => {
     console.log("Form submitted:", data);
-    toast({
-      title: "Registration Submitted!",
-      description:
-        "We've received your details. Someone will reach out shortly.",
-    });
+    setShowSuccessModal(true);
     // Here you would typically send data to an API
   };
 
@@ -122,6 +136,20 @@ const PreRegister = () => {
 
         {/* Stepper */}
         <div className="mb-8 relative">
+          {/* Progress Lines */}
+          <div className="absolute top-5 left-0 w-full px-7">
+            <div className="relative h-[2px] w-full bg-gray-200">
+              <motion.div
+                className="absolute top-0 left-0 h-full bg-green-500"
+                initial={{ width: "0%" }}
+                animate={{
+                  width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
+                }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+          </div>
+
           <div className="flex justify-between items-center relative z-10">
             {steps.map((step) => {
               const isActive = step.id === currentStep;
@@ -136,10 +164,10 @@ const PreRegister = () => {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors duration-300 ${
                       isActive
-                        ? "border-primary bg-primary text-primary-foreground"
+                        ? "bg-primary text-primary-foreground"
                         : isCompleted
-                          ? "border-accent bg-accent text-white"
-                          : "border-muted-foreground/30 bg-background text-muted-foreground"
+                          ? "border-green-500 bg-green-500 text-white"
+                          : "border-gray-200 bg-white text-muted-foreground"
                     }`}
                   >
                     {isCompleted ? (
@@ -161,17 +189,6 @@ const PreRegister = () => {
               );
             })}
           </div>
-          {/* Progress Bar Background */}
-          <div className="absolute top-5 left-0 w-full h-[2px] bg-muted -z-10" />
-          {/* Active Progress Bar */}
-          <motion.div
-            className="absolute top-5 left-0 h-[2px] bg-primary -z-10"
-            initial={{ width: "0%" }}
-            animate={{
-              width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
-            }}
-            transition={{ duration: 0.3 }}
-          />
         </div>
 
         <Card className="border-border/50 shadow-lg">
@@ -647,6 +664,48 @@ const PreRegister = () => {
           </Accordion>
         </div>
       </main>
+
+      <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="flex flex-col items-center text-center space-y-4 pt-4">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-2">
+              <CheckCircle className="w-10 h-10 text-green-600" />
+            </div>
+            <DialogTitle className="text-2xl font-bold text-center">
+              Registration Successful!
+            </DialogTitle>
+            <DialogDescription className="text-center text-base">
+              Thank you for pre-registering with BoardPrep Solutions.
+              <br />
+              We have received your details.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 text-center text-sm text-muted-foreground">
+            <p>
+              Our team will review your information and reach out to you within
+              1-2 business days regarding the next steps and payment
+              instructions.
+            </p>
+          </div>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:justify-center w-full">
+            <Button
+              className="w-full sm:w-auto min-w-[140px]"
+              variant="ghost"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Close
+            </Button>
+            <Button
+              className="w-full sm:w-auto min-w-[140px]"
+              variant="hero"
+              onClick={() => navigate("/")}
+            >
+              Back to Home
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Footer />
     </div>
   );

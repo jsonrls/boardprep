@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -26,7 +27,7 @@ const CTASection = () => {
               license.
             </p>
             <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/products/qa" className="w-full sm:w-auto">
+              <Link to="/products/qa" className="w-full sm:w-auto">
                 <Button
                   variant="hero"
                   size="lg"
@@ -38,8 +39,8 @@ const CTASection = () => {
                     className="transition-transform group-hover:translate-x-1"
                   />
                 </Button>
-              </a>
-              <a href="/review/vet" className="w-full sm:w-auto">
+              </Link>
+              <Link to="/review/vet" className="w-full sm:w-auto">
                 <Button
                   variant="heroOutline"
                   size="lg"
@@ -47,7 +48,7 @@ const CTASection = () => {
                 >
                   View Review Classes
                 </Button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

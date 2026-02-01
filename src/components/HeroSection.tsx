@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-img-3.png";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -34,7 +35,7 @@ const HeroSection = () => {
 
             {/* CTAs */}
             <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4">
-              <a href="/pre-register" className="w-full sm:w-auto">
+              <Link to="/pre-register" className="w-full sm:w-auto">
                 <Button
                   variant="hero"
                   size="lg"
@@ -46,14 +47,14 @@ const HeroSection = () => {
                     className="transition-transform group-hover:translate-x-1"
                   />
                 </Button>
-              </a>
+              </Link>
               <Button
                 variant="heroOutline"
                 size="lg"
                 className="text-foreground w-full sm:w-auto"
                 asChild
               >
-                <a href="/review/vet">Start Practice Drills</a>
+                <Link to="/review/vet">Start Practice Drills</Link>
               </Button>
             </div>
           </div>

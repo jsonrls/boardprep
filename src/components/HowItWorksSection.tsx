@@ -7,7 +7,16 @@ const steps = [
     title: "Visit Website",
     description: (
       <>
-        Go to <a href="https://www.myboardprep.com" target="_blank" rel="noopener noreferrer" className="underline text-accent font-semibold">website</a> to explore our available question drill packages and review materials.
+        Go to{" "}
+        <a
+          href="https://www.myboardprep.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-accent font-semibold"
+        >
+          website
+        </a>{" "}
+        to explore our available question drill packages and review materials.
       </>
     ),
   },
@@ -15,19 +24,22 @@ const steps = [
     icon: MousePointerClick,
     step: "02",
     title: "Select Subscription",
-    description: "Choose the Question Drill plan that fits your needs and click the 'Subscribe' button to proceed.",
+    description:
+      "Choose the Question Drill plan that fits your needs and click the 'Subscribe' button to proceed.",
   },
   {
     icon: CreditCard,
     step: "03",
     title: "Secure Payment",
-    description: "Our system will guide you through a secure payment channel to safely complete your transaction.",
+    description:
+      "Our system will guide you through a secure payment channel to safely complete your transaction.",
   },
   {
     icon: Rocket,
     step: "04",
     title: "Start Drilling",
-    description: "Receive instant access to the question bank and dashboard to begin your board exam preparation.",
+    description:
+      "Receive instant access to the question bank and dashboard to begin your board exam preparation.",
   },
 ];
 
@@ -52,7 +64,7 @@ const HowItWorksSection = () => {
         {/* Steps */}
         <div className="relative">
           {/* Connection Line */}
-          <div className="hidden lg:block absolute top-24 left-[12.5%] right-[12.5%] h-px bg-border" />
+          <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-[2px] bg-border" />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             {steps.map((item, index) => (
@@ -63,13 +75,19 @@ const HowItWorksSection = () => {
                 {/* Step Number Circle */}
                 <div className="relative z-10 mx-auto mb-8">
                   <div className="w-16 h-16 bg-accent border-2 border-primary/20 rounded-full flex items-center justify-center mx-auto shadow-soft">
-                    <span className="font-display text-2xl text-accent-foreground">{item.step}</span>
+                    <span className="font-display text-2xl text-accent-foreground">
+                      {item.step}
+                    </span>
                   </div>
                 </div>
 
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-sm flex items-center justify-center mx-auto mb-6">
-                  <item.icon size={26} className="text-primary" strokeWidth={1.5} />
+                  <item.icon
+                    size={26}
+                    className="text-primary"
+                    strokeWidth={1.5}
+                  />
                 </div>
 
                 <h3 className="font-display text-2xl text-foreground mb-4">
