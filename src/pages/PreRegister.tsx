@@ -91,6 +91,7 @@ const formSchema = z.object({
 
   // Step 4: Payment & Verification
   paymentProof: z.any().optional(), // Make required in logic if needed
+  preRegProof: z.any().optional(),
   remarks: z.string().optional(),
   agreedToTerms: z
     .boolean()
@@ -206,7 +207,7 @@ const PreRegister = () => {
       <main className="flex-1 container mx-auto px-4 py-8 md:py-12 max-w-4xl mt-24">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold tracking-tight mb-2">
-            Pre-Registration
+            Registration
           </h1>
           <p className="text-muted-foreground">
             Join us to start your journey to success.
@@ -813,34 +814,13 @@ const PreRegister = () => {
                   >
                     <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg space-y-4">
                       <h3 className="font-semibold text-lg flex items-center gap-2">
-                        <CreditCard className="text-foreground w-5 h-5" /> Payment
-                        Details
+                        <CreditCard className="text-foreground w-5 h-5" />{" "}
+                        Payment Details
                       </h3>
                       <div className="text-sm space-y-4">
                         <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
                           <p className="font-bold text-lg text-foreground mb-2">
                             Regular Price (Php 9,999.00)
-                          </p>
-                          <p className="text-muted-foreground leading-relaxed">
-                            Bank:{" "}
-                            <span className="text-foreground font-medium">
-                              Union Bank
-                            </span>
-                            <br />
-                            Name:{" "}
-                            <span className="text-foreground font-medium">
-                              Board Prep Solutions Incorporated
-                            </span>
-                            <br />
-                            Account:{" "}
-                            <span className="text-foreground font-bold">
-                              0010 3002 0003
-                            </span>
-                          </p>
-                        </div>
-                        <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-                          <p className="font-bold text-lg text-foreground mb-2">
-                            Discounted / Less 500 (Php 9,499.00)
                           </p>
                           <p className="text-muted-foreground leading-relaxed">
                             Bank:{" "}
@@ -889,6 +869,20 @@ const PreRegister = () => {
                         <FormDescription>
                           Please take a screenshot as a proof of payment and
                           upload it here.
+                        </FormDescription>
+                        <Input type="file" />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label>
+                          Pre-registration Proof of Payment{" "}
+                          <span className="text-muted-foreground font-normal">
+                            (Optional)
+                          </span>
+                        </Label>
+                        <FormDescription>
+                          Upload this only if you have already registered and
+                          paid the reservation fee.
                         </FormDescription>
                         <Input type="file" />
                       </div>
@@ -1005,7 +999,7 @@ const PreRegister = () => {
               Frequently Asked Questions
             </h2>
             <p className="text-muted-foreground">
-              Everything you need to know about pre-registration and our review
+              Everything you need to know about registration and our review
               classes
             </p>
           </div>
@@ -1016,14 +1010,14 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                What is pre-registration and how does it work?
+                What is registration and how does it work?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Pre-registration is an early enrollment period (January 24 -
+                Registration is an early enrollment period (January 24 -
                 February 13, 2026) that allows you to reserve your slot in our
                 2026 BoardPrep Online Review Classes with a ₱500 reservation
                 fee. This fee is non-refundable and will be deducted from your
-                total review fee upon enrollment. Pre-registration ensures you
+                total review fee upon enrollment. Registration ensures you
                 secure your spot before the early bird registration period
                 begins.
               </AccordionContent>
@@ -1115,7 +1109,7 @@ const PreRegister = () => {
               Registration Successful!
             </DialogTitle>
             <DialogDescription className="text-center text-base">
-              Thank you for pre-registering with BoardPrep Solutions.
+              Thank you for registering with BoardPrep Solutions.
               <br />
               We have received your details.
             </DialogDescription>
