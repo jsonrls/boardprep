@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 const BLOG_POSTS = [
   {
     id: 1,
-    title: "Top 10 Tips for Passing the Veterinary Board Exam",
+    title: "Top 10 Tips for Passing the Veterinarian Board Exam",
     excerpt:
       "Preparing for the board exam can be daunting. Here are the top 10 tips from recent topnotchers to help you ace your review. From study schedules to mental preparation.",
     author: "Dr. Jane Doe",
@@ -60,7 +60,7 @@ const BLOG_POSTS = [
   },
   {
     id: 5,
-    title: "Essential Books for Veterinary Medicine",
+    title: "Essential Books for Veterinarian Medicine",
     excerpt:
       "Don't know where to start? We've compiled a list of the most essential textbooks and references you need for your review journey.",
     author: "Dr. Mark R.",

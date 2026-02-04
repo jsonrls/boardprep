@@ -717,7 +717,7 @@ const PreRegister = () => {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="vet">
-                                Veterinary Medicine (VLE)
+                                Veterinarian Medicine (VLE)
                               </SelectItem>
                               <SelectItem value="ftle">
                                 Food Technology Licensure Exam (FTLE)

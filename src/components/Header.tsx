@@ -150,9 +150,9 @@ const Header = () => {
                       <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-popover">
                         <ListItem
                           href="/review/vet"
-                          title="Veterinary Licensure Exam"
+                          title="Veterinarian Licensure Exam"
                         >
-                          Review for Veterinary Licensure Exam.
+                          Review for Veterinarian Licensure Exam.
                         </ListItem>
                         <ListItem
                           href="/review/ftle"
@@ -324,7 +324,7 @@ const Header = () => {
                             className="text-sm py-2 text-muted-foreground"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Veterinary Licensure Exam
+                            Veterinarian Licensure Exam
                           </Link>
                           <Link
                             to="/review/ftle"

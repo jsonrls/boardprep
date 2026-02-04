@@ -1,12 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import heroImage from "@/assets/hero-img-3.png";
+import heroImage from "@/assets/hero.png";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20">
-      <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-transparent z-0" />
+      {/* Aurora Background Effects */}
+      {/* Aurora Background Effects - Stronger colors from palette */}
+      <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#ffbd59] blur-[100px] opacity-50 z-0 pointer-events-none mix-blend-multiply dark:mix-blend-screen" />
+      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full bg-[#51ade5] blur-[100px] opacity-50 z-0 pointer-events-none mix-blend-multiply dark:mix-blend-screen" />
+      <div className="absolute top-[20%] right-[30%] w-[400px] h-[400px] rounded-full bg-[#f14624] blur-[100px] opacity-40 z-0 pointer-events-none mix-blend-multiply dark:mix-blend-screen" />
+
+      {/* Text protection gradient - Reduced opacity of 'via' color to let blobs show through */}
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent z-0 pointer-events-none" />
       <div
         className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat z-10"
         style={{ backgroundImage: `url(${heroImage})` }}

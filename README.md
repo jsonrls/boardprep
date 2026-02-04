@@ -4,13 +4,13 @@ A modern, responsive web application for BoardPrep, dedicated to helping student
 
 ## 🎯 Project Overview
 
-BoardPrep is an educational platform providing resources for Veterinary, Fisheries, and other licensure examinations. The platform emphasizes adaptive learning, expert content, and accessibility through mobile tools.
+BoardPrep is an educational platform providing resources for Veterinarian, Fisheries, and other licensure examinations. The platform emphasizes adaptive learning, expert content, and accessibility through mobile tools.
 
 ## ✨ Features
 
 - **Responsive Hero Section**: Engaging landing page with adaptive layouts.
 - **Product Showcase**: Interactive "Stacking Cards" display for various study tools.
-- **Review Programs**: Detailed pages for Veterinary, Fisheries, and other board exam reviews.
+- **Review Programs**: Detailed pages for Veterinarian, Fisheries, and other board exam reviews.
 - **Mobile First**: Fully optimized for mobile, tablet, and desktop devices.
 - **Modern UI**: Built with React, Tailwind CSS, and Framer Motion for smooth animations.
 

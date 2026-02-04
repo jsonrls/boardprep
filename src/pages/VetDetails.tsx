@@ -44,32 +44,32 @@ const courseFeatures = [
 ];
 
 const curriculumTopics = [
-  { title: "Veterinary Anatomy", lessons: 24 },
-  { title: "Veterinary Physiology", lessons: 20 },
-  { title: "Veterinary Pathology", lessons: 28 },
-  { title: "Veterinary Pharmacology", lessons: 22 },
-  { title: "Clinical Veterinary Medicine", lessons: 30 },
-  { title: "Veterinary Surgery", lessons: 18 },
+  { title: "Veterinarian Anatomy", lessons: 24 },
+  { title: "Veterinarian Physiology", lessons: 20 },
+  { title: "Veterinarian Pathology", lessons: 28 },
+  { title: "Veterinarian Pharmacology", lessons: 22 },
+  { title: "Clinical Veterinarian Medicine", lessons: 30 },
+  { title: "Veterinarian Surgery", lessons: 18 },
   { title: "Animal Nutrition", lessons: 16 },
-  { title: "Veterinary Public Health", lessons: 14 },
+  { title: "Veterinarian Public Health", lessons: 14 },
 ];
 
 const speakers = [
   {
     name: "Dr. Maria Santos",
-    specialty: "Veterinary Pathology",
+    specialty: "Veterinarian Pathology",
     credential: "Board Topnotcher 2023",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MariaSantos",
   },
   {
     name: "Dr. Juan dela Cruz",
-    specialty: "Veterinary Anatomy",
+    specialty: "Veterinarian Anatomy",
     credential: "15+ Years Teaching Experience",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=JuanDelaCruz",
   },
   {
     name: "Dr. Sarah Johnson",
-    specialty: "Veterinary Pharmacology",
+    specialty: "Veterinarian Pharmacology",
     credential: "Board Topnotcher 2022",
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahJohnson",
   },
@@ -93,7 +93,7 @@ const VetDetails = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
         title="VET Review Class"
-        description="Comprehensive review for the Veterinary Licensure Examination. Expert instructors, complete materials, and proven results."
+        description="Comprehensive review for the Veterinarian Licensure Examination. Expert instructors, complete materials, and proven results."
       />
       <Header />
 
@@ -113,7 +113,7 @@ const VetDetails = () => {
               <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6 animate-fade-up">
                 <GraduationCap className="w-4 h-4 text-accent" />
                 <span className="text-sm font-medium text-accent">
-                  Veterinary Licensure Exam
+                  Veterinarian Licensure Exam
                 </span>
               </div>
 
@@ -122,7 +122,7 @@ const VetDetails = () => {
               </h1>
 
               <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-                Master the Veterinary Licensure Examination with comprehensive
+                Master the Veterinarian Licensure Examination with comprehensive
                 review materials, expert instructors, and a proven curriculum
                 designed by board topnotchers.
               </p>
@@ -241,7 +241,7 @@ const VetDetails = () => {
                 topics
               </h2>
               <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
-                Our curriculum covers all essential topics for the Veterinary
+                Our curriculum covers all essential topics for the Veterinarian
                 Licensure Examination.
               </p>
             </div>
@@ -346,8 +346,8 @@ const VetDetails = () => {
                 </h2>
                 <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed">
                   Join hundreds of successful students who have passed the
-                  Veterinary Licensure Examination with our comprehensive review
-                  program.
+                  Veterinarian Licensure Examination with our comprehensive
+                  review program.
                 </p>
                 <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
                   <a
