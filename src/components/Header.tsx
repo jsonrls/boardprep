@@ -99,7 +99,7 @@ const Header = () => {
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-popover">
+                      <ul className="grid w-[350px] gap-3 p-4 bg-popover">
                         <ListItem
                           href="https://www.myboardprep.com"
                           target="_blank"
@@ -147,7 +147,7 @@ const Header = () => {
                       Review Class
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-popover">
+                      <ul className="grid w-[350px] gap-3 p-4 bg-popover">
                         <ListItem
                           href="/review/vet"
                           title="Veterinarian Licensure Exam"
@@ -410,15 +410,12 @@ const ListItem = forwardRef<
           <Link
             to={href}
             className={cn(
-              "block select-none space-y-1 rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
+              "block select-none rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
               className,
             )}
             {...(props as any)}
           >
             <div className="text-sm font-medium leading-none">{title}</div>
-            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-              {children}
-            </p>
           </Link>
         </NavigationMenuLink>
       </li>
@@ -432,15 +429,12 @@ const ListItem = forwardRef<
           ref={ref}
           href={href}
           className={cn(
-            "block select-none space-y-1 rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
+            "block select-none rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
             className,
           )}
           {...props}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
         </a>
       </NavigationMenuLink>
     </li>
