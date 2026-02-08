@@ -317,7 +317,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select option" />
+                                <SelectValue placeholder="Select option…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -345,7 +345,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Are you a Laude?" />
+                                <SelectValue placeholder="Are you a Laude?…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -376,7 +376,7 @@ const PreRegister = () => {
                           <FormItem>
                             <FormLabel>First Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="John" {...field} />
+                              <Input placeholder="e.g. John" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -389,7 +389,7 @@ const PreRegister = () => {
                           <FormItem>
                             <FormLabel>Last Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="Doe" {...field} />
+                              <Input placeholder="e.g. Doe" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -412,7 +412,7 @@ const PreRegister = () => {
                           <FormControl>
                             <Input
                               type="email"
-                              placeholder="john.doe@example.com"
+                              placeholder="e.g. john.doe@example.com"
                               {...field}
                             />
                           </FormControl>
@@ -433,7 +433,10 @@ const PreRegister = () => {
                           <FormItem>
                             <FormLabel>Contact Number</FormLabel>
                             <FormControl>
-                              <Input placeholder="09123456789" {...field} />
+                              <Input
+                                placeholder="e.g. 09123456789"
+                                {...field}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -451,7 +454,7 @@ const PreRegister = () => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select gender" />
+                                  <SelectValue placeholder="Select gender…" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -531,7 +534,7 @@ const PreRegister = () => {
                           <FormItem>
                             <FormLabel>Year Graduated / Graduating</FormLabel>
                             <FormControl>
-                              <Input placeholder="2025" {...field} />
+                              <Input placeholder="e.g. 2025" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -553,7 +556,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select description" />
+                                <SelectValue placeholder="Select description…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -585,7 +588,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select option" />
+                                <SelectValue placeholder="Select option…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -641,7 +644,7 @@ const PreRegister = () => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select option" />
+                                  <SelectValue placeholder="Select option…" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -712,7 +715,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select an exam" />
+                                <SelectValue placeholder="Select an exam…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -748,7 +751,7 @@ const PreRegister = () => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select date" />
+                                  <SelectValue placeholder="Select date…" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -782,7 +785,7 @@ const PreRegister = () => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select option" />
+                                  <SelectValue placeholder="Select option…" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -811,7 +814,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select type" />
+                                <SelectValue placeholder="Select type…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -844,7 +847,7 @@ const PreRegister = () => {
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select option" />
+                                  <SelectValue placeholder="Select option…" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -871,7 +874,10 @@ const PreRegister = () => {
                                   Name of Review Center (Type NA if none)
                                 </FormLabel>
                                 <FormControl>
-                                  <Input placeholder="Center Name" {...field} />
+                                  <Input
+                                    placeholder="e.g. ABC Review Center"
+                                    {...field}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -992,7 +998,7 @@ const PreRegister = () => {
                             <FormLabel>Remarks (Optional)</FormLabel>
                             <FormControl>
                               <Textarea
-                                placeholder="Any additional notes..."
+                                placeholder="Any additional notes…"
                                 {...field}
                               />
                             </FormControl>

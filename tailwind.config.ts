@@ -70,6 +70,12 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        product: {
+          lavender: "#c9daff",
+          pink: "#f0c2bc",
+          teal: "#82bed4",
+          yellow: "#ffbd59",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

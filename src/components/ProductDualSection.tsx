@@ -60,7 +60,7 @@ const cards = [
     ),
     image: phone,
     imageAlt: "Mobile App Interface",
-    color: "bg-[#A7A7FF]", // Vibrant purple-ish blue
+    color: "bg-product-lavender", // Soft Lavender
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
     link: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
@@ -88,7 +88,7 @@ const cards = [
     ),
     image: laptop,
     imageAlt: "LMS Dashboard Interface",
-    color: "bg-[#FFD4E2]", // Soft pink/rose
+    color: "bg-product-pink", // Pink
     textColor: "text-slate-900",
     imageClass: "w-[90%]",
     link: "https://lms2.myboardprep.com/",
@@ -111,7 +111,7 @@ const cards = [
     ),
     image: phone,
     imageAlt: "iOS App Interface",
-    color: "bg-[#E0F4FF]", // Sky Blue
+    color: "bg-product-teal", // Teal
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
     link: "#",
@@ -133,7 +133,7 @@ const cards = [
     ),
     image: phone,
     imageAlt: "Lite Version Interface",
-    color: "bg-[#FFD6C4]", // Peach/Apricot
+    color: "bg-product-yellow", // Yellow/Mustard
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
     link: "#",

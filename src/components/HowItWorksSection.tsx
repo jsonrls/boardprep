@@ -14,7 +14,7 @@ const steps = [
           href="https://www.myboardprep.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline text-accent font-semibold"
+          className="underline font-semibold"
         >
           website
         </a>{" "}

@@ -1,5 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, Sparkles, ArrowRight } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Sparkles,
+  ArrowRight,
+  FileText,
+  Smartphone,
+  School,
+  Zap,
+  Stethoscope,
+  Utensils,
+  Fish,
+  Sprout,
+  Cpu,
+  ChevronRight,
+} from "lucide-react";
 import { useState, useEffect, forwardRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -72,7 +88,9 @@ const Header = () => {
               <img
                 src={shouldUseColoredLogo ? logoFull : logoWhite}
                 alt="Sentinel Vet Diagnostics"
-                className="h-8 lg:h-10"
+                className="h-8 lg:h-10 w-auto"
+                width={150}
+                height={40}
               />
             </Link>
 
@@ -99,12 +117,13 @@ const Header = () => {
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid w-[350px] gap-3 p-4 bg-popover">
+                      <ul className="grid w-[350px] gap-1 p-2 bg-popover">
                         <ListItem
                           href="https://www.myboardprep.com"
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Question Drills"
+                          icon={FileText}
                         >
                           Practice with our comprehensive question bank.
                         </ListItem>
@@ -113,6 +132,7 @@ const Header = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Mobile App"
+                          icon={Smartphone}
                         >
                           Download our mobile application.
                         </ListItem>
@@ -121,20 +141,16 @@ const Header = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           title="BoardPrep Classroom"
+                          icon={School}
                         >
                           Interactive classroom environment.
                         </ListItem>
-                        <ListItem
-                          title="iOS (Coming Soon)"
-                          href="#"
-                          className="opacity-50 cursor-not-allowed"
-                        >
-                          iOS version is currently in development.
-                        </ListItem>
+
                         <ListItem
                           title="BoardPrep Lite (Coming App)"
                           href="#"
                           className="opacity-50 cursor-not-allowed"
+                          icon={Zap}
                         >
                           A lighter version for quick review.
                         </ListItem>
@@ -147,47 +163,37 @@ const Header = () => {
                       Review Class
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid w-[350px] gap-3 p-4 bg-popover">
+                      <ul className="grid w-[350px] gap-1 p-2 bg-popover">
                         <ListItem
                           href="/review/vet"
-                          title="Veterinarian Licensure Exam"
+                          title="Veterinarian"
+                          icon={Stethoscope}
                         >
                           Review for Veterinarian Licensure Exam.
                         </ListItem>
                         <ListItem
                           href="/review/ftle"
-                          title="Food Technology Licensure Exam"
+                          title="Food Technology"
+                          icon={Utensils}
                         >
                           Review for Food Technology Licensure Exam.
                         </ListItem>
                         <ListItem
                           href="/review/fisheries"
-                          title="Fisheries Licensure Exam"
+                          title="Fisheries"
+                          icon={Fish}
                         >
                           Fisheries specialized review materials.
                         </ListItem>
                         <ListItem
                           href="/review/abe"
-                          title="Agricultural and Biosystems Engineering"
+                          title="Agri & Biosystems"
+                          icon={Sprout}
                         >
                           Review for Agricultural and Biosystems Engineering.
                         </ListItem>
                       </ul>
                     </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild>
-                      <Link
-                        to="/about"
-                        className={cn(
-                          navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
-                        )}
-                      >
-                        About
-                      </Link>
-                    </NavigationMenuLink>
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
@@ -217,6 +223,20 @@ const Header = () => {
                       </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                      <Link
+                        to="/about"
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                        )}
+                      >
+                        About
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
@@ -240,7 +260,7 @@ const Header = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 transition-colors text-foreground"
+              className="lg:hidden p-2 transition-colors text-foreground rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 if (!isMenuOpen) setIsStyleOpen(true);
                 setIsMenuOpen(!isMenuOpen);
@@ -293,9 +313,7 @@ const Header = () => {
                           >
                             Mobile App
                           </Link>
-                          <span className="text-sm py-2 text-muted-foreground/50">
-                            iOS (Coming Soon)
-                          </span>
+
                           <span className="text-sm py-2 text-muted-foreground/50">
                             BoarPrep Lite (Coming App)
                           </span>
@@ -354,13 +372,6 @@ const Header = () => {
                   </Accordion>
 
                   <Link
-                    to="/about"
-                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link
                     to="/blogs"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
                     onClick={() => setIsMenuOpen(false)}
@@ -373,6 +384,13 @@ const Header = () => {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contact
+                  </Link>
+                  <Link
+                    to="/about"
+                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    About
                   </Link>
 
                   <Button variant="hero" className="mt-6 w-full" asChild>
@@ -396,8 +414,8 @@ const Header = () => {
 
 const ListItem = forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, href, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & { icon?: React.ElementType }
+>(({ className, title, children, href, icon: Icon, ...props }, ref) => {
   const isExternal =
     href?.startsWith("http") ||
     href?.startsWith("mailto") ||
@@ -410,12 +428,20 @@ const ListItem = forwardRef<
           <Link
             to={href}
             className={cn(
-              "block select-none rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
+              "group block select-none rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               className,
             )}
             {...(props as any)}
           >
-            <div className="text-sm font-medium leading-none">{title}</div>
+            <div className="flex items-center gap-3">
+              {Icon && (
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-background/50 text-muted-foreground group-hover:border-accent/50 group-hover:text-accent-foreground transition-colors">
+                  <Icon className="h-4 w-4" />
+                </div>
+              )}
+              <div className="text-sm font-medium leading-none">{title}</div>
+              <ChevronRight className="ml-auto h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-muted-foreground/50" />
+            </div>
           </Link>
         </NavigationMenuLink>
       </li>
@@ -429,12 +455,20 @@ const ListItem = forwardRef<
           ref={ref}
           href={href}
           className={cn(
-            "block select-none rounded-none p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/20 hover:text-accent-foreground focus:bg-accent/20 focus:text-accent-foreground",
+            "group block select-none rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             className,
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="flex items-center gap-3">
+            {Icon && (
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-background/50 text-muted-foreground group-hover:border-accent/50 group-hover:text-accent-foreground transition-colors">
+                <Icon className="h-4 w-4" />
+              </div>
+            )}
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <ChevronRight className="ml-auto h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-muted-foreground/50" />
+          </div>
         </a>
       </NavigationMenuLink>
     </li>
