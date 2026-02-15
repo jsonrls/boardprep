@@ -154,6 +154,26 @@ const PreRegister = () => {
   const otherReviewCenter = watch("otherReviewCenter");
   const hasPreRegistered = watch("hasPreRegistered");
   const isLatinHonor = watch("isLatinHonor");
+  const examType = watch("examType");
+
+  const pricing: Record<string, { regular: string; discounted: string }> = {
+    vet: {
+      regular: "9,999",
+      discounted: "4,999",
+    },
+    ftle: {
+      regular: "4,999",
+      discounted: "2,499",
+    },
+    fisheries: {
+      regular: "3,999",
+      discounted: "1,999",
+    },
+    abe: {
+      regular: "4,999",
+      discounted: "2,499",
+    },
+  };
 
   const nextStep = async () => {
     let fieldsToValidate: (keyof FormValues)[] = [];
@@ -654,7 +674,11 @@ const PreRegister = () => {
                             to qualify for discounts. If you don't have it yet,
                             you can skip this for now.
                           </FormDescription>
-                          <Input type="file" className="cursor-pointer" />
+                          <Input
+                            type="file"
+                            className="cursor-pointer"
+                            accept="image/*,.pdf"
+                          />
                         </>
                       ) : (
                         <p className="text-sm text-muted-foreground italic">
@@ -723,7 +747,7 @@ const PreRegister = () => {
                               Screenshot of the expiration (Settings &gt;
                               Subscription Tab)
                             </FormDescription>
-                            <Input type="file" />
+                            <Input type="file" accept="image/*,.pdf" />
                           </div>
                         </motion.div>
                       )}
@@ -922,27 +946,6 @@ const PreRegister = () => {
                         </motion.div>
                       )}
                     </div>
-
-                    <FormField
-                      control={form.control}
-                      name="contactConsent"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>
-                              Do you want us to contact you in the future
-                              regarding promotion of BoardPrep in your school?
-                            </FormLabel>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
                   </motion.div>
                 )}
 
@@ -962,7 +965,21 @@ const PreRegister = () => {
                       <div className="text-sm space-y-4">
                         <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
                           <p className="font-bold text-lg text-foreground mb-2">
-                            Regular Price (Php 9,999.00)
+                            Regular Price (Php{" "}
+                            {(() => {
+                              const basePrice = parseInt(
+                                (
+                                  pricing[examType as keyof typeof pricing]
+                                    ?.regular || "0"
+                                ).replace(/,/g, ""),
+                              );
+                              const finalPrice =
+                                hasPreRegistered === "yes"
+                                  ? basePrice - 500
+                                  : basePrice;
+                              return finalPrice.toLocaleString();
+                            })()}
+                            .00)
                           </p>
                           <p className="text-muted-foreground leading-relaxed">
                             Bank:{" "}
@@ -983,7 +1000,25 @@ const PreRegister = () => {
                         </div>
                         <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
                           <p className="font-bold text-lg text-foreground mb-2">
-                            50% Discount (Php 4,999.00)
+                            50% Discount (Php{" "}
+                            {(() => {
+                              const baseRegularStr =
+                                pricing[examType as keyof typeof pricing]
+                                  ?.regular || "0";
+                              const regularPrice = parseInt(
+                                baseRegularStr.replace(/,/g, ""),
+                              );
+                              const effectiveRegularPrice =
+                                hasPreRegistered === "yes"
+                                  ? regularPrice - 500
+                                  : regularPrice;
+                              // 50% Discount applied to the effective regular price
+                              const percentDiscountPrice = Math.floor(
+                                effectiveRegularPrice / 2,
+                              );
+                              return percentDiscountPrice.toLocaleString();
+                            })()}
+                            .00)
                           </p>
                           <p className="text-muted-foreground leading-relaxed">
                             Bank:{" "}
@@ -1012,17 +1047,17 @@ const PreRegister = () => {
                           Please take a screenshot as a proof of payment and
                           upload it here.
                         </FormDescription>
-                        <Input type="file" />
+                        <Input type="file" accept="image/*,.pdf" />
                       </div>
 
-                      {hasPreRegistered === "no" && (
+                      {hasPreRegistered === "yes" && (
                         <div className="space-y-2">
                           <Label>Pre-registration Proof of Payment</Label>
                           <FormDescription>
                             Upload this only if you have already registered and
                             paid the reservation fee.
                           </FormDescription>
-                          <Input type="file" />
+                          <Input type="file" accept="image/*,.pdf" />
                         </div>
                       )}
 
@@ -1056,6 +1091,7 @@ const PreRegister = () => {
                                 <Checkbox
                                   checked={field.value}
                                   onCheckedChange={field.onChange}
+                                  className="border-foreground/50 bg-background data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
                                 />
                               </FormControl>
                               <div className="space-y-1 leading-none">

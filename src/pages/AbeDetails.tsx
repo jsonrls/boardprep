@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Sprout,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const courseFeatures = [
   {
@@ -132,6 +133,19 @@ const AbeDetails = () => {
               </p>
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/pre-register" className="w-full sm:w-auto">
+                  <Button
+                    variant="hero"
+                    size="lg"
+                    className="w-full sm:w-auto group"
+                  >
+                    Pre-Register
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </Button>
+                </Link>
                 <a
                   href="https://lms2.myboardprep.com/"
                   target="_blank"
@@ -139,24 +153,11 @@ const AbeDetails = () => {
                   className="w-full sm:w-auto"
                 >
                   <Button
-                    variant="hero"
-                    size="lg"
-                    className="w-full sm:w-auto group"
-                  >
-                    Access LMS
-                    <ArrowRight
-                      size={18}
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </Button>
-                </a>
-                <a href="#curriculum" className="w-full sm:w-auto">
-                  <Button
                     variant="heroOutline"
                     size="lg"
                     className="w-full sm:w-auto"
                   >
-                    View Curriculum
+                    Access Learning Platform
                   </Button>
                 </a>
               </div>
