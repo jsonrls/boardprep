@@ -124,7 +124,7 @@ const FtleDetails = () => {
                 FTLE Review Class
               </h1>
 
-              <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
+              <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed font-sans">
                 Master the Food Technology Licensure Examination with
                 comprehensive review materials, expert instructors, and a proven
                 curriculum designed by board topnotchers.
@@ -198,7 +198,7 @@ const FtleDetails = () => {
                 Everything you need to{" "}
                 <em className="not-italic text-accent">succeed</em>
               </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our Food Technology review class provides comprehensive
                 preparation with expert guidance and proven study materials.
               </p>
@@ -221,7 +221,7 @@ const FtleDetails = () => {
                     <h3 className="font-display text-2xl text-foreground mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">
+                    <p className="text-muted-foreground leading-relaxed text-sm font-sans">
                       {feature.description}
                     </p>
                   </div>
@@ -243,7 +243,7 @@ const FtleDetails = () => {
                 <em className="not-italic text-accent">coverage</em> of all
                 topics
               </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our curriculum covers all essential topics for the Food
                 Technology Licensure Examination.
               </p>
@@ -289,7 +289,7 @@ const FtleDetails = () => {
               <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
                 Learn from the <em className="not-italic text-accent">best</em>
               </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our instructors are board topnotchers and experienced food
                 technologists dedicated to your success.
               </p>
@@ -347,7 +347,7 @@ const FtleDetails = () => {
                   Ready to ace your{" "}
                   <em className="not-italic text-primary">FTLE exam</em>?
                 </h2>
-                <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed font-sans">
                   Join hundreds of successful students who have passed the Food
                   Technology Licensure Examination with our comprehensive review
                   program.
@@ -362,7 +362,7 @@ const FtleDetails = () => {
                     <Button
                       variant="hero"
                       size="lg"
-                      className="w-full sm:w-auto group"
+                      className="w-full sm:w-auto group font-display"
                     >
                       Access Learning Platform
                       <ArrowRight
@@ -378,7 +378,7 @@ const FtleDetails = () => {
                     <Button
                       variant="heroOutline"
                       size="lg"
-                      className="w-full sm:w-auto"
+                      className="w-full sm:w-auto font-display"
                     >
                       Contact Support
                     </Button>

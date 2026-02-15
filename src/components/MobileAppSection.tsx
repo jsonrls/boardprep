@@ -46,11 +46,11 @@ const MobileAppSection = () => {
               <span className="text-background">Board Prep</span>
             </h2>
 
-            <p className="text-lg md:text-xl text-background font-light max-w-xl mx-auto lg:mx-0">
+            <p className="text-lg md:text-xl text-background font-light max-w-xl mx-auto lg:mx-0 font-sans">
               Boost your skills, beat the boards —{" "}
               <br className="hidden md:inline" />
               with the{" "}
-              <strong className="font-medium text-background">
+              <strong className="font-medium text-background font-display">
                 BoardPrep® App!
               </strong>
             </p>
@@ -120,10 +120,10 @@ const MobileAppSection = () => {
               >
                 <div className="w-3 h-3 rounded-full bg-green-500 shadow-glow" />
                 <div>
-                  <span className="block text-xs font-bold text-foreground">
+                  <span className="block text-xs font-bold text-foreground font-display">
                     98% Passing Rate
                   </span>
-                  <span className="block text-[10px] text-muted-foreground">
+                  <span className="block text-[10px] text-muted-foreground font-sans">
                     Average user score
                   </span>
                 </div>
@@ -136,10 +136,10 @@ const MobileAppSection = () => {
                   <Smartphone size={16} />
                 </div>
                 <div>
-                  <span className="block text-xs font-bold text-foreground">
+                  <span className="block text-xs font-bold text-foreground font-display">
                     Gamified Drills
                   </span>
-                  <span className="block text-[10px] text-muted-foreground">
+                  <span className="block text-[10px] text-muted-foreground font-sans">
                     Learn while playing
                   </span>
                 </div>

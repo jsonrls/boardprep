@@ -1,16 +1,34 @@
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logoFull from "@/assets/logo-white.png";
-
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
 
   const quickLinks = [
-    { label: "Question Drills", href: "https://www.myboardprep.com", isHash: false },
-    { label: "BoardPrep Classroom", href: "https://lms2.myboardprep.com/", isHash: false },
-    { label: "Mobile App", href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US", isHash: false },
+    {
+      label: "Question Drills",
+      href: "https://www.myboardprep.com",
+      isHash: false,
+    },
+    {
+      label: "BoardPrep Classroom",
+      href: "https://lms2.myboardprep.com/",
+      isHash: false,
+    },
+    {
+      label: "Mobile App",
+      href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
+      isHash: false,
+    },
     { label: "About Us", href: "/about", isHash: false },
     { label: "Contact Us", href: "/contact", isHash: false },
   ];
@@ -27,9 +45,9 @@ const Footer = () => {
               alt="BoardPrep"
               className="h-12 mb-6 brightness-0 invert"
             />
-            <p className="text-secondary-foreground/60 leading-relaxed mb-8 max-w-sm">
-              Leading provider of accessible and high-quality board exam review materials.
-              Trusted by future professionals.
+            <p className="text-secondary-foreground/60 leading-relaxed mb-8 max-w-sm font-sans">
+              Leading provider of accessible and high-quality board exam review
+              materials. Trusted by future professionals.
             </p>
             <div className="flex gap-4">
               <a
@@ -86,12 +104,13 @@ const Footer = () => {
               {quickLinks.map((link) => {
                 if (link.isHash) {
                   // For hash links, navigate to home page with hash if not already there
-                  const href = location.pathname === "/" ? link.href : `/${link.href}`;
+                  const href =
+                    location.pathname === "/" ? link.href : `/${link.href}`;
                   return (
                     <li key={link.label}>
                       <a
                         href={href}
-                        className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm"
+                        className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
                       >
                         {link.label}
                       </a>
@@ -102,7 +121,7 @@ const Footer = () => {
                   <li key={link.label}>
                     <Link
                       to={link.href}
-                      className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm"
+                      className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
                     >
                       {link.label}
                     </Link>
@@ -117,16 +136,20 @@ const Footer = () => {
             <h4 className="font-display text-xl mb-6">Contact</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin size={18} className="text-primary mt-0.5 flex-shrink-0" />
-                <span className="text-secondary-foreground/60 text-sm">
-                  Level 10-1 Fort Legend Tower, 31st Street & 3rd Avenue, Bonifacio Global City, Taguig City, 1634, Philippines
+                <MapPin
+                  size={18}
+                  className="text-primary mt-0.5 flex-shrink-0"
+                />
+                <span className="text-secondary-foreground/60 text-sm font-sans">
+                  Level 10-1 Fort Legend Tower, 31st Street & 3rd Avenue,
+                  Bonifacio Global City, Taguig City, 1634, Philippines
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-primary flex-shrink-0" />
                 <a
                   href="tel:+639171429725"
-                  className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm"
+                  className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
                 >
                   +63 917 142 9725
                 </a>
@@ -135,9 +158,9 @@ const Footer = () => {
                 <Mail size={18} className="text-primary flex-shrink-0" />
                 <a
                   href="mailto:acewithboardprep@gmail.com "
-                  className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm"
+                  className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
                 >
-                  acewithboardprep@gmail.com 
+                  acewithboardprep@gmail.com
                 </a>
               </li>
             </ul>
@@ -146,19 +169,19 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-secondary-foreground/10 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-secondary-foreground/50 text-sm">
+          <p className="text-secondary-foreground/50 text-sm font-sans">
             © {currentYear} BoardPrep. All rights reserved.
           </p>
           <div className="flex gap-8 text-sm">
             <a
               href="#"
-              className="text-secondary-foreground/50 hover:text-primary transition-colors duration-300"
+              className="text-secondary-foreground/50 hover:text-primary transition-colors duration-300 font-sans"
             >
               Privacy Policy
             </a>
             <a
               href="#"
-              className="text-secondary-foreground/50 hover:text-primary transition-colors duration-300"
+              className="text-secondary-foreground/50 hover:text-primary transition-colors duration-300 font-sans"
             >
               Terms of Service
             </a>

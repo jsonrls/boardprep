@@ -152,7 +152,7 @@ const Blogs = () => {
                     </svg>
                   </span>
                 </h1>
-                <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+                <p className="text-muted-foreground text-lg md:text-xl leading-relaxed font-sans">
                   Expert advice, study strategies, and industry updates to help
                   you navigate your path to becoming a licensed professional.
                 </p>
@@ -235,7 +235,7 @@ const Blogs = () => {
                         {featuredPost.title}
                       </h2>
                     </Link>
-                    <p className="text-muted-foreground text-base md:text-lg mb-6 line-clamp-3">
+                    <p className="text-muted-foreground text-base md:text-lg mb-6 line-clamp-3 font-sans">
                       {featuredPost.excerpt}
                     </p>
                     <div className="flex items-center justify-between mt-auto">
@@ -311,7 +311,7 @@ const Blogs = () => {
                       <Link to="#">{post.title}</Link>
                     </h3>
 
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3 font-sans">
                       {post.excerpt}
                     </p>
 

@@ -23,7 +23,7 @@ const HeroSection = () => {
           {/* Text Content */}
           <div className="w-full md:w-1/2 max-w-2xl">
             {/* Tagline */}
-            <p className="animate-fade-up text-accent font-medium tracking-[0.2em] uppercase text-sm mb-6 text-center md:text-left">
+            <p className="animate-fade-up text-accent font-medium tracking-[0.2em] uppercase text-sm mb-6 text-center md:text-left font-sans">
               Ed-Tech Board Exam Prep
             </p>
 
@@ -34,7 +34,7 @@ const HeroSection = () => {
             </h1>
 
             {/* Subheadline */}
-            <p className="animate-fade-up delay-200 text-lg md:text-xl text-foreground mb-10 leading-relaxed max-w-xl font-light text-center md:text-left">
+            <p className="animate-fade-up delay-200 text-lg md:text-xl text-foreground mb-10 leading-relaxed max-w-xl font-light text-center md:text-left font-sans">
               Affordable but high-quality question drills curated by board
               topnotchers. Join our self-paced review classes and study at your
               own convenience.
@@ -42,11 +42,14 @@ const HeroSection = () => {
 
             {/* CTAs */}
             <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4">
-              <Link to="/pre-register" className="w-full sm:w-auto">
+              <Link
+                to="https://www.myboardprep.com"
+                className="w-full sm:w-auto"
+              >
                 <Button
                   variant="hero"
                   size="lg"
-                  className="w-full sm:w-auto group"
+                  className="w-full sm:w-auto group font-display"
                 >
                   <span>Get Started Now!</span>
                   <ArrowRight
@@ -58,7 +61,7 @@ const HeroSection = () => {
               <Button
                 variant="heroOutline"
                 size="lg"
-                className="text-foreground w-full sm:w-auto"
+                className="text-foreground w-full sm:w-auto font-display"
                 asChild
               >
                 <Link to="/review/vet">Start Practice Drills</Link>

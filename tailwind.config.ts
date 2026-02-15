@@ -23,7 +23,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Source Sans Pro", "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
         display: ["Montserrat", "system-ui", "sans-serif"],
       },
       colors: {

@@ -40,7 +40,7 @@ const FeaturesSection = () => {
             Comprehensive tools for your{" "}
             <em className="not-italic text-accent">licensure</em> journey
           </h2>
-          <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+          <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
             We bridge the gap between affordability and quality, offering you
             the best resources to secure your professional license.
           </p>
@@ -64,7 +64,7 @@ const FeaturesSection = () => {
                 <h3 className="font-display text-2xl text-foreground mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed text-sm">
+                <p className="text-muted-foreground leading-relaxed text-sm font-sans">
                   {feature.description}
                 </p>
               </div>

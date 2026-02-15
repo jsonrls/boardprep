@@ -28,6 +28,9 @@ import {
   Cloud,
   Star,
   Wallet,
+  Users,
+  Settings,
+  WifiOff,
 } from "lucide-react";
 import Blocks from "@/components/ui/blocks";
 
@@ -39,9 +42,9 @@ export interface BoxesProps {
 
 const cards = [
   {
-    title: "Mobile App for Students",
+    title: "Mobile App for Everyone!",
     description: (
-      <ul className="text-left space-y-4">
+      <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-700">
           <Rocket className="w-6 h-6 text-indigo-600" /> Offline? No Problem!
         </li>
@@ -50,11 +53,11 @@ const cards = [
           Gamified Drills
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-700">
-          <Gift className="w-6 h-6 text-indigo-600" /> Win Rewards as You Learn
+          <Gift className="w-6 h-6 text-indigo-600" /> Win Badges as You Learn
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-700">
-          <BookOpen className="w-6 h-6 text-indigo-600" /> New Questions Every
-          Exam
+          <BookOpen className="w-6 h-6 text-indigo-600" /> Updated Questions
+          Every Exam
         </li>
       </ul>
     ),
@@ -66,23 +69,24 @@ const cards = [
     link: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
   },
   {
-    title: "LMS for Universities & Centers",
+    title: "Online Classrooms for Universities and Review Centers",
     description: (
-      <ul className="text-left space-y-4">
+      <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Sparkles className="w-6 h-6 text-pink-600" /> Predicts Board Exam
-          Success
+          <Users className="w-6 h-6 text-pink-600" /> Teacher and student
+          friendly
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Search className="w-6 h-6 text-pink-600" /> Smart Question Analysis
+          <TrendingUp className="w-6 h-6 text-pink-600" /> Tracks student
+          performance
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <BarChart3 className="w-6 h-6 text-pink-600" /> Tracks Student
-          Performance
+          <BarChart3 className="w-6 h-6 text-pink-600" /> With analytics for a
+          decision support system
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <School className="w-6 h-6 text-pink-600" /> Dedicated LMS for Board
-          Exam Prep
+          <Cloud className="w-6 h-6 text-pink-600" /> Supports synchronous and
+          asynchronous learning
         </li>
       </ul>
     ),
@@ -94,40 +98,41 @@ const cards = [
     link: "https://lms2.myboardprep.com/",
   },
   {
-    title: "iOS (Coming Soon)",
+    title: "Online Review Class",
     description: (
-      <ul className="text-left space-y-4">
+      <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Smartphone className="w-6 h-6 text-sky-600" /> Fully Optimized for
-          iOS
+          <BookOpen className="w-6 h-6 text-sky-600" /> Comprehensive Review
+          Materials
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Smartphone className="w-6 h-6 text-sky-600" /> Native Experience
+          <Users className="w-6 h-6 text-sky-600" /> Expert Instructors
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Cloud className="w-6 h-6 text-sky-600" /> iCloud Sync Support
+          <Trophy className="w-6 h-6 text-sky-600" /> Proven Track Record
         </li>
       </ul>
     ),
-    image: phone,
-    imageAlt: "iOS App Interface",
+    image: laptop,
+    imageAlt: "Review Class Interface",
     color: "bg-product-teal", // Teal
     textColor: "text-slate-900",
-    imageClass: "w-[60%]",
+    imageClass: "w-[90%]",
     link: "#",
   },
   {
     title: "BoardPrep Lite (Coming Soon)",
     description: (
-      <ul className="text-left space-y-4">
+      <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Star className="w-6 h-6 text-orange-600" /> Essential Features Only
+          <Settings className="w-6 h-6 text-orange-600" /> Customizable plan
+          options
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Wallet className="w-6 h-6 text-orange-600" /> Budget-Friendly Option
+          <Zap className="w-6 h-6 text-orange-600" /> Instant result
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Rocket className="w-6 h-6 text-orange-600" /> Quick Start Guide
+          <WifiOff className="w-6 h-6 text-orange-600" /> Works offline
         </li>
       </ul>
     ),
@@ -273,7 +278,7 @@ const ProductDualSection = () => {
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
             Our Products
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans">
             Everything you need to ace your board exams, in one place.
           </p>
         </div>

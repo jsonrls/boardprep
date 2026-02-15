@@ -124,7 +124,7 @@ const AbeDetails = () => {
                 Master Your ABE Board Exam
               </h1>
 
-              <p className="text-xl text-white mb-8 animate-fade-up delay-200">
+              <p className="text-xl text-white mb-8 animate-fade-up delay-200 font-sans">
                 Join our comprehensive review program designed by board
                 topnotchers and industry experts. Get the knowledge and
                 confidence you need to pass the Agricultural and Biosystems
@@ -194,7 +194,7 @@ const AbeDetails = () => {
               <h2 className="text-4xl font-bold text-foreground mb-4">
                 Why Choose Our ABE Review Program?
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans">
                 Everything you need to excel in your Agricultural and Biosystems
                 Engineering board exam, all in one comprehensive package.
               </p>
@@ -213,7 +213,9 @@ const AbeDetails = () => {
                   <h3 className="text-xl font-semibold mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <p className="text-muted-foreground font-sans">
+                    {feature.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -227,7 +229,7 @@ const AbeDetails = () => {
               <h2 className="text-4xl font-bold text-foreground mb-4">
                 Comprehensive Curriculum
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans">
                 Our review program covers all major topics in the ABE licensure
                 exam with in-depth lessons and practice materials.
               </p>
@@ -267,7 +269,7 @@ const AbeDetails = () => {
               <h2 className="text-4xl font-bold text-foreground mb-4">
                 Learn from the Best
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans">
                 Our instructors are board topnotchers and experienced
                 agricultural engineers dedicated to your success.
               </p>
@@ -324,7 +326,7 @@ const AbeDetails = () => {
                   Ready to ace your{" "}
                   <em className="not-italic text-primary">ABE Board Exam</em>?
                 </h2>
-                <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed font-sans">
                   Join thousands of successful agricultural engineers who
                   trusted BoardPrep for their licensure exam preparation.
                 </p>
@@ -338,7 +340,7 @@ const AbeDetails = () => {
                     <Button
                       variant="hero"
                       size="lg"
-                      className="w-full sm:w-auto group"
+                      className="w-full sm:w-auto group font-display"
                     >
                       Access Learning Platform
                       <ArrowRight
@@ -351,7 +353,7 @@ const AbeDetails = () => {
                     <Button
                       variant="heroOutline"
                       size="lg"
-                      className="w-full sm:w-auto"
+                      className="w-full sm:w-auto font-display"
                     >
                       Pre-Register Now
                     </Button>

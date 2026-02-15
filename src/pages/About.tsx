@@ -24,7 +24,7 @@ const About = () => {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-white font-bold mb-6">
               About <span className="text-primary">BoardPrep</span>
             </h1>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+            <p className="text-xl text-white/90 max-w-2xl mx-auto font-sans">
               Empowering students to achieve their dreams through innovative,
               accessible, and effective board exam preparation.
             </p>
@@ -38,7 +38,7 @@ const About = () => {
               <h2 className="text-3xl font-display font-bold text-foreground mb-4">
                 Our Mission
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed text-justify md:text-left">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify md:text-left font-sans">
                 Board Prep Solutions is dedicated to enhancing educational
                 quality through expert consultancy services, technology-enabled
                 review programs and comprehensive competency development
@@ -53,7 +53,7 @@ const About = () => {
               <h2 className="text-3xl font-display font-bold text-foreground mb-4">
                 Our Vision
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed text-justify md:text-left">
+              <p className="text-lg text-muted-foreground leading-relaxed text-justify md:text-left font-sans">
                 Board Prep Solutions envisions becoming a leading driver of
                 innovation in higher education by delivering transformative
                 digital learning solutions and professional development
@@ -75,7 +75,7 @@ const About = () => {
                     key={i}
                     className="h-24 bg-muted/50 rounded-lg flex items-center justify-center border border-border/50 hover:bg-muted transition-colors"
                   >
-                    <span className="text-muted-foreground font-medium">
+                    <span className="text-muted-foreground font-medium font-sans">
                       Partner {i}
                     </span>
                   </div>

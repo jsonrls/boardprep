@@ -215,10 +215,10 @@ const PreRegister = () => {
 
       <main className="flex-1 container mx-auto px-4 py-8 md:py-12 max-w-4xl mt-24">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">
+          <h1 className="text-3xl font-display font-bold tracking-tight mb-2">
             Registration
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground font-sans">
             Join us to start your journey to success.
           </p>
         </div>
@@ -265,7 +265,7 @@ const PreRegister = () => {
                     )}
                   </div>
                   <span
-                    className={`mt-2 text-xs font-medium transition-colors duration-300 hidden sm:block ${
+                    className={`mt-2 text-xs font-medium transition-colors duration-300 hidden sm:block font-sans ${
                       isActive || isCompleted
                         ? "text-foreground"
                         : "text-muted-foreground"
@@ -295,10 +295,10 @@ const PreRegister = () => {
                     className="space-y-6"
                   >
                     <div className="bg-primary/5 border border-primary/20 p-6 rounded-lg text-center space-y-2">
-                      <h2 className="text-xl font-semibold">
+                      <h2 className="text-xl font-semibold font-display">
                         Welcome to BoardPrep Registration
                       </h2>
-                      <p className="text-muted-foreground">
+                      <p className="text-muted-foreground font-sans">
                         Please answer a few quick questions to get started.
                       </p>
                     </div>
@@ -308,7 +308,7 @@ const PreRegister = () => {
                       name="hasPreRegistered"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">
+                          <FormLabel className="text-base font-sans">
                             Did you Pre-register?
                           </FormLabel>
                           <Select
@@ -316,11 +316,11 @@ const PreRegister = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="font-sans">
                                 <SelectValue placeholder="Select option…" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="font-sans">
                               <SelectItem value="yes">Yes</SelectItem>
                               <SelectItem value="no">No</SelectItem>
                             </SelectContent>
@@ -335,7 +335,7 @@ const PreRegister = () => {
                       name="isLatinHonor"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">
+                          <FormLabel className="text-base font-sans">
                             Are you a clear candidate/graduate with Latin
                             Honors?
                           </FormLabel>
@@ -344,11 +344,11 @@ const PreRegister = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="font-sans">
                                 <SelectValue placeholder="Are you a Laude?…" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="font-sans">
                               <SelectItem value="yes">Yes</SelectItem>
                               <SelectItem value="no">No</SelectItem>
                             </SelectContent>
@@ -374,11 +374,17 @@ const PreRegister = () => {
                         name="firstName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name</FormLabel>
+                            <FormLabel className="font-sans">
+                              First Name
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. John" {...field} />
+                              <Input
+                                placeholder="e.g. John"
+                                {...field}
+                                className="font-sans"
+                              />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -387,11 +393,17 @@ const PreRegister = () => {
                         name="lastName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name</FormLabel>
+                            <FormLabel className="font-sans">
+                              Last Name
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. Doe" {...field} />
+                              <Input
+                                placeholder="e.g. Doe"
+                                {...field}
+                                className="font-sans"
+                              />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -431,14 +443,17 @@ const PreRegister = () => {
                         name="phone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Contact Number</FormLabel>
+                            <FormLabel className="font-sans">
+                              Contact Number
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="e.g. 09123456789"
                                 {...field}
+                                className="font-sans"
                               />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -477,11 +492,17 @@ const PreRegister = () => {
                         name="province"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Home Address (Province)</FormLabel>
+                            <FormLabel className="font-sans">
+                              Home Address (Province)
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. Cavite" {...field} />
+                              <Input
+                                placeholder="e.g. Cavite"
+                                {...field}
+                                className="font-sans"
+                              />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -490,11 +511,17 @@ const PreRegister = () => {
                         name="city"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Home Address (City/Town)</FormLabel>
+                            <FormLabel className="font-sans">
+                              Home Address (City/Town)
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. Dasmarinas" {...field} />
+                              <Input
+                                placeholder="e.g. Dasmarinas"
+                                {...field}
+                                className="font-sans"
+                              />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -516,14 +543,17 @@ const PreRegister = () => {
                         name="school"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>University / College / School</FormLabel>
+                            <FormLabel className="font-sans">
+                              University / College / School
+                            </FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="e.g. Univ of Philippines"
                                 {...field}
+                                className="font-sans"
                               />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -532,11 +562,17 @@ const PreRegister = () => {
                         name="gradYear"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Year Graduated / Graduating</FormLabel>
+                            <FormLabel className="font-sans">
+                              Year Graduated / Graduating
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. 2025" {...field} />
+                              <Input
+                                placeholder="e.g. 2025"
+                                {...field}
+                                className="font-sans"
+                              />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -995,14 +1031,17 @@ const PreRegister = () => {
                         name="remarks"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Remarks (Optional)</FormLabel>
+                            <FormLabel className="font-sans">
+                              Remarks (Optional)
+                            </FormLabel>
                             <FormControl>
                               <Textarea
                                 placeholder="Any additional notes…"
                                 {...field}
+                                className="font-sans"
                               />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="font-sans" />
                           </FormItem>
                         )}
                       />
@@ -1098,10 +1137,10 @@ const PreRegister = () => {
         {/* FAQ Section */}
         <div className="mb-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold tracking-tight mb-2">
+            <h2 className="text-3xl font-bold tracking-tight mb-2 font-display">
               Frequently Asked Questions
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground font-sans">
               Everything you need to know about registration and our review
               classes
             </p>
@@ -1208,10 +1247,10 @@ const PreRegister = () => {
             <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-2">
               <CheckCircle className="w-10 h-10 text-green-600" />
             </div>
-            <DialogTitle className="text-2xl font-bold text-center">
+            <DialogTitle className="text-2xl font-bold text-center font-display">
               Registration Successful!
             </DialogTitle>
-            <DialogDescription className="text-center text-base">
+            <DialogDescription className="text-center text-base font-sans">
               Thank you for registering with BoardPrep Solutions.
               <br />
               We have received your details.

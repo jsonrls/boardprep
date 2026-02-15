@@ -21,7 +21,7 @@ const CTASection = () => {
               Ready to ace your{" "}
               <em className="not-italic text-primary">board exam</em>?
             </h2>
-            <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed font-sans">
               Join hundreds of topnotchers and successful examinees who trusted
               BoardPrep for their licensure review. Enroll now to secure your
               license.
@@ -31,7 +31,7 @@ const CTASection = () => {
                 <Button
                   variant="hero"
                   size="lg"
-                  className="w-full sm:w-auto group"
+                  className="w-full sm:w-auto group font-display"
                 >
                   Start Practice Drills
                   <ArrowRight
@@ -44,7 +44,7 @@ const CTASection = () => {
                 <Button
                   variant="heroOutline"
                   size="lg"
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto font-display"
                 >
                   View Review Classes
                 </Button>

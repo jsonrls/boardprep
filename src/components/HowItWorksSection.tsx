@@ -107,7 +107,7 @@ const HowItWorksSection = () => {
           <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
             How it works
           </h2>
-          <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+          <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
             Getting started is easy. Follow these simple steps to access your
             comprehensive review materials.
           </p>
@@ -122,11 +122,11 @@ const HowItWorksSection = () => {
           <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-[2px] pointer-events-none">
             <div
               ref={lineRef}
-              className="h-full bg-gradient-to-r from-accent/50 via-accent to-accent w-0 relative"
+              className="h-full bg-gradient-to-r from-secondary/50 via-secondary to-secondary w-0 relative"
               style={{ willChange: "width" }}
             >
               {/* Glowing Head */}
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-accent rounded-full blur-md shadow-[0_0_15px_rgba(255,165,0,0.8)] opacity-80 translate-x-1/2" />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-secondary rounded-full blur-md shadow-[0_0_15px_hsl(var(--secondary)/0.8)] opacity-80 translate-x-1/2" />
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full translate-x-1/2" />
             </div>
           </div>
@@ -147,7 +147,7 @@ const HowItWorksSection = () => {
                       w-16 h-16 rounded-full flex items-center justify-center mx-auto shadow-soft transition-all duration-500 ease-out
                       ${
                         isActive
-                          ? "bg-accent border-2 border-accent scale-110 shadow-[0_0_30px_rgba(255,165,0,0.3)]"
+                          ? "bg-secondary border-2 border-secondary scale-110 shadow-[0_0_30px_hsl(var(--secondary)/0.3)]"
                           : "bg-card border-2 border-border"
                       }
                     `}
@@ -167,7 +167,7 @@ const HowItWorksSection = () => {
                   <div className="w-14 h-14 rounded-sm flex items-center justify-center mx-auto mb-6">
                     <item.icon
                       size={26}
-                      className={`transition-all duration-500 ${isActive ? "text-accent scale-110" : "text-muted-foreground"}`}
+                      className={`transition-all duration-500 ${isActive ? "text-secondary scale-110" : "text-muted-foreground"}`}
                       strokeWidth={1.5}
                     />
                   </div>
@@ -177,7 +177,7 @@ const HowItWorksSection = () => {
                   >
                     {item.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed text-sm">
+                  <p className="text-muted-foreground leading-relaxed text-sm font-sans">
                     {item.description}
                   </p>
                 </div>

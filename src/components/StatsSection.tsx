@@ -3,22 +3,22 @@ import { useInView, useMotionValue, useSpring } from "framer-motion";
 
 const stats = [
   {
-    value: 10000,
+    value: 15000,
     suffix: "+",
     label: "Questions from various industries",
   },
   {
-    value: 6000,
+    value: 7000,
     suffix: "+",
-    label: "Students using My Board Prep",
+    label: "Subscribers",
   },
   {
     value: 100,
     suffix: "+",
-    label: "Board topnotchers and specialists",
+    label: "Board topnotchers and specialist question contributors",
   },
   {
-    value: 21,
+    value: 50,
     suffix: "%",
     label: "Better than national passing average",
   },
@@ -43,7 +43,7 @@ const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
     springValue.on("change", (latest) => {
       if (ref.current) {
         ref.current.textContent = Intl.NumberFormat("en-US").format(
-          Math.floor(latest)
+          Math.floor(latest),
         );
       }
     });
@@ -70,7 +70,7 @@ const StatsSection = () => {
               <h3 className="font-display text-4xl lg:text-5xl font-bold mb-2">
                 <Counter value={stat.value} suffix={stat.suffix} />
               </h3>
-              <p className="text-white text-sm lg:text-base leading-tight max-w-[160px] mx-auto">
+              <p className="text-white text-sm lg:text-base leading-tight max-w-[160px] mx-auto font-sans">
                 {stat.label}
               </p>
             </div>

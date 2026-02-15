@@ -104,7 +104,7 @@ const Header = () => {
                         to="/"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
                         )}
                       >
                         Home
@@ -113,7 +113,7 @@ const Header = () => {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">
+                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent font-display">
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -124,42 +124,34 @@ const Header = () => {
                           rel="noopener noreferrer"
                           title="Question Drills"
                           icon={FileText}
-                        >
-                          Practice with our comprehensive question bank.
-                        </ListItem>
+                        />
                         <ListItem
                           href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US"
                           target="_blank"
                           rel="noopener noreferrer"
                           title="Mobile App"
                           icon={Smartphone}
-                        >
-                          Download our mobile application.
-                        </ListItem>
+                        />
                         <ListItem
                           href="https://lms2.myboardprep.com/"
                           target="_blank"
                           rel="noopener noreferrer"
                           title="BoardPrep Classroom"
                           icon={School}
-                        >
-                          Interactive classroom environment.
-                        </ListItem>
+                        />
 
                         <ListItem
                           title="BoardPrep Lite (Coming App)"
                           href="#"
                           className="opacity-50 cursor-not-allowed"
                           icon={Zap}
-                        >
-                          A lighter version for quick review.
-                        </ListItem>
+                        />
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent">
+                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent font-display">
                       Review Class
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -168,30 +160,22 @@ const Header = () => {
                           href="/review/vet"
                           title="Veterinarian"
                           icon={Stethoscope}
-                        >
-                          Review for Veterinarian Licensure Exam.
-                        </ListItem>
+                        />
                         <ListItem
                           href="/review/ftle"
                           title="Food Technology"
                           icon={Utensils}
-                        >
-                          Review for Food Technology Licensure Exam.
-                        </ListItem>
+                        />
                         <ListItem
                           href="/review/fisheries"
                           title="Fisheries"
                           icon={Fish}
-                        >
-                          Fisheries specialized review materials.
-                        </ListItem>
+                        />
                         <ListItem
                           href="/review/abe"
                           title="Agri & Biosystems"
                           icon={Sprout}
-                        >
-                          Review for Agricultural and Biosystems Engineering.
-                        </ListItem>
+                        />
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -202,7 +186,7 @@ const Header = () => {
                         to="/blogs"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
                         )}
                       >
                         Blogs
@@ -216,7 +200,7 @@ const Header = () => {
                         to="/contact"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
                         )}
                       >
                         Contact
@@ -230,7 +214,7 @@ const Header = () => {
                         to="/about"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
                         )}
                       >
                         About
@@ -243,11 +227,11 @@ const Header = () => {
 
             {/* CTA Button */}
             <div className="hidden lg:block">
-              <Link to="/pre-register" className="flex items-center gap-2">
+              <Link to="https://www.myboardprep.com/" className="flex items-center gap-2">
                 <Button
                   variant="hero"
                   size="sm"
-                  className="w-full sm:w-auto group"
+                  className="w-full sm:w-auto group font-display"
                 >
                   Get Started Now
                   <ArrowRight
@@ -283,7 +267,7 @@ const Header = () => {
                 <div className="py-4 flex flex-col space-y-2">
                   <Link
                     to="/"
-                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
+                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Home
@@ -294,32 +278,31 @@ const Header = () => {
                       value="products"
                       className="border-b border-border/50"
                     >
-                      <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">
+                      <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground font-display">
                         Product
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-2 pl-4 py-2">
                           <Link
-                            to="/question-drills"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Question Drills
                           </Link>
                           <Link
                             to="/mobile-app"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Mobile App
                           </Link>
 
-                          <span className="text-sm py-2 text-muted-foreground/50">
+                          <span className="text-sm py-2 text-muted-foreground/50 font-sans">
                             BoarPrep Lite (Coming App)
                           </span>
                           <Link
                             to="/classroom"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             BoardPrep Classroom
@@ -332,35 +315,35 @@ const Header = () => {
                       value="review"
                       className="border-b border-border/50"
                     >
-                      <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground">
+                      <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground font-display">
                         Review Class
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-2 pl-4 py-2">
                           <Link
                             to="/review/vet"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Veterinarian Licensure Exam
                           </Link>
                           <Link
                             to="/review/ftle"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Food Technology Licensure Exam
                           </Link>
                           <Link
                             to="/review/fisheries"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Fisheries Licensure Exam
                           </Link>
                           <Link
                             to="/review/abe"
-                            className="text-sm py-2 text-muted-foreground"
+                            className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Agricultural and Biosystems Engineering Licensure
@@ -373,21 +356,21 @@ const Header = () => {
 
                   <Link
                     to="/blogs"
-                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
+                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Blogs
                   </Link>
                   <Link
                     to="/contact"
-                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
+                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contact
                   </Link>
                   <Link
                     to="/about"
-                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground"
+                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     About
@@ -396,7 +379,7 @@ const Header = () => {
                   <Button variant="hero" className="mt-6 w-full" asChild>
                     <Link
                       to="/pre-register"
-                      className="flex items-center justify-center gap-2"
+                      className="flex items-center justify-center gap-2 font-display"
                     >
                       <Sparkles size={16} />
                       Get Started
@@ -439,7 +422,9 @@ const ListItem = forwardRef<
                   <Icon className="h-4 w-4" />
                 </div>
               )}
-              <div className="text-sm font-medium leading-none">{title}</div>
+              <div className="text-sm font-medium leading-none font-display">
+                {title}
+              </div>
               <ChevronRight className="ml-auto h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-muted-foreground/50" />
             </div>
           </Link>
@@ -466,7 +451,9 @@ const ListItem = forwardRef<
                 <Icon className="h-4 w-4" />
               </div>
             )}
-            <div className="text-sm font-medium leading-none">{title}</div>
+            <div className="text-sm font-medium leading-none font-display">
+              {title}
+            </div>
             <ChevronRight className="ml-auto h-4 w-4 opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-muted-foreground/50" />
           </div>
         </a>

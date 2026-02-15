@@ -16,6 +16,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import vetHeroBg from "@/assets/vet-hero-bg.png";
+
 const courseFeatures = [
   {
     icon: BookOpen,
@@ -103,7 +105,7 @@ const VetDetails = () => {
           {/* Background Image */}
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/src/assets/vet-hero-bg.png')" }}
+            style={{ backgroundImage: `url(${vetHeroBg})` }}
           />
           {/* Gradient Overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/40 via-secondary/60 to-secondary/60" />
@@ -121,7 +123,7 @@ const VetDetails = () => {
                 VET Review Class
               </h1>
 
-              <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
+              <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed font-sans">
                 Master the Veterinarian Licensure Examination with comprehensive
                 review materials, expert instructors, and a proven curriculum
                 designed by board topnotchers.
@@ -137,7 +139,7 @@ const VetDetails = () => {
                   <Button
                     variant="hero"
                     size="lg"
-                    className="w-full sm:w-auto group"
+                    className="w-full sm:w-auto group font-display"
                   >
                     Access LMS
                     <ArrowRight
@@ -150,7 +152,7 @@ const VetDetails = () => {
                   <Button
                     variant="heroOutline"
                     size="lg"
-                    className="w-full sm:w-auto"
+                    className="w-full sm:w-auto font-display"
                   >
                     View Curriculum
                   </Button>
@@ -195,7 +197,7 @@ const VetDetails = () => {
                 Everything you need to{" "}
                 <em className="not-italic text-accent">succeed</em>
               </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our VET review class provides comprehensive preparation with
                 expert guidance and proven study materials.
               </p>
@@ -218,7 +220,7 @@ const VetDetails = () => {
                     <h3 className="font-display text-2xl text-foreground mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed text-sm">
+                    <p className="text-muted-foreground leading-relaxed text-sm font-sans">
                       {feature.description}
                     </p>
                   </div>
@@ -240,7 +242,7 @@ const VetDetails = () => {
                 <em className="not-italic text-accent">coverage</em> of all
                 topics
               </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our curriculum covers all essential topics for the Veterinarian
                 Licensure Examination.
               </p>
@@ -286,7 +288,7 @@ const VetDetails = () => {
               <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
                 Learn from the <em className="not-italic text-accent">best</em>
               </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed">
+              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our instructors are board topnotchers and experienced
                 veterinarians dedicated to your success.
               </p>
@@ -344,7 +346,7 @@ const VetDetails = () => {
                   Ready to ace your{" "}
                   <em className="not-italic text-primary">VLE exam</em>?
                 </h2>
-                <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed font-sans">
                   Join hundreds of successful students who have passed the
                   Veterinarian Licensure Examination with our comprehensive
                   review program.
@@ -359,7 +361,7 @@ const VetDetails = () => {
                     <Button
                       variant="hero"
                       size="lg"
-                      className="w-full sm:w-auto group"
+                      className="w-full sm:w-auto group font-display"
                     >
                       Access Learning Platform
                       <ArrowRight
@@ -375,7 +377,7 @@ const VetDetails = () => {
                     <Button
                       variant="heroOutline"
                       size="lg"
-                      className="w-full sm:w-auto"
+                      className="w-full sm:w-auto font-display"
                     >
                       Contact Support
                     </Button>
