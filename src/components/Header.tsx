@@ -227,7 +227,7 @@ const Header = () => {
 
             {/* CTA Button */}
             <div className="hidden lg:block">
-              <Link to="https://www" className="flex items-center gap-2">
+              <Link to="/pre-register" className="flex items-center gap-2">
                 <Button
                   variant="hero"
                   size="sm"

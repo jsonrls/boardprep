@@ -15,6 +15,13 @@ import {
   Target,
   TrendingUp,
 } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 import vetHeroBg from "@/assets/vet-hero-bg.png";
 
@@ -52,8 +59,9 @@ const curriculumTopics = [
   { title: "Veterinarian Pharmacology", lessons: 22 },
   { title: "Clinical Veterinarian Medicine", lessons: 30 },
   { title: "Veterinarian Surgery", lessons: 18 },
-  { title: "Animal Nutrition", lessons: 16 },
-  { title: "Veterinarian Public Health", lessons: 14 },
+  { title: "Zootechnics", lessons: 16 },
+  { title: "Veterinary Microbiology and Public Health", lessons: 14 },
+  { title: "Veterinary Parasitology", lessons: 16 },
 ];
 
 const speakers = [
@@ -294,36 +302,56 @@ const VetDetails = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-              {speakers.map((speaker, index) => (
-                <div
-                  key={speaker.name}
-                  className={`animate-fade-up delay-${(index + 3) * 100} bg-card rounded-sm p-8 shadow-soft hover-lift border border-border/50 text-center`}
-                >
-                  <div className="relative inline-block mb-4">
-                    <img
-                      src={speaker.image}
-                      alt={speaker.name}
-                      className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20"
-                    />
-                    <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                      <Star className="w-5 h-5 text-white fill-white" />
-                    </div>
-                  </div>
-                  <h3 className="font-display text-xl text-foreground mb-2">
-                    {speaker.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {speaker.specialty}
-                  </p>
-                  <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1">
-                    <Award className="w-3 h-3 text-secondary" />
-                    <span className="text-xs font-medium text-secondary">
-                      {speaker.credential}
-                    </span>
-                  </div>
+            <div className="max-w-5xl mx-auto">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {speakers.map((speaker, index) => (
+                    <CarouselItem
+                      key={speaker.name}
+                      className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                    >
+                      <div className="h-full">
+                        <div
+                          className={`animate-fade-up delay-${(index + 3) * 100} bg-card rounded-sm p-8 shadow-soft hover-lift border border-border/50 text-center h-full flex flex-col items-center justify-center`}
+                        >
+                          <div className="relative inline-block mb-4">
+                            <img
+                              src={speaker.image}
+                              alt={speaker.name}
+                              className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
+                            />
+                            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                              <Star className="w-5 h-5 text-white fill-white" />
+                            </div>
+                          </div>
+                          <h3 className="font-display text-xl text-foreground mb-2">
+                            {speaker.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mb-3">
+                            {speaker.specialty}
+                          </p>
+                          <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1 mt-auto">
+                            <Award className="w-3 h-3 text-secondary" />
+                            <span className="text-xs font-medium text-secondary">
+                              {speaker.credential}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="flex justify-center gap-4 mt-8">
+                  <CarouselPrevious className="static translate-y-0" />
+                  <CarouselNext className="static translate-y-0" />
                 </div>
-              ))}
+              </Carousel>
             </div>
           </div>
         </section>
