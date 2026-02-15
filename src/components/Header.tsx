@@ -227,7 +227,7 @@ const Header = () => {
 
             {/* CTA Button */}
             <div className="hidden lg:block">
-              <Link to="https://www.myboardprep.com/" className="flex items-center gap-2">
+              <Link to="https://www" className="flex items-center gap-2">
                 <Button
                   variant="hero"
                   size="sm"
@@ -283,12 +283,15 @@ const Header = () => {
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-2 pl-4 py-2">
-                          <Link
+                          <a
+                            href="https://www.myboardprep.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Question Drills
-                          </Link>
+                          </a>
                           <Link
                             to="/mobile-app"
                             className="text-sm py-2 text-muted-foreground font-sans"
