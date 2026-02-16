@@ -16,6 +16,7 @@ import {
   CreditCard,
   FileText,
   Upload,
+  Loader2,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -114,6 +115,7 @@ const PreRegister = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0); // Start at Step 0
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -209,6 +211,38 @@ const PreRegister = () => {
     }
 
     const isStepValid = await form.trigger(fieldsToValidate);
+
+    if (currentStep === 0 && isStepValid) {
+      const values = form.getValues();
+      let hasError = false;
+
+      if (values.hasPreRegistered === "yes" && !values.preRegProof) {
+        form.setError("preRegProof", {
+          type: "manual",
+          message: "Proof is required if you pre-registered.",
+        });
+        hasError = true;
+      }
+
+      if (values.isLatinHonor === "yes" && !values.latinHonorProof) {
+        form.setError("latinHonorProof", {
+          type: "manual",
+          message:
+            "Proof is required if you are a Latin Honor candidate/graduate.",
+        });
+        hasError = true;
+      }
+
+      if (hasError) {
+        toast({
+          title: "Missing Information",
+          description: "Please upload the required proofs.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     if (isStepValid) {
       setCurrentStep((prev) => Math.min(prev + 1, steps.length));
     } else {
@@ -249,7 +283,9 @@ const PreRegister = () => {
     });
   };
 
-  const onSubmit = async (data: FormValues) => {
+  const handleFinalSubmit = async () => {
+    const data = form.getValues();
+    setShowConfirmModal(false);
     setIsSubmitting(true);
     try {
       const latinHonorFile =
@@ -339,6 +375,10 @@ const PreRegister = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const onSubmit = (data: FormValues) => {
+    setShowConfirmModal(true);
   };
 
   return (
@@ -462,6 +502,41 @@ const PreRegister = () => {
                       )}
                     />
 
+                    {hasPreRegistered === "yes" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="space-y-2 pl-4 border-l-2 border-primary/20"
+                      >
+                        <Label>Pre-registration Proof of Payment</Label>
+                        <FormDescription>
+                          Upload this only if you have already registered and
+                          paid the reservation fee.
+                        </FormDescription>
+                        <FormField
+                          control={form.control}
+                          name="preRegProof"
+                          render={({ field: { onChange, value, ...rest } }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  type="file"
+                                  accept="image/*,.pdf"
+                                  onChange={(e) => {
+                                    onChange(
+                                      e.target.files ? e.target.files[0] : null,
+                                    );
+                                  }}
+                                  {...rest}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
+
                     <FormField
                       control={form.control}
                       name="isLatinHonor"
@@ -489,6 +564,42 @@ const PreRegister = () => {
                         </FormItem>
                       )}
                     />
+
+                    {isLatinHonor === "yes" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="space-y-2 pl-4 border-l-2 border-primary/20"
+                      >
+                        <Label>Proof of Latin Honor</Label>
+                        <FormDescription>
+                          Upload picture of diploma, certificate, or any proof
+                          to qualify for discounts.
+                        </FormDescription>
+                        <FormField
+                          control={form.control}
+                          name="latinHonorProof"
+                          render={({ field: { onChange, value, ...rest } }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  type="file"
+                                  className="cursor-pointer"
+                                  accept="image/*,.pdf"
+                                  onChange={(e) => {
+                                    onChange(
+                                      e.target.files ? e.target.files[0] : null,
+                                    );
+                                  }}
+                                  {...rest}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
                   </motion.div>
                 )}
 
@@ -768,59 +879,6 @@ const PreRegister = () => {
                         </FormItem>
                       )}
                     />
-
-                    <div className="p-4 bg-muted/30 rounded-lg border border-border/50">
-                      <FormLabel className="mb-2 block">
-                        Proof of Latin Honor{" "}
-                        {isLatinHonor === "no" && "(Not Applicable)"}
-                        {isLatinHonor === "yes" && (
-                          <span className="text-muted-foreground font-normal ml-1">
-                            (Optional)
-                          </span>
-                        )}
-                      </FormLabel>
-                      {isLatinHonor === "yes" ? (
-                        <>
-                          <FormDescription className="mb-3">
-                            Upload picture of diploma, certificate, or any proof
-                            to qualify for discounts. If you don't have it yet,
-                            you can skip this for now.
-                          </FormDescription>
-                          <FormField
-                            control={form.control}
-                            name="latinHonorProof"
-                            render={({
-                              field: { onChange, value, ...rest },
-                            }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Input
-                                    type="file"
-                                    className="cursor-pointer"
-                                    accept="image/*,.pdf"
-                                    onChange={(e) => {
-                                      onChange(
-                                        e.target.files
-                                          ? e.target.files[0]
-                                          : null,
-                                      );
-                                    }}
-                                    {...rest}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </>
-                      ) : (
-                        <p className="text-sm text-muted-foreground italic">
-                          You selected "No" for Latin Honors in the pre-check
-                          step. If this is incorrect, please go back and update
-                          your selection.
-                        </p>
-                      )}
-                    </div>
 
                     <div className="space-y-4 pt-4 border-t">
                       <FormField
@@ -1120,80 +1178,84 @@ const PreRegister = () => {
                         Payment Details
                       </h3>
                       <div className="text-sm space-y-4">
-                        <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-                          <p className="font-bold text-lg text-foreground mb-2">
-                            Regular Price (Php{" "}
-                            {(() => {
-                              const basePrice = parseInt(
-                                (
+                        {isLatinHonor !== "yes" && (
+                          <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+                            <p className="font-bold text-lg text-foreground mb-2">
+                              Regular Price (Php{" "}
+                              {(() => {
+                                const basePrice = parseInt(
+                                  (
+                                    pricing[examType as keyof typeof pricing]
+                                      ?.regular || "0"
+                                  ).replace(/,/g, ""),
+                                );
+                                const finalPrice =
+                                  hasPreRegistered === "yes"
+                                    ? basePrice - 500
+                                    : basePrice;
+                                return finalPrice.toLocaleString();
+                              })()}
+                              .00)
+                            </p>
+                            <p className="text-muted-foreground leading-relaxed">
+                              Bank:{" "}
+                              <span className="text-foreground font-medium">
+                                Union Bank
+                              </span>
+                              <br />
+                              Name:{" "}
+                              <span className="text-foreground font-medium">
+                                Board Prep Solutions Incorporated
+                              </span>
+                              <br />
+                              Account:{" "}
+                              <span className="text-foreground font-bold">
+                                0010 3002 0003
+                              </span>
+                            </p>
+                          </div>
+                        )}
+                        {isLatinHonor === "yes" && (
+                          <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+                            <p className="font-bold text-lg text-foreground mb-2">
+                              50% Discount (Php{" "}
+                              {(() => {
+                                const baseRegularStr =
                                   pricing[examType as keyof typeof pricing]
-                                    ?.regular || "0"
-                                ).replace(/,/g, ""),
-                              );
-                              const finalPrice =
-                                hasPreRegistered === "yes"
-                                  ? basePrice - 500
-                                  : basePrice;
-                              return finalPrice.toLocaleString();
-                            })()}
-                            .00)
-                          </p>
-                          <p className="text-muted-foreground leading-relaxed">
-                            Bank:{" "}
-                            <span className="text-foreground font-medium">
-                              Union Bank
-                            </span>
-                            <br />
-                            Name:{" "}
-                            <span className="text-foreground font-medium">
-                              Board Prep Solutions Incorporated
-                            </span>
-                            <br />
-                            Account:{" "}
-                            <span className="text-foreground font-bold">
-                              0010 3002 0003
-                            </span>
-                          </p>
-                        </div>
-                        <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-                          <p className="font-bold text-lg text-foreground mb-2">
-                            50% Discount (Php{" "}
-                            {(() => {
-                              const baseRegularStr =
-                                pricing[examType as keyof typeof pricing]
-                                  ?.regular || "0";
-                              const regularPrice = parseInt(
-                                baseRegularStr.replace(/,/g, ""),
-                              );
-                              const effectiveRegularPrice =
-                                hasPreRegistered === "yes"
-                                  ? regularPrice - 500
-                                  : regularPrice;
-                              // 50% Discount applied to the effective regular price
-                              const percentDiscountPrice = Math.floor(
-                                effectiveRegularPrice / 2,
-                              );
-                              return percentDiscountPrice.toLocaleString();
-                            })()}
-                            .00)
-                          </p>
-                          <p className="text-muted-foreground leading-relaxed">
-                            Bank:{" "}
-                            <span className="text-foreground font-medium">
-                              Union Bank
-                            </span>
-                            <br />
-                            Name:{" "}
-                            <span className="text-foreground font-medium">
-                              Board Prep Solutions Incorporated
-                            </span>
-                            <br />
-                            Account:{" "}
-                            <span className="text-foreground font-bold">
-                              0010 3002 0003
-                            </span>
-                          </p>
-                        </div>
+                                    ?.regular || "0";
+                                const regularPrice = parseInt(
+                                  baseRegularStr.replace(/,/g, ""),
+                                );
+                                const effectiveRegularPrice =
+                                  hasPreRegistered === "yes"
+                                    ? regularPrice - 500
+                                    : regularPrice;
+                                // 50% Discount applied to the effective regular price
+                                const percentDiscountPrice = Math.floor(
+                                  effectiveRegularPrice / 2,
+                                );
+                                return percentDiscountPrice.toLocaleString();
+                              })()}
+                              .00)
+                            </p>
+                            <p className="text-muted-foreground leading-relaxed">
+                              Bank:{" "}
+                              <span className="text-foreground font-medium">
+                                Union Bank
+                              </span>
+                              <br />
+                              Name:{" "}
+                              <span className="text-foreground font-medium">
+                                Board Prep Solutions Incorporated
+                              </span>
+                              <br />
+                              Account:{" "}
+                              <span className="text-foreground font-bold">
+                                0010 3002 0003
+                              </span>
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -1226,41 +1288,6 @@ const PreRegister = () => {
                           )}
                         />
                       </div>
-
-                      {hasPreRegistered === "yes" && (
-                        <div className="space-y-2">
-                          <Label>Pre-registration Proof of Payment</Label>
-                          <FormDescription>
-                            Upload this only if you have already registered and
-                            paid the reservation fee.
-                          </FormDescription>
-                          <FormField
-                            control={form.control}
-                            name="preRegProof"
-                            render={({
-                              field: { onChange, value, ...rest },
-                            }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Input
-                                    type="file"
-                                    accept="image/*,.pdf"
-                                    onChange={(e) => {
-                                      onChange(
-                                        e.target.files
-                                          ? e.target.files[0]
-                                          : null,
-                                      );
-                                    }}
-                                    {...rest}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                      )}
 
                       <FormField
                         control={form.control}
@@ -1330,7 +1357,7 @@ const PreRegister = () => {
                     {currentStep === steps.length ? "Back" : "Back"}
                   </Button>
 
-                  {currentStep < steps.length ? (
+                  {currentStep < steps.length - 1 ? (
                     <Button
                       type="button"
                       onClick={nextStep}
@@ -1342,7 +1369,12 @@ const PreRegister = () => {
                       <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   ) : (
-                    <Button type="submit" variant="hero" size="sm">
+                    <Button
+                      type="submit"
+                      variant="hero"
+                      size="sm"
+                      disabled={isSubmitting}
+                    >
                       Submit Registration
                     </Button>
                   )}
@@ -1351,6 +1383,19 @@ const PreRegister = () => {
             </Form>
           </CardContent>
         </Card>
+
+        {/* Loading Overlay */}
+        {isSubmitting && (
+          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+            <Loader2 className="h-16 w-16 animate-spin text-yellow-500 mb-4" />
+            <h2 className="text-2xl font-bold font-display">
+              Submitting Registration...
+            </h2>
+            <p className="text-muted-foreground mt-2">
+              Please wait while we process your details.
+            </p>
+          </div>
+        )}
 
         {/* Decorative Divider */}
         <div className="relative my-16">
@@ -1514,6 +1559,36 @@ const PreRegister = () => {
               onClick={() => navigate("/")}
             >
               Back to Home
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display">
+              Confirm Registration
+            </DialogTitle>
+            <DialogDescription className="font-sans">
+              Are you sure you want to submit your registration details? Please
+              double-check your information before proceeding.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2 sm:justify-end">
+            <Button
+              variant="outline"
+              onClick={() => setShowConfirmModal(false)}
+              className="font-sans"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="hero"
+              onClick={handleFinalSubmit}
+              className="font-sans"
+            >
+              Confirm & Submit
             </Button>
           </DialogFooter>
         </DialogContent>
