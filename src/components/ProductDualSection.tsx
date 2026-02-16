@@ -70,7 +70,7 @@ const cards = [
     customVisual: (
       <div className="relative w-full h-full flex items-center justify-center">
         {/* Left phone */}
-        <div className="absolute left-4 w-[80%] z-10 transform -rotate-[10deg] -translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+        <div className="absolute left-4 w-[60%] md:w-[80%] z-10 transform -rotate-[10deg] -translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
           <motion.div
             animate={{ y: [-10, 10, -10] }}
             transition={{
@@ -88,7 +88,7 @@ const cards = [
           </motion.div>
         </div>
         {/* Right phone */}
-        <div className="absolute right-4 w-[80%] z-10 transform rotate-[10deg] translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+        <div className="absolute right-4 w-[60%] md:w-[80%] z-10 transform rotate-[10deg] translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
           <motion.div
             animate={{ y: [-10, 10, -10] }}
             transition={{
@@ -106,7 +106,7 @@ const cards = [
           </motion.div>
         </div>
         {/* Center phone */}
-        <div className="relative z-20 w-[90%] mb-4 transform transition-transform duration-500">
+        <div className="relative z-20 w-[70%] md:w-[90%] mb-4 transform transition-transform duration-500">
           <motion.div
             animate={{ y: [-15, 15, -15] }}
             transition={{
@@ -208,7 +208,7 @@ const cards = [
     customVisual: (
       <div className="relative w-full h-full flex items-center justify-center">
         {/* Left phone - Create Deck Input */}
-        <div className="absolute left-4 w-[80%] z-10 transform -rotate-[10deg] -translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+        <div className="absolute left-4 w-[60%] md:w-[80%] z-10 transform -rotate-[10deg] -translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
           <motion.div
             animate={{ y: [-10, 10, -10] }}
             transition={{
@@ -226,7 +226,7 @@ const cards = [
           </motion.div>
         </div>
         {/* Right phone - Vet Med */}
-        <div className="absolute right-4 w-[80%] z-10 transform rotate-[10deg] translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+        <div className="absolute right-4 w-[60%] md:w-[80%] z-10 transform rotate-[10deg] translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
           <motion.div
             animate={{ y: [-10, 10, -10] }}
             transition={{
@@ -244,7 +244,7 @@ const cards = [
           </motion.div>
         </div>
         {/* Center phone - Create Deck Target */}
-        <div className="relative z-20 w-[90%] mb-4 transform transition-transform duration-500">
+        <div className="relative z-20 w-[70%] md:w-[90%] mb-4 transform transition-transform duration-500">
           <motion.div
             animate={{ y: [-15, 15, -15] }}
             transition={{
@@ -308,8 +308,8 @@ const Card = ({
           scale,
           top: `calc(${i * 45}px)`,
         }}
-        className={`relative min-h-[550px] h-auto w-full max-w-6xl rounded-md px-12 pt-12 ${
-          customVisual ? "pb-12" : "pb-0"
+        className={`relative min-h-[550px] h-auto w-full max-w-6xl rounded-md px-6 pt-8 md:px-12 md:pt-12 ${
+          customVisual ? "pb-8 md:pb-12" : "pb-0"
         } origin-top shadow-xl overflow-hidden ${color} flex flex-col justify-center`}
       >
         <div className="grid md:grid-cols-2 gap-12 h-full">
@@ -388,7 +388,7 @@ const ProductDualSection = () => {
 
   return (
     <section
-      className="py-24 border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
+      className="py-24 mb-24 border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
       ref={containerRef}
       id="product-dual"
     >
