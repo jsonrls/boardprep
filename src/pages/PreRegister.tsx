@@ -224,9 +224,86 @@ const PreRegister = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted:", data);
-    setShowSuccessModal(true);
+  // Google Apps Script URL
+  const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbw3O1lDcLrOzkMwFdxK5lMY0zZ3kStu5vmM1eH-DgTt9q2QUWsXdqucAcn15TNrI-HOpw/exec";
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true);
+    try {
+      // Map form data to Google Sheet headers
+      const sheetData = {
+        "Email Address": data.email,
+        "Name (First Name)": data.firstName,
+        "Name (Last Name)": data.lastName,
+        Gender: data.gender,
+        "Home Address (Province)": data.province,
+        "Home Address (City or Town)": data.city,
+        "Important: Email Address (Main Communication Channel)": data.email,
+        "Please Re-type Your Email Address": data.email,
+        "Contact Number": data.phone,
+        "University / College / School": data.school,
+        "Year Graduated / Graduating": data.gradYear,
+        "Will You Take the October 2025 Veterinarian Licensure Exam":
+          data.takeOct2025 || "N/A",
+        "Type of Examinee": data.examineeType || "N/A",
+        "Currently Employed": data.isEmployed,
+        "Enrolled in Other Review Centers": data.otherReviewCenter,
+        "Name of Current Review Center (if applicable)":
+          data.otherReviewCenterName || "N/A",
+        "Consent to Be Contacted for BoardPrep Promotion": data.contactConsent
+          ? "Yes"
+          : "No",
+        "Category / Description of Applicant": data.description,
+        "Proof of Latin Honor":
+          data.isLatinHonor === "yes" ? "[File Upload Not Supported]" : "N/A",
+        "Registered Email in BoardPrep Platform":
+          data.existingSubscriberEmail || "N/A",
+        "Proof of Existing BoardPrep Subscription":
+          data.isExistingSubscriber === "yes"
+            ? "[File Upload Not Supported]"
+            : "N/A",
+        Remarks: data.remarks || "",
+        // Mapped fields based on user provided columns
+      };
+
+      // Convert to URLSearchParams for x-www-form-urlencoded
+      const formData = new URLSearchParams();
+      Object.entries(sheetData).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+
+      console.log("Submitting to Google Sheets:", Object.fromEntries(formData));
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData,
+      });
+
+      // With no-cors, we can't check response.ok.
+      // We assume if it didn't throw network error, it went through.
+      console.log("Form submitted to Google Sheets (no-cors mode)");
+
+      // Since mode is no-cors, we assume success if no network error thrown
+      console.log("Form submitted successfully to Google Sheets");
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error("Error submitting to Google Sheets:", error);
+      toast({
+        title: "Submission Error",
+        description:
+          "There was a problem submitting your registration. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

@@ -33,3 +33,5 @@ dist-ssr
 build/
 out/
 
+# Others
+appscript.txt
