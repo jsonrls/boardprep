@@ -6,9 +6,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import phone from "@/assets/phone.png";
 import laptop from "@/assets/laptop.png";
-import img70 from "@/assets/70.png";
-import img71 from "@/assets/71.png";
-import img75 from "@/assets/75.png";
+import img70 from "@/assets/2.png";
+import img71 from "@/assets/3.png";
+import img75 from "@/assets/4.png";
+import lite2 from "@/assets/boardprep-lite/2.png";
+import lite3 from "@/assets/boardprep-lite/3.png";
+import lite4 from "@/assets/boardprep-lite/4.png";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -65,30 +68,60 @@ const cards = [
       </ul>
     ),
     customVisual: (
-      <div className="relative w-full h-full flex items-center justify-center pb-4">
+      <div className="relative w-full h-full flex items-center justify-center">
         {/* Left phone */}
-        <div className="absolute left-2 w-[40%] z-10 transform -translate-x-2 translate-y-2 opacity-90 transition-transform duration-500">
-          <img
-            src={img70}
-            alt="App Screen 1"
-            className="w-full h-auto object-contain drop-shadow-xl"
-          />
+        <div className="absolute left-4 w-[80%] z-10 transform -rotate-[10deg] -translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0,
+            }}
+          >
+            <img
+              src={img70}
+              alt="App Screen 1"
+              className="w-full h-auto object-contain drop-shadow-xl"
+            />
+          </motion.div>
         </div>
         {/* Right phone */}
-        <div className="absolute right-2 w-[40%] z-10 transform translate-x-2 translate-y-2 opacity-90 transition-transform duration-500">
-          <img
-            src={img75}
-            alt="App Screen 3"
-            className="w-full h-auto object-contain drop-shadow-xl"
-          />
+        <div className="absolute right-4 w-[80%] z-10 transform rotate-[10deg] translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
+          >
+            <img
+              src={img75}
+              alt="App Screen 3"
+              className="w-full h-auto object-contain drop-shadow-xl"
+            />
+          </motion.div>
         </div>
         {/* Center phone */}
-        <div className="relative z-20 w-[45%] mb-4 transform transition-transform duration-500">
-          <img
-            src={img71}
-            alt="Main Screen"
-            className="w-full h-auto object-contain drop-shadow-2xl"
-          />
+        <div className="relative z-20 w-[90%] mb-4 transform transition-transform duration-500">
+          <motion.div
+            animate={{ y: [-15, 15, -15] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          >
+            <img
+              src={img71}
+              alt="Main Screen"
+              className="w-full h-auto object-contain drop-shadow-2xl"
+            />
+          </motion.div>
         </div>
       </div>
     ),
@@ -172,7 +205,64 @@ const cards = [
     color: "bg-product-yellow", // Yellow/Mustard
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
-    link: "#",
+    customVisual: (
+      <div className="relative w-full h-full flex items-center justify-center">
+        {/* Left phone - Create Deck Input */}
+        <div className="absolute left-4 w-[80%] z-10 transform -rotate-[10deg] -translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0,
+            }}
+          >
+            <img
+              src={lite3}
+              alt="BoardPrep Lite Create Deck Layout"
+              className="w-full h-auto object-contain drop-shadow-xl"
+            />
+          </motion.div>
+        </div>
+        {/* Right phone - Vet Med */}
+        <div className="absolute right-4 w-[80%] z-10 transform rotate-[10deg] translate-x-[35%] translate-y-4 opacity-90 transition-transform duration-500">
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
+          >
+            <img
+              src={lite2}
+              alt="BoardPrep Lite Dashboard"
+              className="w-full h-auto object-contain drop-shadow-xl"
+            />
+          </motion.div>
+        </div>
+        {/* Center phone - Create Deck Target */}
+        <div className="relative z-20 w-[90%] mb-4 transform transition-transform duration-500">
+          <motion.div
+            animate={{ y: [-15, 15, -15] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          >
+            <img
+              src={lite4}
+              alt="BoardPrep Lite Main Screen"
+              className="w-full h-auto object-contain drop-shadow-2xl"
+            />
+          </motion.div>
+        </div>
+      </div>
+    ),
   },
 ];
 
@@ -218,7 +308,9 @@ const Card = ({
           scale,
           top: `calc(${i * 45}px)`,
         }}
-        className={`relative min-h-[550px] h-auto w-full max-w-6xl rounded-md px-12 pt-12 pb-0 origin-top shadow-xl overflow-hidden ${color} flex flex-col justify-center`}
+        className={`relative min-h-[550px] h-auto w-full max-w-6xl rounded-md px-12 pt-12 ${
+          customVisual ? "pb-12" : "pb-0"
+        } origin-top shadow-xl overflow-hidden ${color} flex flex-col justify-center`}
       >
         <div className="grid md:grid-cols-2 gap-12 h-full">
           {/* Left Column: Content */}
@@ -253,19 +345,31 @@ const Card = ({
             </div>
           </div>
 
-          {/* Right Column: Image */}
-          <div className="relative h-full flex items-end justify-center">
+          <div
+            className={`relative h-full flex justify-center ${
+              customVisual ? "items-center" : "items-end"
+            }`}
+          >
             {customVisual ? (
               customVisual
             ) : (
               <div
                 className={`relative ${imageClass} transform transition-transform duration-500 hover:scale-[1.02]`}
               >
-                <img
-                  src={image}
-                  alt={imageAlt}
-                  className="w-full h-auto object-contain"
-                />
+                <motion.div
+                  animate={{ y: [-10, 10, -10] }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <img
+                    src={image}
+                    alt={imageAlt}
+                    className="w-full h-auto object-contain"
+                  />
+                </motion.div>
               </div>
             )}
           </div>

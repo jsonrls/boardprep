@@ -3,7 +3,7 @@ import {
   Menu,
   X,
   ChevronDown,
-  Sparkles,
+  UserPlus,
   ArrowRight,
   FileText,
   Smartphone,
@@ -104,7 +104,10 @@ const Header = () => {
                         to="/"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 font-display",
+                          location.pathname === "/"
+                            ? "border-accent text-accent-foreground"
+                            : "border-transparent hover:border-accent",
                         )}
                       >
                         Home
@@ -113,7 +116,16 @@ const Header = () => {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent font-display">
+                    <NavigationMenuTrigger
+                      className={cn(
+                        "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent font-display",
+                        location.pathname.startsWith("/product") ||
+                          location.pathname.startsWith("/mobile-app") ||
+                          location.pathname.startsWith("/classroom")
+                          ? "border-accent text-accent-foreground"
+                          : "border-transparent hover:border-accent",
+                      )}
+                    >
                       Product
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -151,7 +163,14 @@ const Header = () => {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent font-display">
+                    <NavigationMenuTrigger
+                      className={cn(
+                        "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 data-[active]:bg-transparent data-[state=open]:bg-transparent font-display",
+                        location.pathname.startsWith("/review")
+                          ? "border-accent text-accent-foreground"
+                          : "border-transparent hover:border-accent",
+                      )}
+                    >
                       Review Class
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -183,13 +202,16 @@ const Header = () => {
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <Link
-                        to="/blogs"
+                        to="/press"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 font-display",
+                          location.pathname.startsWith("/press")
+                            ? "border-accent text-accent-foreground"
+                            : "border-transparent hover:border-accent",
                         )}
                       >
-                        Blogs
+                        Press
                       </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
@@ -200,7 +222,10 @@ const Header = () => {
                         to="/contact"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 font-display",
+                          location.pathname.startsWith("/contact")
+                            ? "border-accent text-accent-foreground"
+                            : "border-transparent hover:border-accent",
                         )}
                       >
                         Contact
@@ -214,7 +239,10 @@ const Header = () => {
                         to="/about"
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 border-transparent hover:border-accent rounded-none px-2 font-display",
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 font-display",
+                          location.pathname.startsWith("/about")
+                            ? "border-accent text-accent-foreground"
+                            : "border-transparent hover:border-accent",
                         )}
                       >
                         About
@@ -233,7 +261,7 @@ const Header = () => {
                   size="sm"
                   className="w-full sm:w-auto group font-display"
                 >
-                  Get Started Now
+                  Enroll Now
                   <ArrowRight
                     size={18}
                     className="transition-transform group-hover:translate-x-1"
@@ -244,7 +272,7 @@ const Header = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 transition-colors text-foreground rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="lg:hidden transition-colors text-foreground rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() => {
                 if (!isMenuOpen) setIsStyleOpen(true);
                 setIsMenuOpen(!isMenuOpen);
@@ -358,11 +386,11 @@ const Header = () => {
                   </Accordion>
 
                   <Link
-                    to="/blogs"
+                    to="/press"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Blogs
+                    Press
                   </Link>
                   <Link
                     to="/contact"
@@ -384,8 +412,8 @@ const Header = () => {
                       to="/pre-register"
                       className="flex items-center justify-center gap-2 font-display"
                     >
-                      <Sparkles size={16} />
-                      Get Started
+                      <UserPlus size={16} />
+                      Enroll Now!
                     </Link>
                   </Button>
                 </div>

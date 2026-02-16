@@ -94,7 +94,7 @@ const CATEGORIES = [
   "Wellness",
 ];
 
-const Blogs = () => {
+const Press = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -363,4 +363,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Press;

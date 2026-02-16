@@ -14,6 +14,7 @@ import {
   GraduationCap,
   Target,
   TrendingUp,
+  UserPlus,
 } from "lucide-react";
 import {
   Carousel,
@@ -93,8 +94,8 @@ const speakers = [
 ];
 
 const stats = [
-  { icon: Users, value: "500+", label: "Students Enrolled" },
-  { icon: Clock, value: "120+", label: "Hours of Content" },
+  { icon: Users, value: "1000+", label: "DVM Enrolled" },
+  { icon: Clock, value: "150+", label: "Hours of Content" },
   { icon: TrendingUp, value: "95%", label: "Pass Rate" },
   { icon: Star, value: "4.9/5", label: "Student Rating" },
 ];
@@ -145,7 +146,8 @@ const VetDetails = () => {
                     size="lg"
                     className="w-full sm:w-auto group font-display"
                   >
-                    Pre-Register
+                    <UserPlus size={16} />
+                    Enroll Now
                     <ArrowRight
                       size={18}
                       className="transition-transform group-hover:translate-x-1"
@@ -399,18 +401,15 @@ const VetDetails = () => {
                       />
                     </Button>
                   </a>
-                  <a
-                    href="mailto:acewithboardprep@gmail.com"
-                    className="w-full sm:w-auto"
-                  >
+                  <Link to="/question-drills" className="w-full sm:w-auto">
                     <Button
                       variant="heroOutline"
                       size="lg"
                       className="w-full sm:w-auto font-display"
                     >
-                      Contact Support
+                      Try Our Practice Drills
                     </Button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

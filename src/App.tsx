@@ -19,7 +19,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import PreRegister from "./pages/PreRegister";
-import Blogs from "./pages/Blogs";
+import Press from "./pages/Press";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +44,7 @@ const App = () => (
             <Route path="/review/ftle" element={<FtleDetails />} />
             <Route path="/review/fisheries" element={<FisheriesDetails />} />
             <Route path="/review/abe" element={<AbeDetails />} />
-            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/press" element={<Press />} />
             <Route path="/pre-register" element={<PreRegister />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

@@ -15,6 +15,7 @@ import {
   Target,
   TrendingUp,
   Sprout,
+  UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -139,7 +140,8 @@ const AbeDetails = () => {
                     size="lg"
                     className="w-full sm:w-auto group"
                   >
-                    Pre-Register
+                    <UserPlus size={16} />
+                    Enroll Now
                     <ArrowRight
                       size={18}
                       className="transition-transform group-hover:translate-x-1"

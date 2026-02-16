@@ -80,7 +80,6 @@ const formSchema = z.object({
   latinHonorProof: z.any().optional(), // File inputs are tricky with Zod, keeping lenient for now
   isExistingSubscriber: z.string().min(1, "Please select an option"),
   existingSubscriberEmail: z.string().optional(),
-  existingSubscriberProof: z.any().optional(),
 
   // Step 3: Exam & Review Info
   examType: z.string().min(1, "Please select an exam type"),
@@ -245,7 +244,7 @@ const PreRegister = () => {
     }
 
     if (isStepValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, steps.length));
+      setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
     } else {
       toast({
         title: "Missing Information",
@@ -301,10 +300,7 @@ const PreRegister = () => {
         data.preRegProof instanceof File
           ? await fileToBase64(data.preRegProof)
           : null;
-      const existingSubFile =
-        data.existingSubscriberProof instanceof File
-          ? await fileToBase64(data.existingSubscriberProof)
-          : null;
+      const existingSubFile = null;
 
       // Map form data to Google Sheet headers
       const sheetData = {
@@ -327,7 +323,7 @@ const PreRegister = () => {
         "Enrolled in Other Review Centers": data.otherReviewCenter,
         "Name of Current Review Center (if applicable)":
           data.otherReviewCenterName || "N/A",
-        "Consent to Be Contacted for BoardPrep Promotion": data.contactConsent
+        "Consent to Be Contacted for BoardPrep Promotion": data.agreedToTerms
           ? "Yes"
           : "No",
         "Category / Description of Applicant": data.description,
@@ -340,9 +336,7 @@ const PreRegister = () => {
         "Proof of Payment": paymentProofFile || "File Missing",
         "Registered Email in BoardPrep Platform":
           data.existingSubscriberEmail || "N/A",
-        "Proof of Existing BoardPrep Subscription":
-          existingSubFile ||
-          (data.isExistingSubscriber === "yes" ? "File Missing" : "N/A"),
+        "Proof of Existing BoardPrep Subscription": "N/A",
         Remarks: data.remarks || "",
         // Mapped fields based on user provided columns
       };
@@ -935,38 +929,6 @@ const PreRegister = () => {
                               </FormItem>
                             )}
                           />
-                          <div className="space-y-2">
-                            <Label>Proof of Existing Subscription</Label>
-                            <FormDescription>
-                              Screenshot of the expiration (Settings &gt;
-                              Subscription Tab)
-                            </FormDescription>
-                            <FormField
-                              control={form.control}
-                              name="existingSubscriberProof"
-                              render={({
-                                field: { onChange, value, ...rest },
-                              }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      type="file"
-                                      accept="image/*,.pdf"
-                                      onChange={(e) => {
-                                        onChange(
-                                          e.target.files
-                                            ? e.target.files[0]
-                                            : null,
-                                        );
-                                      }}
-                                      {...rest}
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </div>
                         </motion.div>
                       )}
                     </div>
@@ -1260,23 +1222,18 @@ const PreRegister = () => {
                           </div>
                         )}
 
-                        <Accordion type="single" collapsible className="w-full">
-                          <AccordionItem
-                            value="qr-code"
-                            className="border rounded-lg px-4 bg-card"
-                          >
-                            <AccordionTrigger className="hover:no-underline font-semibold">
-                              Option 2: Scan QR Code to Pay
-                            </AccordionTrigger>
-                            <AccordionContent className="flex flex-col items-center justify-center p-4">
-                              <img
-                                src={qrCode}
-                                alt="Payment QR Code"
-                                className="w-full max-w-sm h-auto object-contain rounded-md"
-                              />
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
+                        <div className="border rounded-lg px-4 py-4 bg-card">
+                          <p className="font-semibold mb-4">
+                            Option 2: Scan QR Code to Pay
+                          </p>
+                          <div className="flex flex-col items-center justify-center">
+                            <img
+                              src={qrCode}
+                              alt="Payment QR Code"
+                              className="w-full max-w-sm h-auto object-contain rounded-md"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -1380,8 +1337,12 @@ const PreRegister = () => {
 
                   {currentStep < steps.length - 1 ? (
                     <Button
+                      key="next-btn"
                       type="button"
-                      onClick={nextStep}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        nextStep();
+                      }}
                       variant="hero"
                       className="group"
                       size="sm"
@@ -1391,6 +1352,7 @@ const PreRegister = () => {
                     </Button>
                   ) : (
                     <Button
+                      key="submit-btn"
                       type="submit"
                       variant="hero"
                       size="sm"

@@ -24,13 +24,13 @@ const AboutSection = () => {
                 </em>
               </h2>
               <div className="space-y-6">
-                <p className="animate-fade-up delay-200 text-muted-foreground leading-relaxed text-lg text-justify lg:text-left font-sans">
-                  BoardPrep redefines licensure preparation by combining{" "}
+                <p className="animate-fade-up delay-200 text-muted-foreground leading-relaxed text-lg text-left font-sans">
+                  BoardPrep® redefines licensure preparation by combining{" "}
                   <strong>gamified drills for students</strong> with{" "}
                   <strong>powerful analytics for universities</strong>. We
                   bridge the gap between hard work and smart study.
                 </p>
-                <p className="animate-fade-up delay-300 text-muted-foreground leading-relaxed text-lg text-justify lg:text-left font-sans">
+                <p className="animate-fade-up delay-300 text-muted-foreground leading-relaxed text-lg text-left font-sans">
                   Study smarter, train harder, and predict your success with
                   every click. Whether you're a student aiming for the top spot
                   or an institution tracking performance, BoardPrep is your
@@ -56,6 +56,15 @@ const AboutSection = () => {
                   <p className="text-muted-foreground text-sm font-sans">
                     Data-driven insights that help universities identify
                     strengths and weaknesses to improve board passing rates.
+                  </p>
+                </div>
+                <div className="border-l-2 border-primary pl-6">
+                  <h4 className="font-display text-xl text-foreground mb-2">
+                    Study-on-the-go
+                  </h4>
+                  <p className="text-muted-foreground text-sm font-sans">
+                    Access BoardPrep wherever you are. We got offline and online
+                    options for you.
                   </p>
                 </div>
               </div>

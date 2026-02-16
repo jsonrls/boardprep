@@ -15,11 +15,6 @@ const Footer = () => {
 
   const quickLinks = [
     {
-      label: "Question Drills",
-      href: "https://www.myboardprep.com",
-      isHash: false,
-    },
-    {
       label: "BoardPrep Classroom",
       href: "https://lms2.myboardprep.com/",
       isHash: false,
@@ -29,6 +24,7 @@ const Footer = () => {
       href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
       isHash: false,
     },
+    { label: "Press", href: "/press", isHash: false },
     { label: "About Us", href: "/about", isHash: false },
     { label: "Contact Us", href: "/contact", isHash: false },
   ];

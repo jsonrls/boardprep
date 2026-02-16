@@ -15,6 +15,7 @@ import {
   Target,
   TrendingUp,
   FlaskConical,
+  UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -138,7 +139,8 @@ const FtleDetails = () => {
                     size="lg"
                     className="w-full sm:w-auto group"
                   >
-                    Pre-Register
+                    <UserPlus size={16} />
+                    Enroll Now
                     <ArrowRight
                       size={18}
                       className="transition-transform group-hover:translate-x-1"
@@ -372,18 +374,15 @@ const FtleDetails = () => {
                       />
                     </Button>
                   </a>
-                  <a
-                    href="mailto:acewithboardprep@gmail.com"
-                    className="w-full sm:w-auto"
-                  >
+                  <Link to="/question-drills" className="w-full sm:w-auto">
                     <Button
                       variant="heroOutline"
                       size="lg"
                       className="w-full sm:w-auto font-display"
                     >
-                      Contact Support
+                      Try Our Practice Drills
                     </Button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
