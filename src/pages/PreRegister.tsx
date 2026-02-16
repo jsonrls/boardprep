@@ -226,15 +226,52 @@ const PreRegister = () => {
 
   // Google Apps Script URL
   const GOOGLE_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbw3O1lDcLrOzkMwFdxK5lMY0zZ3kStu5vmM1eH-DgTt9q2QUWsXdqucAcn15TNrI-HOpw/exec";
+    "https://script.google.com/macros/s/AKfycbyG8DoiMy_zDW9sl1ybZmGtD53k0btLeUF2G8LiBowH8NYpnDEKXZXJgDK_2za0nQ/exec";
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const fileToBase64 = (
+    file: File,
+  ): Promise<{ data: string; mimeType: string; name: string }> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64String = result.split(",")[1];
+        resolve({
+          data: base64String,
+          mimeType: file.type,
+          name: file.name,
+        });
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     try {
+      const latinHonorFile =
+        data.latinHonorProof instanceof File
+          ? await fileToBase64(data.latinHonorProof)
+          : null;
+      const paymentProofFile =
+        data.paymentProof instanceof File
+          ? await fileToBase64(data.paymentProof)
+          : null;
+      const preRegProofFile =
+        data.preRegProof instanceof File
+          ? await fileToBase64(data.preRegProof)
+          : null;
+      const existingSubFile =
+        data.existingSubscriberProof instanceof File
+          ? await fileToBase64(data.existingSubscriberProof)
+          : null;
+
       // Map form data to Google Sheet headers
       const sheetData = {
+        Timestamp: new Date().toLocaleString(),
         "Email Address": data.email,
         "Name (First Name)": data.firstName,
         "Name (Last Name)": data.lastName,
@@ -258,32 +295,30 @@ const PreRegister = () => {
           : "No",
         "Category / Description of Applicant": data.description,
         "Proof of Latin Honor":
-          data.isLatinHonor === "yes" ? "[File Upload Not Supported]" : "N/A",
+          latinHonorFile ||
+          (data.isLatinHonor === "yes" ? "File Missing" : "N/A"),
+        "Proof of Registration":
+          preRegProofFile ||
+          (data.hasPreRegistered === "yes" ? "File Missing" : "N/A"),
+        "Proof of Payment": paymentProofFile || "File Missing",
         "Registered Email in BoardPrep Platform":
           data.existingSubscriberEmail || "N/A",
         "Proof of Existing BoardPrep Subscription":
-          data.isExistingSubscriber === "yes"
-            ? "[File Upload Not Supported]"
-            : "N/A",
+          existingSubFile ||
+          (data.isExistingSubscriber === "yes" ? "File Missing" : "N/A"),
         Remarks: data.remarks || "",
         // Mapped fields based on user provided columns
       };
 
-      // Convert to URLSearchParams for x-www-form-urlencoded
-      const formData = new URLSearchParams();
-      Object.entries(sheetData).forEach(([key, value]) => {
-        formData.append(key, String(value));
-      });
-
-      console.log("Submitting to Google Sheets:", Object.fromEntries(formData));
+      console.log("Submitting to Google Sheets with files...");
 
       await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "text/plain",
         },
-        body: formData,
+        body: JSON.stringify(sheetData),
       });
 
       // With no-cors, we can't check response.ok.
@@ -751,10 +786,31 @@ const PreRegister = () => {
                             to qualify for discounts. If you don't have it yet,
                             you can skip this for now.
                           </FormDescription>
-                          <Input
-                            type="file"
-                            className="cursor-pointer"
-                            accept="image/*,.pdf"
+                          <FormField
+                            control={form.control}
+                            name="latinHonorProof"
+                            render={({
+                              field: { onChange, value, ...rest },
+                            }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    type="file"
+                                    className="cursor-pointer"
+                                    accept="image/*,.pdf"
+                                    onChange={(e) => {
+                                      onChange(
+                                        e.target.files
+                                          ? e.target.files[0]
+                                          : null,
+                                      );
+                                    }}
+                                    {...rest}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
                           />
                         </>
                       ) : (
@@ -824,7 +880,31 @@ const PreRegister = () => {
                               Screenshot of the expiration (Settings &gt;
                               Subscription Tab)
                             </FormDescription>
-                            <Input type="file" accept="image/*,.pdf" />
+                            <FormField
+                              control={form.control}
+                              name="existingSubscriberProof"
+                              render={({
+                                field: { onChange, value, ...rest },
+                              }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      type="file"
+                                      accept="image/*,.pdf"
+                                      onChange={(e) => {
+                                        onChange(
+                                          e.target.files
+                                            ? e.target.files[0]
+                                            : null,
+                                        );
+                                      }}
+                                      {...rest}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
                           </div>
                         </motion.div>
                       )}
@@ -1124,7 +1204,27 @@ const PreRegister = () => {
                           Please take a screenshot as a proof of payment and
                           upload it here.
                         </FormDescription>
-                        <Input type="file" accept="image/*,.pdf" />
+                        <FormField
+                          control={form.control}
+                          name="paymentProof"
+                          render={({ field: { onChange, value, ...rest } }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  type="file"
+                                  accept="image/*,.pdf"
+                                  onChange={(e) => {
+                                    onChange(
+                                      e.target.files ? e.target.files[0] : null,
+                                    );
+                                  }}
+                                  {...rest}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                       </div>
 
                       {hasPreRegistered === "yes" && (
@@ -1134,7 +1234,31 @@ const PreRegister = () => {
                             Upload this only if you have already registered and
                             paid the reservation fee.
                           </FormDescription>
-                          <Input type="file" accept="image/*,.pdf" />
+                          <FormField
+                            control={form.control}
+                            name="preRegProof"
+                            render={({
+                              field: { onChange, value, ...rest },
+                            }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    type="file"
+                                    accept="image/*,.pdf"
+                                    onChange={(e) => {
+                                      onChange(
+                                        e.target.files
+                                          ? e.target.files[0]
+                                          : null,
+                                      );
+                                    }}
+                                    {...rest}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
                         </div>
                       )}
 
