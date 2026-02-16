@@ -42,16 +42,13 @@ const HeroSection = () => {
 
             {/* CTAs */}
             <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4">
-              <Link
-                to="https://www.myboardprep.com"
-                className="w-full sm:w-auto"
-              >
+              <Link to="/pre-register" className="w-full sm:w-auto">
                 <Button
                   variant="hero"
                   size="lg"
                   className="w-full sm:w-auto group font-display"
                 >
-                  <span>Get Started Now!</span>
+                  <span>Enroll Now!</span>
                   <ArrowRight
                     size={18}
                     className="transition-transform group-hover:translate-x-1"

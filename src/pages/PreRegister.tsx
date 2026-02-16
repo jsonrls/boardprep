@@ -365,6 +365,8 @@ const PreRegister = () => {
       // Since mode is no-cors, we assume success if no network error thrown
       console.log("Form submitted successfully to Google Sheets");
       setShowSuccessModal(true);
+      form.reset();
+      setCurrentStep(0);
     } catch (error) {
       console.error("Error submitting to Google Sheets:", error);
       toast({

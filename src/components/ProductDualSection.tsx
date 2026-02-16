@@ -6,6 +6,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import phone from "@/assets/phone.png";
 import laptop from "@/assets/laptop.png";
+import img70 from "@/assets/70.png";
+import img71 from "@/assets/71.png";
+import img75 from "@/assets/75.png";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -60,6 +63,34 @@ const cards = [
           Every Exam
         </li>
       </ul>
+    ),
+    customVisual: (
+      <div className="relative w-full h-full flex items-center justify-center pb-4">
+        {/* Left phone */}
+        <div className="absolute left-2 w-[40%] z-10 transform -translate-x-2 translate-y-2 opacity-90 transition-transform duration-500">
+          <img
+            src={img70}
+            alt="App Screen 1"
+            className="w-full h-auto object-contain drop-shadow-xl"
+          />
+        </div>
+        {/* Right phone */}
+        <div className="absolute right-2 w-[40%] z-10 transform translate-x-2 translate-y-2 opacity-90 transition-transform duration-500">
+          <img
+            src={img75}
+            alt="App Screen 3"
+            className="w-full h-auto object-contain drop-shadow-xl"
+          />
+        </div>
+        {/* Center phone */}
+        <div className="relative z-20 w-[45%] mb-4 transform transition-transform duration-500">
+          <img
+            src={img71}
+            alt="Main Screen"
+            className="w-full h-auto object-contain drop-shadow-2xl"
+          />
+        </div>
+      </div>
     ),
     image: phone,
     imageAlt: "Mobile App Interface",
@@ -158,6 +189,7 @@ const Card = ({
   targetScale,
   imageClass,
   link,
+  customVisual,
 }: {
   i: number;
   title: string;
@@ -171,6 +203,7 @@ const Card = ({
   targetScale: number;
   imageClass?: string;
   link?: string;
+  customVisual?: React.ReactNode;
 }) => {
   const container = useRef(null);
   const scale = useTransform(progress, range, [1, targetScale]);
@@ -222,15 +255,19 @@ const Card = ({
 
           {/* Right Column: Image */}
           <div className="relative h-full flex items-end justify-center">
-            <div
-              className={`relative ${imageClass} transform transition-transform duration-500 hover:scale-[1.02]`}
-            >
-              <img
-                src={image}
-                alt={imageAlt}
-                className="w-full h-auto object-contain"
-              />
-            </div>
+            {customVisual ? (
+              customVisual
+            ) : (
+              <div
+                className={`relative ${imageClass} transform transition-transform duration-500 hover:scale-[1.02]`}
+              >
+                <img
+                  src={image}
+                  alt={imageAlt}
+                  className="w-full h-auto object-contain"
+                />
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
@@ -296,6 +333,7 @@ const ProductDualSection = () => {
               progress={scrollYProgress}
               range={[rangeStart, 1]}
               targetScale={targetScale}
+              customVisual={(card as any).customVisual}
             />
           );
         })}
