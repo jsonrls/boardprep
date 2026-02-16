@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import phone from "@/assets/phone.png";
 import laptop from "@/assets/laptop.png";
-import img70 from "@/assets/2.png";
-import img71 from "@/assets/3.png";
-import img75 from "@/assets/4.png";
+import img2 from "@/assets/2.png";
+import img3 from "@/assets/3.png";
+import img4 from "@/assets/4.png";
 import lite2 from "@/assets/boardprep-lite/2.png";
 import lite3 from "@/assets/boardprep-lite/3.png";
 import lite4 from "@/assets/boardprep-lite/4.png";
@@ -81,7 +81,7 @@ const cards = [
             }}
           >
             <img
-              src={img70}
+              src={img2}
               alt="App Screen 1"
               className="w-full h-auto object-contain drop-shadow-xl"
             />
@@ -99,7 +99,7 @@ const cards = [
             }}
           >
             <img
-              src={img75}
+              src={img3}
               alt="App Screen 3"
               className="w-full h-auto object-contain drop-shadow-xl"
             />
@@ -117,7 +117,7 @@ const cards = [
             }}
           >
             <img
-              src={img71}
+              src={img4}
               alt="Main Screen"
               className="w-full h-auto object-contain drop-shadow-2xl"
             />
@@ -263,6 +263,7 @@ const cards = [
         </div>
       </div>
     ),
+    link: "#",
   },
 ];
 
@@ -308,7 +309,7 @@ const Card = ({
           scale,
           top: `calc(${i * 45}px)`,
         }}
-        className={`relative min-h-[550px] h-auto w-full max-w-6xl rounded-md px-6 pt-8 md:px-12 md:pt-12 ${
+        className={`relative h-[700px] lg:h-[550px] w-full max-w-6xl rounded-md px-6 pt-8 md:px-12 lg:px-20 md:pt-12 ${
           customVisual ? "pb-8 md:pb-12" : "pb-0"
         } origin-top shadow-xl overflow-hidden ${color} flex flex-col justify-center`}
       >
@@ -324,9 +325,9 @@ const Card = ({
               <div className="h-1.5 w-24 bg-white/50 rounded-full" />
             </div>
 
-            <div className="py-4">{description}</div>
+            <div className="pt-4 pb-0">{description}</div>
 
-            <div className="pt-2">
+            <div className="pt-0">
               {link && (
                 <Button
                   variant="link"
@@ -388,7 +389,7 @@ const ProductDualSection = () => {
 
   return (
     <section
-      className="py-24 mb-24 border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
+      className="py-24 mb-0 border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
       ref={containerRef}
       id="product-dual"
     >

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play, Smartphone } from "lucide-react";
-import phoneMockup from "@/assets/phone.png";
+import phoneMockup from "@/assets/mobile-app.png";
 import googlePlayLogo from "@/assets/google-play.png";
 import appleLogo from "@/assets/apple-logo.png";
 
@@ -110,7 +110,7 @@ const MobileAppSection = () => {
               <img
                 src={phoneMockup}
                 alt="BoardPrep App Interface"
-                className="relative z-10 w-full h-auto"
+                className="relative z-10 w-full h-auto scale-125"
               />
 
               {/* Floating Elements on top/around phone */}
