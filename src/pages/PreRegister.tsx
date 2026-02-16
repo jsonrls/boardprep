@@ -19,6 +19,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import qrCode from "@/assets/qr-code.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -1177,7 +1178,7 @@ const PreRegister = () => {
                         <CreditCard className="text-foreground w-5 h-5" />{" "}
                         Payment Details
                       </h3>
-                      <div className="text-sm space-y-4">
+                      <div className="space-y-6">
                         {isLatinHonor !== "yes" && (
                           <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
                             <p className="font-bold text-lg text-foreground mb-2">
@@ -1256,6 +1257,24 @@ const PreRegister = () => {
                             </p>
                           </div>
                         )}
+
+                        <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem
+                            value="qr-code"
+                            className="border rounded-lg px-4 bg-card"
+                          >
+                            <AccordionTrigger className="hover:no-underline font-semibold">
+                              Option 2: Scan QR Code to Pay
+                            </AccordionTrigger>
+                            <AccordionContent className="flex flex-col items-center justify-center p-4">
+                              <img
+                                src={qrCode}
+                                alt="Payment QR Code"
+                                className="w-full max-w-sm h-auto object-contain rounded-md"
+                              />
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
                       </div>
                     </div>
 
