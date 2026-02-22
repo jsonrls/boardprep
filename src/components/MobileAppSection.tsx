@@ -106,11 +106,11 @@ const MobileAppSection = () => {
 
           {/* Mockup Image */}
           <div className="relative animate-fade-up delay-200 flex justify-center lg:justify-end">
-            <div className="relative w-[280px] sm:w-[320px] md:w-[350px]">
+            <div className="relative w-[280px] sm:w-[320px] md:w-[350px] transform -rotate-[5deg] transition-all duration-700 hover:rotate-[0deg] hover:scale-105">
               <img
                 src={phoneMockup}
                 alt="BoardPrep App Interface"
-                className="relative z-10 w-full h-auto scale-125"
+                className="relative z-10 w-full h-auto scale-125 drop-shadow-2xl"
               />
 
               {/* Floating Elements on top/around phone */}

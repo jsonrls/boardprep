@@ -61,7 +61,7 @@ const HeroSection = () => {
                 className="text-foreground w-full sm:w-auto font-display"
                 asChild
               >
-                <Link to="/review/vet">Start Practice Drills</Link>
+                <Link to="https://www.myboardprep.com">Start Practice Drills</Link>
               </Button>
             </div>
           </div>

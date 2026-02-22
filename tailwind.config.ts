@@ -75,6 +75,7 @@ export default {
           pink: "#f0c2bc",
           teal: "#82bed4",
           yellow: "#ffbd59",
+          green: "#a7e3a3",
         },
       },
       borderRadius: {
