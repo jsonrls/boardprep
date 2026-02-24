@@ -1,4 +1,5 @@
 import { GraduationCap, PlayCircle, Wallet, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -27,6 +28,25 @@ const features = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
 const FeaturesSection = () => {
   return (
     <section id="products" className="py-28 lg:py-12 bg-background">
@@ -47,11 +67,18 @@ const FeaturesSection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={feature.title}
-              className={`animate-fade-up delay-${(index + 3) * 100} group`}
+              variants={cardVariants}
+              className="group"
             >
               <div className="bg-card rounded-sm p-8 lg:p-10 shadow-soft hover-lift border border-border/50 h-full">
                 <div className="w-14 h-14 bg-accent rounded-sm flex items-center justify-center mb-8">
@@ -68,9 +95,9 @@ const FeaturesSection = () => {
                   {feature.description}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

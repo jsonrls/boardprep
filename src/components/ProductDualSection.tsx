@@ -345,6 +345,27 @@ const Card = ({
       className="h-[calc(100vh-6rem)] flex items-start justify-center sticky top-24"
     >
       <motion.div
+        initial={
+          i === 0
+            ? {
+                opacity: 0,
+                y: 40,
+              }
+            : undefined
+        }
+        animate={
+          i === 0
+            ? {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "spring" as const,
+                  stiffness: 120,
+                  damping: 16,
+                },
+              }
+            : undefined
+        }
         style={{
           scale,
           top: `calc(${i * 45}px)`,

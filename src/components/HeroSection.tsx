@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero.png";
 import { Link } from "react-router-dom";
 
@@ -79,6 +79,16 @@ const HeroSection = () => {
           I will add a slight overlay just in case, but maybe transparent for now or light white fade if the image is orange?
           Actually, let's stick to the requested change precisely first.
       */}
+
+      {/* Scroll indicator */}
+      <div className="pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/70">
+        <span className="text-[11px] uppercase tracking-[0.25em]">
+          Scroll down
+        </span>
+        <div className="rounded-full border border-border/40 bg-background/80 p-2 shadow-sm backdrop-blur-sm animate-bounce">
+          <ChevronDown className="h-5 w-5" aria-hidden="true" />
+        </div>
+      </div>
     </section>
   );
 };
