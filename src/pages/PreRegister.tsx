@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -17,6 +17,7 @@ import {
   FileText,
   Upload,
   Loader2,
+  Copy,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import qrCode from "@/assets/qr-code.png";
@@ -91,6 +92,8 @@ const formSchema = z.object({
   contactConsent: z.boolean().default(false),
 
   // Step 4: Payment & Verification
+  paymentMethod: z.string().min(1, "Please choose a payment method"),
+  walletType: z.string().optional(),
   paymentProof: z.any().optional(), // Make required in logic if needed
   preRegProof: z.any().optional(),
   remarks: z.string().optional(),
@@ -139,6 +142,8 @@ const PreRegister = () => {
       examineeType: "",
       otherReviewCenter: "no",
       contactConsent: false,
+      paymentMethod: "unionbank",
+      walletType: "",
       agreedToTerms: false,
       remarks: "",
       hasPreRegistered: "",
@@ -150,6 +155,7 @@ const PreRegister = () => {
   const {
     formState: { errors, isValid },
     watch,
+    setValue,
   } = form;
 
   const isExistingSubscriber = watch("isExistingSubscriber");
@@ -157,6 +163,8 @@ const PreRegister = () => {
   const hasPreRegistered = watch("hasPreRegistered");
   const isLatinHonor = watch("isLatinHonor");
   const examType = watch("examType");
+  const paymentMethod = watch("paymentMethod");
+  const walletType = watch("walletType");
 
   const pricing: Record<string, { regular: string; discounted: string }> = {
     vet: {
@@ -175,6 +183,58 @@ const PreRegister = () => {
       regular: "4,999",
       discounted: "2,499",
     },
+  };
+
+  const examSchedules: Record<
+    string,
+    { value: string; label: string }
+  > = {
+    vet: {
+      value: "vle-nov-4-6-2026",
+      label: "November 4–6, 2026",
+    },
+    ftle: {
+      value: "ftle-aug-12-13-2026",
+      label: "August 12–13, 2026",
+    },
+    fisheries: {
+      value: "fple-oct-1-2-2026",
+      label: "October 1–2, 2026",
+    },
+    abe: {
+      value: "abele-nov-19-20-2026",
+      label: "November 19–20, 2026",
+    },
+  };
+
+  const qrWalletImages: Record<string, string> = {
+    maya: qrCode,
+    bpi: qrCode,
+    gcash: qrCode,
+  };
+
+  useEffect(() => {
+    const schedule = examSchedules[examType as keyof typeof examSchedules];
+
+    if (schedule) {
+      setValue("targetDate", schedule.value, { shouldValidate: true });
+    } else {
+      setValue("targetDate", "", { shouldValidate: true });
+    }
+  }, [examType, setValue]);
+
+  const getFinalAmount = () => {
+    const baseRegularStr =
+      pricing[examType as keyof typeof pricing]?.regular || "0";
+    let amount = parseInt(baseRegularStr.replace(/,/g, ""), 10);
+    if (Number.isNaN(amount)) amount = 0;
+    if (hasPreRegistered === "yes") {
+      amount -= 500;
+    }
+    if (isLatinHonor === "yes") {
+      amount = Math.floor(amount / 2);
+    }
+    return amount;
   };
 
   const nextStep = async () => {
@@ -982,33 +1042,47 @@ const PreRegister = () => {
                       <FormField
                         control={form.control}
                         name="targetDate"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Target Exam Date</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select date…" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="august-2025">
-                                  August 2025
-                                </SelectItem>
-                                <SelectItem value="february-2026">
-                                  February 2026
-                                </SelectItem>
-                                <SelectItem value="august-2026">
-                                  August 2026
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        render={({ field }) => {
+                          const schedule =
+                            examSchedules[examType as keyof typeof examSchedules];
+
+                          return (
+                            <FormItem>
+                              <FormLabel>Target Exam Date</FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger
+                                    className={
+                                      schedule
+                                        ? "pointer-events-none cursor-default opacity-100"
+                                        : ""
+                                    }
+                                    aria-disabled={!!schedule}
+                                  >
+                                    <SelectValue
+                                      placeholder={
+                                        schedule
+                                          ? "Select exam date…"
+                                          : "Select licensure exam first…"
+                                      }
+                                    />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {schedule && (
+                                    <SelectItem value={schedule.value}>
+                                      {schedule.label}
+                                    </SelectItem>
+                                  )}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          );
+                        }}
                       />
 
                       <FormField
@@ -1137,104 +1211,195 @@ const PreRegister = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-6"
                   >
-                    <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg space-y-4">
+                    <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg space-y-5">
                       <h3 className="font-semibold text-lg flex items-center gap-2">
                         <CreditCard className="text-foreground w-5 h-5" />{" "}
-                        Payment Details
+                        Payment Options
                       </h3>
-                      <div className="space-y-6">
-                        {isLatinHonor !== "yes" && (
-                          <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-                            <p className="font-bold text-lg text-foreground mb-2">
-                              Regular Price (Php{" "}
-                              {(() => {
-                                const basePrice = parseInt(
-                                  (
-                                    pricing[examType as keyof typeof pricing]
-                                      ?.regular || "0"
-                                  ).replace(/,/g, ""),
-                                );
-                                const finalPrice =
-                                  hasPreRegistered === "yes"
-                                    ? basePrice - 500
-                                    : basePrice;
-                                return finalPrice.toLocaleString();
-                              })()}
-                              .00)
-                            </p>
-                            <p className="text-muted-foreground leading-relaxed">
-                              Bank:{" "}
-                              <span className="text-foreground font-medium">
-                                Union Bank
-                              </span>
-                              <br />
-                              Name:{" "}
-                              <span className="text-foreground font-medium">
-                                Board Prep Solutions Incorporated
-                              </span>
-                              <br />
-                              Account:{" "}
-                              <span className="text-foreground font-bold">
-                                0010 3002 0003
-                              </span>
-                            </p>
-                          </div>
-                        )}
-                        {isLatinHonor === "yes" && (
-                          <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-                            <p className="font-bold text-lg text-foreground mb-2">
-                              50% Discount (Php{" "}
-                              {(() => {
-                                const baseRegularStr =
-                                  pricing[examType as keyof typeof pricing]
-                                    ?.regular || "0";
-                                const regularPrice = parseInt(
-                                  baseRegularStr.replace(/,/g, ""),
-                                );
-                                const effectiveRegularPrice =
-                                  hasPreRegistered === "yes"
-                                    ? regularPrice - 500
-                                    : regularPrice;
-                                // 50% Discount applied to the effective regular price
-                                const percentDiscountPrice = Math.floor(
-                                  effectiveRegularPrice / 2,
-                                );
-                                return percentDiscountPrice.toLocaleString();
-                              })()}
-                              .00)
-                            </p>
-                            <p className="text-muted-foreground leading-relaxed">
-                              Bank:{" "}
-                              <span className="text-foreground font-medium">
-                                Union Bank
-                              </span>
-                              <br />
-                              Name:{" "}
-                              <span className="text-foreground font-medium">
-                                Board Prep Solutions Incorporated
-                              </span>
-                              <br />
-                              Account:{" "}
-                              <span className="text-foreground font-bold">
-                                0010 3002 0003
-                              </span>
-                            </p>
-                          </div>
-                        )}
-
-                        <div className="border rounded-lg px-4 py-4 bg-card">
-                          <p className="font-semibold mb-4">
-                            Option 2: Scan QR Code to Pay
+                      <div className="flex flex-col gap-1 text-sm">
+                        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                          Amount to pay
+                        </p>
+                        <div className="inline-flex items-center gap-2">
+                          <p className="inline-flex items-baseline gap-1 text-base font-semibold text-foreground">
+                            <span className="text-sm font-medium text-muted-foreground">
+                              Php
+                            </span>
+                            <span className="text-2xl font-extrabold">
+                              {getFinalAmount().toLocaleString()}
+                              .00
+                            </span>
                           </p>
-                          <div className="flex flex-col items-center justify-center">
-                            <img
-                              src={qrCode}
-                              alt="Payment QR Code"
-                              className="w-full max-w-sm h-auto object-contain rounded-md"
-                            />
-                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const amountText = `${getFinalAmount().toLocaleString()}.00`;
+                              navigator.clipboard
+                                ?.writeText(amountText)
+                                .then(() => {
+                                  toast({
+                                    title: "Amount copied",
+                                    description:
+                                      "The total amount to pay has been copied.",
+                                  });
+                                })
+                                .catch(() => undefined);
+                            }}
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                            aria-label="Copy amount to clipboard"
+                          >
+                            <Copy className="h-4 w-4" />
+                          </button>
                         </div>
                       </div>
+
+                      <FormField
+                        control={form.control}
+                        name="paymentMethod"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-sm font-medium">
+                              Choose payment method
+                            </FormLabel>
+                            <div className="grid gap-3 md:grid-cols-2">
+                              {[
+                                {
+                                  id: "unionbank",
+                                  title: "UnionBank Bank Transfer",
+                                  description:
+                                    "Best for direct online banking or over-the-counter deposits.",
+                                },
+                                {
+                                  id: "qr",
+                                  title: "QR Wallets",
+                                  description:
+                                    "Pay via Maya, BPI InstaPay, or GCash using a QR code.",
+                                },
+                              ].map((option) => {
+                                const isActive = field.value === option.id;
+                                return (
+                                  <button
+                                    key={option.id}
+                                    type="button"
+                                    onClick={() => field.onChange(option.id)}
+                                    className={`text-left rounded-lg border px-4 py-3 transition-colors ${
+                                      isActive
+                                        ? "border-[#FFB63A] bg-[#FFB63A1A]"
+                                        : "border-border bg-card hover:bg-accent/40"
+                                    }`}
+                                  >
+                                    <div className="font-semibold text-sm text-foreground">
+                                      {option.title}
+                                    </div>
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                      {option.description}
+                                    </p>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {paymentMethod === "unionbank" && (
+                        <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm space-y-2">
+                          <p className="font-semibold">
+                            UnionBank Bank Transfer
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Please transfer the exact amount to the account
+                            below and use your full name as the reference.
+                          </p>
+                          <p className="text-muted-foreground leading-relaxed text-sm">
+                            Bank:{" "}
+                            <span className="text-foreground font-medium">
+                              Union Bank
+                            </span>
+                            <br />
+                            Name:{" "}
+                            <span className="text-foreground font-medium">
+                              Board Prep Solutions Incorporated
+                            </span>
+                            <br />
+                            Account:{" "}
+                            <span className="text-foreground font-bold">
+                              0010 3002 0003
+                            </span>
+                          </p>
+                        </div>
+                      )}
+
+                      {paymentMethod === "qr" && (
+                        <div className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="walletType"
+                            render={({ field }) => (
+                              <FormItem className="space-y-2">
+                                <FormLabel className="text-sm font-medium">
+                                  Choose QR wallet
+                                </FormLabel>
+                                <div className="flex flex-wrap gap-2">
+                                  {[
+                                    { id: "maya", label: "Maya" },
+                                    { id: "bpi", label: "BPI InstaPay" },
+                                    { id: "gcash", label: "GCash" },
+                                  ].map((wallet) => {
+                                    const isActive = field.value === wallet.id;
+                                    return (
+                                      <button
+                                        key={wallet.id}
+                                        type="button"
+                                        onClick={() => field.onChange(wallet.id)}
+                                        className={`rounded-full px-4 py-1.5 text-xs font-medium border transition-colors ${
+                                          isActive
+                                            ? "border-[#FFB63A] bg-[#FFB63A1A] text-foreground"
+                                            : "border-border bg-background hover:bg-accent/60"
+                                        }`}
+                                      >
+                                        {wallet.label}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <div className="border rounded-lg px-4 py-4 bg-card">
+                            <p className="font-semibold mb-2">
+                              Scan QR code to pay
+                            </p>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              Open your{" "}
+                              <span className="font-semibold">
+                                {walletType === "bpi"
+                                  ? "BPI"
+                                  : walletType === "gcash"
+                                    ? "GCash"
+                                    : "Maya"}
+                              </span>{" "}
+                              app, scan the QR code, and pay the full amount.
+                              Please include your full name in the reference or
+                              notes section.
+                            </p>
+                            <div className="flex flex-col items-center justify-center">
+                              <img
+                                src={
+                                  qrWalletImages[
+                                    (walletType || "maya") as keyof typeof qrWalletImages
+                                  ]
+                                }
+                                alt="Payment QR Code"
+                                className="w-full max-w-sm h-auto object-contain rounded-md"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-4">
