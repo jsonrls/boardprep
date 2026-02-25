@@ -4,44 +4,81 @@ import Blocks from "@/components/ui/blocks";
 
 const testimonials = [
   {
-    name: "Dr. James Mitchell",
-    role: "Veterinarian",
+    name: "Marvin Bryan Salinas",
+    role: "Licensed Veterinarian / Associate Professor, Central Luzon State University",
     quote:
-      "BoardPrep was instrumental in my licensure exam success. The questions were spot-on with the actual board exam.",
-    initials: "JM",
+      "BoardPrep Classroom's progress monitoring feature helps me closely track each student's learning milestones and provide timely reminders, feedback, or interventions whenever needed.",
+    initials: "MS",
     color: "bg-blue-100 text-blue-600",
   },
   {
-    name: "Sarah Chen",
-    role: "Fisheries Graduate",
+    name: "Justine Mantele",
+    role: "Food Technologist, Bicol University",
     quote:
-      "The analytics helped me identify my weak spots early on. I wouldn't have passed without focusing on those areas.",
-    initials: "SC",
+      "You added so much confidence in how I answered questions and guided me throughout this challenging journey.",
+    initials: "JM",
     color: "bg-green-100 text-green-600",
   },
   {
-    name: "Mark Davis",
-    role: "Vet Med Student",
+    name: "Marian Caling",
+    role: "Food Technologist, University of the Philippines Visayas",
     quote:
-      "Gamified drills made studying addictive. I actually looked forward to reviewing every day!",
-    initials: "MD",
+      "The platform not only catered to this need but also offered an affordable and reliable option for board takers.",
+    initials: "MC",
     color: "bg-purple-100 text-purple-600",
   },
   {
-    name: "Emily Rodriguez",
-    role: "Topnotcher (Rank 3)",
+    name: "Ryan Quinto",
+    role: "Registered Psychologist, St. Paul University Philippines",
     quote:
-      "Highly recommended for anyone serious about topping the board. The difficulty level prepares you well.",
-    initials: "ER",
+      "BoardPrep review materials are top-notch and truly on par with other review centers. I especially appreciate the flexibility they offer, allowing me to study at my own pace.",
+    initials: "RQ",
     color: "bg-orange-100 text-orange-600",
   },
   {
-    name: "Alex Thompson",
-    role: "University Professor",
+    name: "Brian Calpito",
+    role: "Registered Agriculturist, University of Southern Mindanao",
     quote:
-      "As an educator, the LMS features allow me to track student progress effectively. A game changer.",
-    initials: "AT",
+      "BoardPrep questions were all comprehensive. I was able to rationalize many questions from the app and apply them during the actual board exam. I’m truly grateful.",
+    initials: "BC",
     color: "bg-red-100 text-red-600",
+  },
+  {
+    name: "Dominic Millo",
+    role: "Registered Agriculturist, Central Luzon State University",
+    quote: "I truly used it as my refresher, and it was a huge help to me.",
+    initials: "DM",
+    color: "bg-teal-100 text-teal-600",
+  },
+  {
+    name: "Kenneth James Torres II",
+    role: "Licensed Veterinarian, Isabela State University",
+    quote: "If you want to ace the board exam, choose My Board Prep!",
+    initials: "KT",
+    color: "bg-indigo-100 text-indigo-600",
+  },
+  {
+    name: "Job Corcuera",
+    role: "Licensed Veterinarian, University of the Philippines Los Baños",
+    quote: "Great client support. The support team is very fast and helpful.",
+    initials: "JC",
+    color: "bg-yellow-100 text-yellow-700",
+  },
+  {
+    name: "Ivanne Jairoh Melendez",
+    role: "Licensed Veterinarian, Central Mindanao University",
+    quote:
+      "BoardPrep is the only review center I enrolled in. It helped me develop critical thinking skills and strategies for eliminating choices. The topnotchers who taught us, along with their question rationalizations, helped me narrow down which concepts to focus on.",
+    initials: "IM",
+    color: "bg-pink-100 text-pink-600",
+  },
+  {
+    name: "Mhegly Burato",
+    role: "Licensed Fisheries Professional, Bohol Island State University",
+    quote:
+      "Very helpful with well-equipped questionnaires! I highly recommend this platform.",
+    initials: "MB",
+    color: "bg-slate-100 text-slate-700",
   },
 ];
 
