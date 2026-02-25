@@ -131,7 +131,7 @@ const speakers = [
   {
     id: 6,
     name: "Dr. Ronalie Rafael",
-    specialty: "Veterinary Education",
+    specialty: "Microbiology",
     credential: "Industry Expert",
     image: speaker6,
   },
