@@ -344,40 +344,18 @@ const Header = () => {
                           >
                             Veterinarian Licensure Exam
                           </Link>
-                          <Link
-                            to="/review/ftle"
-                            className="text-sm py-2 text-muted-foreground font-sans"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            Food Technology Licensure Exam
-                          </Link>
-                          <Link
-                            to="/review/fisheries"
-                            className="text-sm py-2 text-muted-foreground font-sans"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            Fisheries Licensure Exam
-                          </Link>
-                          <Link
-                            to="/review/abe"
-                            className="text-sm py-2 text-muted-foreground font-sans"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            Agricultural and Biosystems Engineering Licensure
-                            Exam
-                          </Link>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
 
-                  <Link
+                  {/* <Link
                     to="/press"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Press
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/contact"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
