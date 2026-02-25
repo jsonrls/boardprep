@@ -16,16 +16,41 @@ import {
   TrendingUp,
   UserPlus,
 } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Link } from "react-router-dom";
 
 import vetHeroBg from "@/assets/vet-hero-bg.png";
+import speaker1 from "@/assets/speakers/1.png";
+import speaker2 from "@/assets/speakers/2.png";
+import speaker3 from "@/assets/speakers/3.png";
+import speaker4 from "@/assets/speakers/4.png";
+import speaker5 from "@/assets/speakers/5.png";
+import speaker6 from "@/assets/speakers/6.png";
+import speaker7 from "@/assets/speakers/7.png";
+import speaker8 from "@/assets/speakers/8.png";
+import speaker9 from "@/assets/speakers/9.png";
+import speaker10 from "@/assets/speakers/10.png";
+import speaker11 from "@/assets/speakers/11.png";
+import speaker12 from "@/assets/speakers/12.png";
+import speaker13 from "@/assets/speakers/13.png";
+import speaker14 from "@/assets/speakers/14.png";
+import speaker15 from "@/assets/speakers/15.png";
+import speaker16 from "@/assets/speakers/16.png";
+import speaker17 from "@/assets/speakers/17.png";
+import speaker18 from "@/assets/speakers/18.png";
+import speaker19 from "@/assets/speakers/19.png";
+import speaker20 from "@/assets/speakers/20.png";
+import speaker21 from "@/assets/speakers/21.png";
+import speaker22 from "@/assets/speakers/22.png";
+import speaker23 from "@/assets/speakers/23.png";
+import speaker24 from "@/assets/speakers/24.png";
+import speaker25 from "@/assets/speakers/25.png";
+import speaker26 from "@/assets/speakers/26.png";
+import speaker27 from "@/assets/speakers/27.png";
+import speaker28 from "@/assets/speakers/28.png";
+import speaker29 from "@/assets/speakers/29.png";
+import speaker30 from "@/assets/speakers/30.png";
+import speaker31 from "@/assets/speakers/31.png";
+import speaker32 from "@/assets/speakers/32.png";
 
 const courseFeatures = [
   {
@@ -68,33 +93,234 @@ const curriculumTopics = [
 
 const speakers = [
   {
-    name: "Dr. Maria Santos",
-    specialty: "Veterinarian Pathology",
-    credential: "Board Topnotcher 2023",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MariaSantos",
+    id: 1,
+    name: "Dr. Rio John Ducusin",
+    specialty: "Surgery",
+    credential: "VLE 1998 - Top 3",
+    image: speaker1,
   },
   {
-    name: "Dr. Juan dela Cruz",
-    specialty: "Veterinarian Anatomy",
-    credential: "15+ Years Teaching Experience",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=JuanDelaCruz",
+    id: 2,
+    name: "Dr. Virginia Venturina",
+    specialty: "Parasitology",
+    credential: "Industry Expert",
+    image: speaker2,
   },
   {
-    name: "Dr. Sarah Johnson",
-    specialty: "Veterinarian Pharmacology",
-    credential: "Board Topnotcher 2022",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=SarahJohnson",
+    id: 3,
+    name: "Dr. Jonathan Vitor",
+    specialty: "Physiology",
+    credential: "Industry Expert",
+    image: speaker3,
   },
   {
-    name: "Dr. Michael Chen",
-    specialty: "Clinical Medicine",
-    credential: "Specialist Veterinarian",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MichaelChen",
+    id: 4,
+    name: "Dr. John King Valdez",
+    specialty: "Physiology",
+    credential: "Industry Expert",
+    image: speaker4,
+  },
+  // Additional speakers (avatars only; generic metadata)
+  {
+    id: 5,
+    name: "Dr. Romeo Gundran",
+    specialty: "Epidemiology",
+    credential: "Public Health",
+    image: speaker5,
+  },
+  {
+    id: 6,
+    name: "Dr. Ronalie Rafael",
+    specialty: "Veterinary Education",
+    credential: "Industry Expert",
+    image: speaker6,
+  },
+  {
+    id: 7,
+    name: "Dr. Jessica Eugenio",
+    specialty: "Zootechnics",
+    credential: "VLE 2013 - Top 6",
+    image: speaker7,
+  },
+  {
+    id: 8,
+    name: "Dr. Dale Bartolome",
+    specialty: "Medicine",
+    credential: "Theriogenology",
+    image: speaker8,
+  },
+  {
+    id: 9,
+    name: "Dr. Errol Jay Balagan",
+    specialty: "Anatomy",
+    credential: "VLE 2011 - Top 2",
+    image: speaker9,
+  },
+  {
+    id: 10,
+    name: "Dr. Felkins Macabitas",
+    specialty: "Surgery",
+    credential: "VLE 2013 - Top 1",
+    image: speaker10,
+  },
+  {
+    id: 11,
+    name: "Dr. Marvin Salinas",
+    specialty: "Anatomy",
+    credential: "VLE 2015 - Top 4",
+    image: speaker11,
+  },
+  {
+    id: 12,
+    name: "Dr. Remil Galay",
+    specialty: "Parasitology",
+    credential: "VLE 2007 - Top 5",
+    image: speaker12,
+  },
+  {
+    id: 13,
+    name: "Dr. Paul Cadenio",
+    specialty: "Pharmacology",
+    credential: "VLE 2014 - Top 3",
+    image: speaker13,
+  },
+  {
+    id: 14,
+    name: "Dr. Jaylord Pioquinto",
+    specialty: "Surgery",
+    credential: "Industry Expert",
+    image: speaker14,
+  },
+  {
+    id: 15,
+    name: "Dr. Jorvy Tayag",
+    specialty: "Medicine",
+    credential: "VLE 2024 - Top 3",
+    image: speaker15,
+  },
+  {
+    id: 16,                       
+    name: "Dr. Alvin Soriano",
+    specialty: "Zootechnics",
+    credential: "VLE 2005 - Top 10",
+    image: speaker16,
+  },
+  {
+    id: 17,
+    name: "Dr. Clarissa Mordeno",
+    specialty: "Zootechnics",
+    credential: "VLE 2023 - Top 2",
+    image: speaker17,
+  },
+  {
+    id: 18,
+    name: "Dr. Alli Claravall",
+    specialty: "Pharmacology",
+    credential: "VLE 2023 - Top 1",
+    image: speaker18,
+  },
+  {
+    id: 19,
+    name: "Dr. Harvie Portugaliza",
+    specialty: "Pathology",
+    credential: "VLE 2011 - Top 1",
+    image: speaker19,
+  },
+  {
+    id: 20,
+    name: "Dr. Jerard Rayala",
+    specialty: "Pathology",
+    credential: "VLE 2021 - Top 1",
+    image: speaker20,
+  },
+  {
+    id: 21,
+    name: "Dr. Ian Prado",
+    specialty: "Pathology",
+    credential: "VLE 2019 - Top 1",
+    image: speaker21,
+  },
+  {
+    id: 22,       
+    name: "Dr. Razy Sanchez",
+    specialty: "Medicine",
+    credential: "VLE 2017 - Top 6",
+    image: speaker22,
+  },
+  {
+    id: 23,
+    name: "Dr. Allan Francia",
+    specialty: "Microbiology",
+    credential: "VLE 2015 - Top 8",
+    image: speaker23,
+  },
+  {
+    id: 24,
+    name: "Dr. Xyryl Lynx Doctor",
+    specialty: "Medicine",
+    credential: "VLE 2025 - Top 1",
+    image: speaker24,
+  },
+  {
+    id: 25,
+    name: "Dr. Yasser Cabansag",
+    specialty: "Medicine",
+    credential: "VLE 2011 - Top 7",
+    image: speaker25,
+  },
+  {
+    id: 26,
+    name: "Dr. Darlene Castro ",
+    specialty: "Physiology",
+    credential: "VLE 2007 - Top 3",
+    image: speaker26,
+  },
+  {
+    id: 27,
+    name: "Dr. Joram Gautane",
+    specialty: "Medicine",
+    credential: "VLE 2015 - Top 3",
+    image: speaker27,
+  },
+  {
+    id: 28,
+    name: "Dr. Ralph Espinosa",
+    specialty: "Zootechnics",
+    credential: "VLE 2016 - Top 7",
+    image: speaker28,
+  },
+  {
+    id: 29, 
+    name: "Dr. Gabriel Tubalinal",
+    specialty: "Zootechnics",
+    credential: "VLE 2014 - Top 7",
+    image: speaker29,
+  },
+  {
+    id: 30, 
+    name: "Dr. Philip Sajol",
+    specialty: "Parmacology",
+    credential: "VLE 2019 - Top 1",
+    image: speaker30,
+  },
+  {
+    id: 31, 
+    name: "Dr. Jaypee Gonzales",
+    specialty: "Public Health",
+    credential: "Public Health",
+    image: speaker31,
+  },
+  {
+    id: 32, 
+    name: "Dr. Alex Adrian Lo",
+    specialty: "Physiology",
+    credential: "VLE 2024 - Top 1",
+    image: speaker32,
   },
 ];
 
 const stats = [
-  { icon: Users, value: "1000+", label: "DVM Enrolled" },
+  { icon: Users, value: "1000+", label: "Enrolled DVM" },
   { icon: Clock, value: "150+", label: "Hours of Content" },
   { icon: Star, value: "4.9/5", label: "Student Rating" },
 ];
@@ -173,16 +399,27 @@ const VetDetails = () => {
         </section>
 
         {/* Stats Section */}
-        <section className="py-16 bg-background border-b border-border">
+        <section className="py-20 bg-background border-b border-border">
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 tet-align">
+            <div className="flex flex-wrap justify-center gap-12 md:gap-80">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
                   className={`animate-fade-up delay-${index * 100} text-center`}
                 >
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
-                    <stat.icon className="w-6 h-6 text-accent" />
+                    {stat.label === "Student Rating" ? (
+                      <div className="flex items-center gap-1">
+                        {[0, 1, 2].map((i) => (
+                          <Star
+                            key={i}
+                            className="w-4 h-4 text-accent fill-accent"
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <stat.icon className="w-6 h-6 text-accent" />
+                    )}
                   </div>
                   <div className="text-3xl md:text-4xl font-display font-bold text-secondary mb-2">
                     {stat.value}
@@ -299,57 +536,94 @@ const VetDetails = () => {
                 veterinarians dedicated to your success.
               </p>
             </div>
+          </div>
 
-            <div className="max-w-5xl mx-auto">
-              <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="-ml-2 md:-ml-4">
-                  {speakers.map((speaker, index) => (
-                    <CarouselItem
-                      key={speaker.name}
-                      className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
-                    >
-                      <div className="h-full">
-                        <div
-                          className={`animate-fade-up delay-${(index + 3) * 100} bg-card rounded-sm p-8 shadow-soft hover-lift border border-border/50 text-center h-full flex flex-col items-center justify-center`}
-                        >
+          {/* Full-width marquee rows */}
+          <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] px-0">
+            <div className="space-y-8">
+              {/* First Row - Scrolling Left (similar to testimonials) */}
+              <div className="relative w-full overflow-hidden group">
+                <div className="flex gap-6 animate-marquee w-max pr-6">
+                  {[...speakers.slice(0, 16), ...speakers.slice(0, 16), ...speakers.slice(0, 16)].map(
+                    (speaker, index) => (
+                      <div
+                        key={`vet-row1-${index}-${speaker.name}`}
+                        className="w-[260px] md:w-[320px] flex-shrink-0"
+                      >
+                        <div className="bg-card rounded-sm p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center">
                           <div className="relative inline-block mb-4">
                             <img
                               src={speaker.image}
                               alt={speaker.name}
-                              className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
+                              className="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
                             />
                             <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
                               <Star className="w-5 h-5 text-white fill-white" />
                             </div>
                           </div>
-                          <h3 className="font-display text-xl text-foreground mb-2">
+                          <h3 className="font-display text-lg md:text-xl text-foreground mb-2">
                             {speaker.name}
                           </h3>
-                          <p className="text-sm text-muted-foreground mb-3">
+                          <p className="text-xs md:text-sm text-muted-foreground mb-3">
                             {speaker.specialty}
                           </p>
                           <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1 mt-auto">
                             <Award className="w-3 h-3 text-secondary" />
-                            <span className="text-xs font-medium text-secondary">
+                            <span className="text-[11px] md:text-xs font-medium text-secondary">
                               {speaker.credential}
                             </span>
                           </div>
                         </div>
                       </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <div className="flex justify-center gap-4 mt-8">
-                  <CarouselPrevious className="static translate-y-0" />
-                  <CarouselNext className="static translate-y-0" />
+                    ),
+                  )}
                 </div>
-              </Carousel>
+                {/* Fade edges */}
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-background to-transparent" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-background to-transparent" />
+              </div>
+
+              {/* Second Row - Scrolling Right (reverse) */}
+              <div className="relative w-full overflow-hidden group">
+                <div className="flex gap-6 animate-marquee-reverse w-max pr-6">
+                  {[...speakers.slice(16), ...speakers.slice(16), ...speakers.slice(16)].map(
+                    (speaker, index) => (
+                      <div
+                        key={`vet-row2-${index}-${speaker.name}`}
+                        className="w-[260px] md:w-[320px] flex-shrink-0"
+                      >
+                        <div className="bg-card rounded-sm p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center">
+                          <div className="relative inline-block mb-4">
+                            <img
+                              src={speaker.image}
+                              alt={speaker.name}
+                              className="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
+                            />
+                            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                              <Star className="w-5 h-5 text-white fill-white" />
+                            </div>
+                          </div>
+                          <h3 className="font-display text-lg md:text-xl text-foreground mb-2">
+                            {speaker.name}
+                          </h3>
+                          <p className="text-xs md:text-sm text-muted-foreground mb-3">
+                            {speaker.specialty}
+                          </p>
+                          <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1 mt-auto">
+                            <Award className="w-3 h-3 text-secondary" />
+                            <span className="text-[11px] md:text-xs font-medium text-secondary">
+                              {speaker.credential}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ),
+                  )}
+                </div>
+                {/* Fade edges */}
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-background to-transparent" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-background to-transparent" />
+              </div>
             </div>
           </div>
         </section>

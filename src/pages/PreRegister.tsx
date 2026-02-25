@@ -24,6 +24,14 @@ import qrCode from "@/assets/qr-code.png";
 import qrCodePreregister from "@/assets/qr-code-preregister.png";
 import qrCodeLatinHonor from "@/assets/qr-code-latin-honor.png";
 import qrCodeLatinHonorPrereg from "@/assets/qr-code-latin-honor-prereg.png";
+import mayaQr9499 from "@/assets/maya-qr-9499.png";
+import mayaQr4499 from "@/assets/maya-qr-4499.png";
+import mayaQr9999 from "@/assets/maya-qr-9999.png";
+import mayaQr4999 from "@/assets/maya-qr-4999.png";
+import gcashQr9499 from "@/assets/gcash-qr-9499.png";
+import gcashQr4499 from "@/assets/gcash-qr-4499.png";
+import gcashQr9999 from "@/assets/gcash-qr-9999.png";
+import gcashQr4999 from "@/assets/gcash-qr-4999.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -244,6 +252,40 @@ const PreRegister = () => {
         : isLatinHonor === "yes"
           ? qrWalletImagesLatinHonor
           : qrWalletImages;
+
+  const mayaQrImagesByAmount: Record<number, string> = {
+    9499: mayaQr9499,
+    4499: mayaQr4499,
+    9999: mayaQr9999,
+    4999: mayaQr4999,
+  };
+
+  const gcashQrImagesByAmount: Record<number, string> = {
+    9499: gcashQr9499,
+    4499: gcashQr4499,
+    9999: gcashQr9999,
+    4999: gcashQr4999,
+  };
+
+  const getActiveQrImageForWallet = () => {
+    if (walletType === "maya") {
+      const mayaImage = mayaQrImagesByAmount[getFinalAmount()];
+      if (mayaImage) {
+        return mayaImage;
+      }
+    }
+
+    if (walletType === "gcash") {
+      const gcashImage = gcashQrImagesByAmount[getFinalAmount()];
+      if (gcashImage) {
+        return gcashImage;
+      }
+    }
+
+    return activeQrImages[
+      (walletType || "maya") as keyof typeof activeQrImages
+    ];
+  };
 
   useEffect(() => {
     const schedule = examSchedules[examType as keyof typeof examSchedules];
@@ -599,7 +641,7 @@ const PreRegister = () => {
                       >
                         <Label>Pre-registration Proof of Payment/Email Confirmation</Label>
                         <FormDescription>
-                          Upload this only if you have already registered and
+                          Upload only if you have already registered and
                           paid the reservation fee.
                         </FormDescription>
                         <FormField
@@ -644,7 +686,7 @@ const PreRegister = () => {
                           >
                             <FormControl>
                               <SelectTrigger className="font-sans">
-                                <SelectValue placeholder="Are you a Laude?…" />
+                                <SelectValue placeholder="Are you a Latin Honor?…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="font-sans">
@@ -1501,11 +1543,7 @@ const PreRegister = () => {
                             </p>
                             <div className="flex flex-col items-center justify-center">
                               <img
-                                src={
-                                  activeQrImages[
-                                    (walletType || "maya") as keyof typeof activeQrImages
-                                  ]
-                                }
+                                src={getActiveQrImageForWallet()}
                                 alt="Payment QR Code"
                                 className="w-full max-w-sm h-auto object-contain rounded-md"
                               />
@@ -1698,16 +1736,10 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                What is registration and how does it work?
+                Until when is the Early Bird Promo?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                Registration is an early enrollment period (January 24 -
-                February 13, 2026) that allows you to reserve your slot in our
-                2026 BoardPrep Online Review Classes with a ₱500 reservation
-                fee. This fee is non-refundable and will be deducted from your
-                total review fee upon enrollment. Registration ensures you
-                secure your spot before the early bird registration period
-                begins.
+                The Early Bird Promo runs from March 1–31, 2026.
               </AccordionContent>
             </AccordionItem>
 
@@ -1716,15 +1748,21 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                What review classes are available for 2026?
+                How much is the Vet Review Class?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                We offer comprehensive online review classes for:
-                <ul className="list-disc list-inside mt-2 space-y-1">
-                  <li>
-                    <strong>Veterinarians</strong> - June 22 to August 28, 2026
-                  </li>
-                </ul>
+                During the Early Bird Promo (March 1–31, 2026), the Vet Review
+                Class fee is{" "}
+                <span className="font-semibold">Php 9,999</span> (or{" "}
+                <span className="font-semibold">Php 4,999</span> for qualified
+                Latin honor candidates/graduates).
+                <br />
+                If you have already pre-registered with a{" "}
+                <span className="font-semibold">Php 500</span> reservation fee,
+                your remaining balance during the Early Bird period is{" "}
+                <span className="font-semibold">Php 9,499</span> (or{" "}
+                <span className="font-semibold">Php 4,499</span> for qualified
+                Latin honor candidates/graduates).
               </AccordionContent>
             </AccordionItem>
 
@@ -1733,20 +1771,38 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                What are the review fees and registration periods?
+                What is the duration of the Vet Review Class?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                <div className="space-y-3">
-                  <div>
-                    <strong>Veterinarians:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      <li>Early Bird: ₱9,999 (March 1-31, 2026)</li>
-                      <li>Late Registration: ₱10,999</li>
-                      <li>50% discount for Latin honors graduates</li>
-                    </ul>
-                  </div>
-                  
-                </div>
+                The Vet Review Class will run from June 22 to August 28, 2026.
+                <br />
+                Schedule: Weekdays, 9:00 AM – 12:00 PM.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-4"
+              className="border rounded-lg px-6 bg-card"
+            >
+              <AccordionTrigger className="text-left hover:no-underline">
+                Will the lectures be recorded?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Yes. All live Zoom sessions will be recorded and made available
+                within the same day after the session.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem
+              value="item-5"
+              className="border rounded-lg px-6 bg-card"
+            >
+              <AccordionTrigger className="text-left hover:no-underline">
+                Are the materials downloadable?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                The Review Notes are downloadable and can be accessed offline.
+                Recorded lectures, however, are for online streaming only.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -1771,8 +1827,7 @@ const PreRegister = () => {
           <div className="py-4 text-center text-sm text-muted-foreground">
             <p>
               Our team will review your information and reach out to you within
-              1-2 business days regarding the next steps and payment
-              instructions.
+              1-2 business days reregarding the next steps and BoardPrep Classroom invitation.
             </p>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:justify-center w-full">

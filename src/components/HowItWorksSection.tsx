@@ -71,7 +71,7 @@ const HowItWorksSection = () => {
             Simple Process
           </p>
           <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-            How Are Question Drills Work?
+          How to Subscribe to our Question Drills?
           </h2>
           <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
             Getting started is easy. Follow these simple steps to access your
