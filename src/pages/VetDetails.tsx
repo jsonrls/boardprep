@@ -117,7 +117,7 @@ const speakers = [
     id: 4,
     name: "Dr. John King Valdez",
     specialty: "Physiology",
-    credential: "Industry Expert",
+    credential: "VLE 2025 - Top 2",
     image: speaker4,
   },
   // Additional speakers (avatars only; generic metadata)
@@ -125,7 +125,7 @@ const speakers = [
     id: 5,
     name: "Dr. Romeo Gundran",
     specialty: "Epidemiology",
-    credential: "Public Health",
+    credential: "Industry Expert",
     image: speaker5,
   },
   {
@@ -146,7 +146,7 @@ const speakers = [
     id: 8,
     name: "Dr. Dale Bartolome",
     specialty: "Medicine",
-    credential: "Theriogenology",
+    credential: "Industry Expert",
     image: speaker8,
   },
   {
@@ -299,7 +299,7 @@ const speakers = [
   {
     id: 30, 
     name: "Dr. Philip Sajol",
-    specialty: "Parmacology",
+    specialty: "Pharmacology",
     credential: "VLE 2019 - Top 1",
     image: speaker30,
   },
@@ -550,6 +550,7 @@ const VetDetails = () => {
                         key={`vet-row1-${index}-${speaker.name}`}
                         className="w-[260px] md:w-[320px] flex-shrink-0"
                       >
+                        <p>{speaker.id}</p>
                         <div className="bg-card rounded-sm p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center">
                           <div className="relative inline-block mb-4">
                             <img
