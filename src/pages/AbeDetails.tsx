@@ -134,7 +134,7 @@ const AbeDetails = () => {
               </p>
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/pre-register" className="w-full sm:w-auto">
+                <Link to="/enroll" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
                     size="lg"
@@ -352,13 +352,13 @@ const AbeDetails = () => {
                       />
                     </Button>
                   </a>
-                  <a href="/pre-register" className="w-full sm:w-auto">
+                  <a href="/enroll" className="w-full sm:w-auto">
                     <Button
                       variant="heroOutline"
                       size="lg"
                       className="w-full sm:w-auto font-display"
                     >
-                      Pre-Register Now
+                      enroll Now
                     </Button>
                   </a>
                 </div>

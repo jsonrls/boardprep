@@ -301,6 +301,10 @@
   .delay-800 {
     animation-delay: 800ms;
   }
+
+  .animate-wiggle-once {
+    animation: wiggle 0.45s ease-out;
+  }
 }
 
 @keyframes fadeUp {
@@ -346,6 +350,21 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-8deg);
+  }
+
+  75% {
+    transform: rotate(6deg);
   }
 }
 

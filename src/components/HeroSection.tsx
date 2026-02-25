@@ -15,7 +15,7 @@ const HeroSection = () => {
       {/* Text protection gradient - Reduced opacity of 'via' color to let blobs show through */}
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent z-0 pointer-events-none" />
       <div
-        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat z-10"
+        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat -mb-16 z-10"
         style={{ backgroundImage: `url(${heroImage})` }}
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-20">
@@ -42,7 +42,7 @@ const HeroSection = () => {
 
             {/* CTAs */}
             <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4">
-              <Link to="/pre-register" className="w-full sm:w-auto">
+              <Link to="/enroll" className="w-full sm:w-auto">
                 <Button
                   variant="hero"
                   size="lg"

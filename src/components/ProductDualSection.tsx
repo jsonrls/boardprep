@@ -199,7 +199,6 @@ const cards = [
     color: "bg-product-teal", // Teal
     textColor: "text-slate-900",
     imageClass: "w-[90%]",
-    link: "#",
     customVisual: (
       <div className="relative w-full h-[350px] md:h-[450px] flex items-center justify-center group overflow-visible">
         {/* Left Image */}
@@ -248,9 +247,10 @@ const cards = [
         </div>
       </div>
     ),
+    link: "/review-class",
   },
   {
-    title: "BoardPrep Lite (Coming Soon)",
+    title: "BoardPrep Lite",
     description: (
       <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
@@ -303,7 +303,7 @@ const cards = [
         </div>
       </div>
     ),
-    link: "#",
+    link: "https://apps.apple.com/au/app/boardprep-lite/id6756837074",
   },
 ];
 

@@ -21,6 +21,9 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import qrCode from "@/assets/qr-code.png";
+import qrCodePreregister from "@/assets/qr-code-preregister.png";
+import qrCodeLatinHonor from "@/assets/qr-code-latin-honor.png";
+import qrCodeLatinHonorPrereg from "@/assets/qr-code-latin-honor-prereg.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -74,7 +77,7 @@ const formSchema = z.object({
   city: z.string().min(2, "City is required"),
 
   // Step 2: Academic & Professional
-  school: z.string().min(2, "School name is required"),
+  school: z.string().min(1, "Please select your school"),
   gradYear: z.string().min(4, "Please enter a valid year"),
   description: z.string().min(1, "Please select an option"),
   isEmployed: z.string().min(1, "Please select an option"),
@@ -94,7 +97,9 @@ const formSchema = z.object({
   // Step 4: Payment & Verification
   paymentMethod: z.string().min(1, "Please choose a payment method"),
   walletType: z.string().optional(),
-  paymentProof: z.any().optional(), // Make required in logic if needed
+  paymentProof: z
+    .any()
+    .refine((val) => val != null && val instanceof File, "Please upload proof of payment"),
   preRegProof: z.any().optional(),
   remarks: z.string().optional(),
   agreedToTerms: z
@@ -213,6 +218,33 @@ const PreRegister = () => {
     gcash: qrCode,
   };
 
+  const qrWalletImagesPrereg: Record<string, string> = {
+    maya: qrCodePreregister,
+    bpi: qrCodePreregister,
+    gcash: qrCodePreregister,
+  };
+
+  const qrWalletImagesLatinHonor: Record<string, string> = {
+    maya: qrCodeLatinHonor,
+    bpi: qrCodeLatinHonor,
+    gcash: qrCodeLatinHonor,
+  };
+
+  const qrWalletImagesLatinHonorPrereg: Record<string, string> = {
+    maya: qrCodeLatinHonorPrereg,
+    bpi: qrCodeLatinHonorPrereg,
+    gcash: qrCodeLatinHonorPrereg,
+  };
+
+  const activeQrImages =
+    hasPreRegistered === "yes" && isLatinHonor === "yes"
+      ? qrWalletImagesLatinHonorPrereg
+      : hasPreRegistered === "yes"
+        ? qrWalletImagesPrereg
+        : isLatinHonor === "yes"
+          ? qrWalletImagesLatinHonor
+          : qrWalletImages;
+
   useEffect(() => {
     const schedule = examSchedules[examType as keyof typeof examSchedules];
 
@@ -228,11 +260,11 @@ const PreRegister = () => {
       pricing[examType as keyof typeof pricing]?.regular || "0";
     let amount = parseInt(baseRegularStr.replace(/,/g, ""), 10);
     if (Number.isNaN(amount)) amount = 0;
-    if (hasPreRegistered === "yes") {
-      amount -= 500;
-    }
-    if (isLatinHonor === "yes") {
-      amount = Math.floor(amount / 2);
+    if (hasPreRegistered === "yes" && isLatinHonor === "yes") {
+      amount = Math.floor(amount / 2) - 500;
+    } else {
+      if (hasPreRegistered === "yes") amount -= 500;
+      if (isLatinHonor === "yes") amount = Math.floor(amount / 2);
     }
     return amount;
   };
@@ -279,7 +311,7 @@ const PreRegister = () => {
       if (values.hasPreRegistered === "yes" && !values.preRegProof) {
         form.setError("preRegProof", {
           type: "manual",
-          message: "Proof is required if you pre-registered.",
+          message: "Proof is required if you enrolled.",
         });
         hasError = true;
       }
@@ -538,7 +570,7 @@ const PreRegister = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-base font-sans">
-                            Did you Pre-register?
+                            Did you pre-register?
                           </FormLabel>
                           <Select
                             onValueChange={field.onChange}
@@ -565,7 +597,7 @@ const PreRegister = () => {
                         animate={{ opacity: 1, height: "auto" }}
                         className="space-y-2 pl-4 border-l-2 border-primary/20"
                       >
-                        <Label>Pre-registration Proof of Payment</Label>
+                        <Label>Pre-registration Proof of Payment/Email Confirmation</Label>
                         <FormDescription>
                           Upload this only if you have already registered and
                           paid the reservation fee.
@@ -578,7 +610,7 @@ const PreRegister = () => {
                               <FormControl>
                                 <Input
                                   type="file"
-                                  accept="image/*,.pdf"
+                                  accept="image/*,.pdf,.jpg,.jpeg,.png"
                                   onChange={(e) => {
                                     onChange(
                                       e.target.files ? e.target.files[0] : null,
@@ -603,6 +635,9 @@ const PreRegister = () => {
                             Are you a clear candidate/graduate with Latin
                             Honors?
                           </FormLabel>
+                          <FormDescription>
+                          If proof is not yet available, please select “No” and proceed with the full fee.<br/>Contact us later to request a refund, which will be processed once proof is submitted and verified.
+                          </FormDescription>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
@@ -617,6 +652,7 @@ const PreRegister = () => {
                               <SelectItem value="no">No</SelectItem>
                             </SelectContent>
                           </Select>
+
                           <FormMessage />
                         </FormItem>
                       )}
@@ -844,15 +880,41 @@ const PreRegister = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="font-sans">
-                              University / College / School
+                              University
                             </FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="e.g. Univ of Philippines"
-                                {...field}
-                                className="font-sans"
-                              />
-                            </FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value ?? ""}
+                            >
+                              <FormControl>
+                                <SelectTrigger className="font-sans">
+                                  <SelectValue placeholder="Select university / school…" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent className="font-sans">
+                                <SelectItem value="ASU">ASU</SelectItem>
+                                <SelectItem value="BASC">BASC</SelectItem>
+                                <SelectItem value="BSU">BSU</SelectItem>
+                                <SelectItem value="CBSUA">CBSUA</SelectItem>
+                                <SelectItem value="CLSU">CLSU</SelectItem>
+                                <SelectItem value="CMU">CMU</SelectItem>
+                                <SelectItem value="CSU">CSU</SelectItem>
+                                <SelectItem value="CTU">CTU</SelectItem>
+                                <SelectItem value="CvSU">CvSU</SelectItem>
+                                <SelectItem value="DLSAU">DLSAU</SelectItem>
+                                <SelectItem value="DMMMSU">DMMMSU</SelectItem>
+                                <SelectItem value="ISU">ISU</SelectItem>
+                                <SelectItem value="NVSU">NVSU</SelectItem>
+                                <SelectItem value="PSAU">PSAU</SelectItem>
+                                <SelectItem value="SWU">SWU</SelectItem>
+                                <SelectItem value="TAU">TAU</SelectItem>
+                                <SelectItem value="UEP">UEP</SelectItem>
+                                <SelectItem value="UPLB">UPLB</SelectItem>
+                                <SelectItem value="USM">USM</SelectItem>
+                                <SelectItem value="VMUF">VMUF</SelectItem>
+                                <SelectItem value="VSU">VSU</SelectItem>
+                              </SelectContent>
+                            </Select>
                             <FormMessage className="font-sans" />
                           </FormItem>
                         )}
@@ -863,7 +925,7 @@ const PreRegister = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="font-sans">
-                              Year Graduated / Graduating
+                              Year Graduated/To Graduate
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -897,13 +959,10 @@ const PreRegister = () => {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="undergraduate">
-                                Undergraduate Student
+                                Graduating This Year
                               </SelectItem>
                               <SelectItem value="graduate">
-                                Recent Graduate
-                              </SelectItem>
-                              <SelectItem value="professional">
-                                Working Professional
+                                Already Graduated
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -944,7 +1003,7 @@ const PreRegister = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              Are you an existing Board Prep subscriber?
+                              Are you an existing BoardPrep Question Drills subscriber?
                             </FormLabel>
                             <Select
                               onValueChange={field.onChange}
@@ -977,7 +1036,7 @@ const PreRegister = () => {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  Registered Email in Board Prep Platform
+                                  Registered Email in BoardPrep Platform
                                 </FormLabel>
                                 <FormControl>
                                   <Input
@@ -1020,16 +1079,7 @@ const PreRegister = () => {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="vet">
-                                Veterinarian Medicine (VLE)
-                              </SelectItem>
-                              <SelectItem value="ftle">
-                                Food Technology Licensure Exam (FTLE)
-                              </SelectItem>
-                              <SelectItem value="fisheries">
-                                Fisheries Professional (FPLE)
-                              </SelectItem>
-                              <SelectItem value="abe">
-                                Agricultural and Biosystems Engineers (ABE)
+                                Veterinarian Licensure Exam (VLE)
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -1048,7 +1098,7 @@ const PreRegister = () => {
 
                           return (
                             <FormItem>
-                              <FormLabel>Target Exam Date</FormLabel>
+                              <FormLabel>Exam Date</FormLabel>
                               <Select
                                 onValueChange={field.onChange}
                                 value={field.value}
@@ -1091,7 +1141,7 @@ const PreRegister = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              Take Oct 2025 Exam? (If Applicable)
+                              Will you take the VLE this year?
                             </FormLabel>
                             <Select
                               onValueChange={field.onChange}
@@ -1136,9 +1186,6 @@ const PreRegister = () => {
                                 First Timer
                               </SelectItem>
                               <SelectItem value="retaker">Retaker</SelectItem>
-                              <SelectItem value="refresher">
-                                Refresher
-                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -1185,7 +1232,7 @@ const PreRegister = () => {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  Name of Review Center (Type NA if none)
+                                  Name of Review Center
                                 </FormLabel>
                                 <FormControl>
                                   <Input
@@ -1265,7 +1312,7 @@ const PreRegister = () => {
                               {[
                                 {
                                   id: "unionbank",
-                                  title: "UnionBank Bank Transfer",
+                                  title: "BPI Bank Transfer",
                                   description:
                                     "Best for direct online banking or over-the-counter deposits.",
                                 },
@@ -1304,30 +1351,104 @@ const PreRegister = () => {
                       />
 
                       {paymentMethod === "unionbank" && (
-                        <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm space-y-2">
-                          <p className="font-semibold">
-                            UnionBank Bank Transfer
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            Please transfer the exact amount to the account
-                            below and use your full name as the reference.
-                          </p>
-                          <p className="text-muted-foreground leading-relaxed text-sm">
-                            Bank:{" "}
-                            <span className="text-foreground font-medium">
-                              Union Bank
-                            </span>
-                            <br />
-                            Name:{" "}
-                            <span className="text-foreground font-medium">
-                              Board Prep Solutions Incorporated
-                            </span>
-                            <br />
-                            Account:{" "}
-                            <span className="text-foreground font-bold">
-                              0010 3002 0003
-                            </span>
-                          </p>
+                        <div className="space-y-4">
+                          <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm space-y-2">
+                            <p className="font-semibold">
+                              BPI Bank Transfer
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              Please transfer the exact amount to the account
+                              below and use your full name as the reference.
+                            </p>
+                            <p className="text-muted-foreground leading-relaxed text-sm space-y-1.5">
+                              Bank:{" "}
+                              <span className="text-foreground font-medium">
+                                BPI
+                              </span>
+                              <br />
+                              <span className="inline-flex items-center gap-1.5">
+                                Name:{" "}
+                                <span className="text-foreground font-medium">
+                                  Ryan Bismark Padiernos
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    navigator.clipboard
+                                      ?.writeText("Ryan Bismark Padiernos")
+                                      .then(() => {
+                                        toast({
+                                          title: "Name copied",
+                                          description:
+                                            "Account name has been copied to clipboard.",
+                                        });
+                                      })
+                                      .catch(() => undefined);
+                                  }}
+                                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                                  aria-label="Copy account name"
+                                >
+                                  <Copy className="h-3.5 w-3.5" />
+                                </button>
+                              </span>
+                              <br />
+                              <span className="inline-flex items-center gap-1.5">
+                                Account:{" "}
+                                <span className="text-foreground font-bold">
+                                  1259 3728 67
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    navigator.clipboard
+                                      ?.writeText("1259 3728 67")
+                                      .then(() => {
+                                        toast({
+                                          title: "Account number copied",
+                                          description:
+                                            "Account number has been copied to clipboard.",
+                                        });
+                                      })
+                                      .catch(() => undefined);
+                                  }}
+                                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+                                  aria-label="Copy account number"
+                                >
+                                  <Copy className="h-3.5 w-3.5" />
+                                </button>
+                              </span>
+                            </p>
+                          </div>
+
+                          <div className="border rounded-lg px-4 py-4 bg-card">
+                            <p className="font-semibold mb-2">
+                              Or pay via QR code
+                            </p>
+                            <FormField
+                              control={form.control}
+                              name="walletType"
+                              render={({ field }) => (
+                                <FormItem className="space-y-2">
+                                  
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <p className="text-sm text-muted-foreground mb-4">
+                              Open your <b>mobile banking app</b>, scan the QR code, and pay the full amount.
+                            </p>
+                            <div className="flex flex-col items-center justify-center">
+                              <img
+                                src={
+                                  activeQrImages[
+                                    (watch("walletType") || "maya") as keyof typeof activeQrImages
+                                  ]
+                                }
+                                alt="Payment QR Code"
+                                className="w-full max-w-sm h-auto object-contain rounded-md"
+                              />
+                            </div>
+                          </div>
                         </div>
                       )}
 
@@ -1374,23 +1495,15 @@ const PreRegister = () => {
                               Scan QR code to pay
                             </p>
                             <p className="text-sm text-muted-foreground mb-4">
-                              Open your{" "}
-                              <span className="font-semibold">
-                                {walletType === "bpi"
-                                  ? "BPI"
-                                  : walletType === "gcash"
-                                    ? "GCash"
-                                    : "Maya"}
-                              </span>{" "}
-                              app, scan the QR code, and pay the full amount.
+                              Open your mobile banking app, scan the QR code, and pay the full amount.
                               Please include your full name in the reference or
                               notes section.
                             </p>
                             <div className="flex flex-col items-center justify-center">
                               <img
                                 src={
-                                  qrWalletImages[
-                                    (walletType || "maya") as keyof typeof qrWalletImages
+                                  activeQrImages[
+                                    (walletType || "maya") as keyof typeof activeQrImages
                                   ]
                                 }
                                 alt="Payment QR Code"
@@ -1404,7 +1517,7 @@ const PreRegister = () => {
 
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label>Proof of Payment</Label>
+                        <Label>Proof of Payment <span className="text-destructive">*</span></Label>
                         <FormDescription>
                           Please take a screenshot as a proof of payment and
                           upload it here.
@@ -1417,7 +1530,7 @@ const PreRegister = () => {
                               <FormControl>
                                 <Input
                                   type="file"
-                                  accept="image/*,.pdf"
+                                  accept="image/*,.pdf,.jpg,.jpeg,.png"
                                   onChange={(e) => {
                                     onChange(
                                       e.target.files ? e.target.files[0] : null,
@@ -1473,6 +1586,9 @@ const PreRegister = () => {
                                 <FormDescription className="mt-1 text-xs">
                                   You will receive an email within 24 hours to
                                   confirm registration.
+                                </FormDescription>
+                                <FormDescription className="mt-1 text-xs">
+                                  Classroom invitations will be sent to your email address.
                                 </FormDescription>
                                 <FormMessage />
                               </div>
@@ -1608,17 +1724,6 @@ const PreRegister = () => {
                   <li>
                     <strong>Veterinarians</strong> - June 22 to August 28, 2026
                   </li>
-                  <li>
-                    <strong>Food Technologists</strong> - May 4 to June 5, 2026
-                  </li>
-                  <li>
-                    <strong>Fisheries Professionals</strong> - July 6 to August
-                    7, 2026
-                  </li>
-                  <li>
-                    <strong>Agricultural and Biosystems Engineers</strong> -
-                    September to October 2026
-                  </li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
@@ -1640,30 +1745,7 @@ const PreRegister = () => {
                       <li>50% discount for Latin honors graduates</li>
                     </ul>
                   </div>
-                  <div>
-                    <strong>Food Technologists:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      <li>Early Bird: ₱4,999 (March 1-31, 2026)</li>
-                      <li>Late Registration: ₱5,999</li>
-                      <li>50% discount for Latin honors graduates</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <strong>Fisheries Professionals:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      <li>Early Bird: ₱3,999 (March 1-31, 2026)</li>
-                      <li>Late Registration: ₱4,999</li>
-                      <li>50% discount for Latin honors graduates</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <strong>Agricultural and Biosystems Engineers:</strong>
-                    <ul className="list-disc list-inside ml-4">
-                      <li>Early Bird: ₱4,999 (March 1-31, 2026)</li>
-                      <li>Late Registration: ₱5,999</li>
-                      <li>50% discount for Latin honors graduates</li>
-                    </ul>
-                  </div>
+                  
                 </div>
               </AccordionContent>
             </AccordionItem>

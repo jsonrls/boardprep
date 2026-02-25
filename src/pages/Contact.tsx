@@ -40,13 +40,13 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-medium text-foreground font-sans">
-                          Email Us
+                          Email
                         </p>
                         <a
-                          href="mailto:sentinelvet.care@gmail.com"
+                          href="mailto:acewithboardprep@gmail.com"
                           className="text-muted-foreground hover:text-primary transition-colors font-sans"
                         >
-                          sentinelvet.care@gmail.com
+                          acewithboardprep@gmail.com
                         </a>
                       </div>
                     </div>
@@ -56,24 +56,25 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-medium text-foreground font-sans">
-                          Call Us
+                         Facebook Messenger
                         </p>
-                        <p className="text-muted-foreground font-sans">
-                          +63 917 142 9725
-                        </p>
+                        <a
+                          href="mailto:acewithboardprep@gmail.com"
+                          className="text-muted-foreground hover:text-primary transition-colors font-sans"
+                        >
+                          @myboardprep
+                        </a>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
                       <div className="bg-primary/10 p-3 rounded-lg text-primary mt-1">
-                        <MapPin size={24} />
+                        <Phone size={24} />
                       </div>
                       <div>
                         <p className="font-medium text-foreground font-sans">
-                          Visit Us
+                         Address
                         </p>
-                        <p className="text-muted-foreground font-sans">
-                          Philippines
-                        </p>
+                        <p className="text-muted-foreground font-sans">Level 10-1 Fort Legend Tower, 31st Street & 3rd Avenue, Bonifacio Global City, Taguig City, 1634, Philippines</p>
                       </div>
                     </div>
                   </div>
@@ -105,7 +106,7 @@ const Contact = () => {
               </div>
 
               {/* Contact Form */}
-              <div className="bg-card p-8 lg:p-10 rounded-3xl border border-border shadow-sm">
+              {/* <div className="bg-card p-8 lg:p-10 rounded-3xl border border-border shadow-sm">
                 <h3 className="text-2xl font-display font-bold text-foreground mb-6">
                   Send us a Message
                 </h3>
@@ -159,7 +160,7 @@ const Contact = () => {
                     Send Message
                   </Button>
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

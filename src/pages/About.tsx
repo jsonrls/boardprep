@@ -110,7 +110,7 @@ const About = () => {
                     <img
                       src={media.src}
                       alt={media.alt}
-                      className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                      className="max-w-full max-h-full object-contain transition-all duration-300"
                     />
                   </div>
                 ))}
@@ -145,7 +145,7 @@ const About = () => {
                     <img
                       src={award.src}
                       alt={award.alt}
-                      className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                      className="max-w-full max-h-full object-contain transition-all duration-300"
                     />
                   </div>
                 ))}

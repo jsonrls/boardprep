@@ -87,7 +87,7 @@ const Header = () => {
             <Link to="/" className="flex items-center">
               <img
                 src={shouldUseColoredLogo ? logoFull : logoWhite}
-                alt="Sentinel Vet Diagnostics"
+                alt="My Board Prep Solutions, Incorporated"
                 className="h-8 lg:h-10 w-auto"
                 width={150}
                 height={40}
@@ -153,9 +153,10 @@ const Header = () => {
                         />
 
                         <ListItem
-                          title="BoardPrep Lite (Coming App)"
-                          href="#"
-                          className="opacity-50 cursor-not-allowed"
+                          title="BoardPrep Lite"
+                          href="https://apps.apple.com/ca/app/boardprep-lite/id6756837074"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           icon={Zap}
                         />
                       </ul>
@@ -180,26 +181,11 @@ const Header = () => {
                           title="Veterinarian"
                           icon={Stethoscope}
                         />
-                        <ListItem
-                          href="/review/ftle"
-                          title="Food Technology"
-                          icon={Utensils}
-                        />
-                        <ListItem
-                          href="/review/fisheries"
-                          title="Fisheries"
-                          icon={Fish}
-                        />
-                        <ListItem
-                          href="/review/abe"
-                          title="Agri & Biosystems"
-                          icon={Sprout}
-                        />
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
 
-                  <NavigationMenuItem>
+                  {/* <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <Link
                         to="/press"
@@ -214,7 +200,7 @@ const Header = () => {
                         Press
                       </Link>
                     </NavigationMenuLink>
-                  </NavigationMenuItem>
+                  </NavigationMenuItem> */}
 
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
@@ -245,7 +231,7 @@ const Header = () => {
                             : "border-transparent hover:border-accent",
                         )}
                       >
-                        About
+                        About Us
                       </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
@@ -255,7 +241,7 @@ const Header = () => {
 
             {/* CTA Button */}
             <div className="hidden lg:block">
-              <Link to="/pre-register" className="flex items-center gap-2">
+              <Link to="/enroll" className="flex items-center gap-2">
                 <Button
                   variant="hero"
                   size="sm"
@@ -409,7 +395,7 @@ const Header = () => {
 
                   <Button variant="hero" className="mt-6 w-full" asChild>
                     <Link
-                      to="/pre-register"
+                      to="/enroll"
                       className="flex items-center justify-center gap-2 font-display"
                     >
                       <UserPlus size={16} />

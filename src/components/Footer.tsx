@@ -24,7 +24,6 @@ const Footer = () => {
       href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
       isHash: false,
     },
-    { label: "Press", href: "/press", isHash: false },
     { label: "About Us", href: "/about", isHash: false },
     { label: "Contact Us", href: "/contact", isHash: false },
   ];
@@ -43,7 +42,7 @@ const Footer = () => {
             />
             <p className="text-secondary-foreground/60 leading-relaxed mb-8 max-w-sm font-sans">
               Leading provider of accessible and high-quality board exam review
-              materials. Trusted by future professionals.
+              materials. Trusted by future licensed professionals.
             </p>
             <div className="flex gap-4">
               <a
@@ -164,7 +163,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-secondary-foreground/10 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* <div className="border-t border-secondary-foreground/10 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-secondary-foreground/50 text-sm font-sans">
             © {currentYear} BoardPrep. All rights reserved.
           </p>
@@ -182,7 +181,7 @@ const Footer = () => {
               Terms of Service
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

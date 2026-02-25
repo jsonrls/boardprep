@@ -133,7 +133,7 @@ const FtleDetails = () => {
               </p>
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/pre-register" className="w-full sm:w-auto">
+                <Link to="/enroll" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
                     size="lg"

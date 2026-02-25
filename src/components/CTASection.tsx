@@ -40,7 +40,7 @@ const CTASection = () => {
                   />
                 </Button>
               </Link>
-              <Link to="/review/vet" className="w-full sm:w-auto">
+              <Link to="/review-class" className="w-full sm:w-auto">
                 <Button
                   variant="heroOutline"
                   size="lg"

@@ -36,7 +36,7 @@ const courseFeatures = [
   },
   {
     icon: Video,
-    title: "Recorded Sessions",
+    title: "Live & Recorded Sessions",
     description:
       "Access high-quality video lectures you can watch anytime, anywhere at your own pace.",
   },
@@ -48,22 +48,22 @@ const courseFeatures = [
   },
   {
     icon: Target,
-    title: "Practice Quizzes",
+    title: "Mock Exams",
     description:
       "Test your knowledge with hundreds of practice questions and detailed explanations.",
   },
 ];
 
 const curriculumTopics = [
-  { title: "Veterinarian Anatomy", lessons: 24 },
-  { title: "Veterinarian Physiology", lessons: 20 },
-  { title: "Veterinarian Pathology", lessons: 28 },
-  { title: "Veterinarian Pharmacology", lessons: 22 },
-  { title: "Clinical Veterinarian Medicine", lessons: 30 },
-  { title: "Veterinarian Surgery", lessons: 18 },
-  { title: "Zootechnics", lessons: 16 },
-  { title: "Veterinary Microbiology and Public Health", lessons: 14 },
-  { title: "Veterinary Parasitology", lessons: 16 },
+  { title: "Veterinary Anatomy",},
+  { title: "Veterinary Physiology",},
+  { title: "Veterinary Pathology"},
+  { title: "Veterinary Pharmacology"},
+  { title: "Veterinary Medicine"},
+  { title: "Veterinary Surgery"},
+  { title: "Zootechnics"},
+  { title: "Veterinary Microbiology and Public Health"},
+  { title: "Veterinary Parasitology"},
 ];
 
 const speakers = [
@@ -96,7 +96,6 @@ const speakers = [
 const stats = [
   { icon: Users, value: "1000+", label: "DVM Enrolled" },
   { icon: Clock, value: "150+", label: "Hours of Content" },
-  { icon: TrendingUp, value: "95%", label: "Pass Rate" },
   { icon: Star, value: "4.9/5", label: "Student Rating" },
 ];
 
@@ -140,7 +139,7 @@ const VetDetails = () => {
               </p>
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/pre-register" className="w-full sm:w-auto">
+                <Link to="/enroll" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
                     size="lg"
@@ -176,7 +175,7 @@ const VetDetails = () => {
         {/* Stats Section */}
         <section className="py-16 bg-background border-b border-border">
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 tet-align">
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
@@ -209,7 +208,7 @@ const VetDetails = () => {
                 <em className="not-italic text-accent">succeed</em>
               </h2>
               <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
-                Our VET review class provides comprehensive preparation with
+                Our vet review class provides comprehensive preparation with
                 expert guidance and proven study materials.
               </p>
             </div>
@@ -254,7 +253,7 @@ const VetDetails = () => {
                 topics
               </h2>
               <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
-                Our curriculum covers all essential topics for the Veterinarian
+                Our program covers the <b>9 core subjects</b> of the Veterinary
                 Licensure Examination.
               </p>
             </div>
@@ -275,12 +274,8 @@ const VetDetails = () => {
                           <h3 className="font-display text-lg text-foreground mb-1">
                             {topic.title}
                           </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {topic.lessons} lessons
-                          </p>
                         </div>
                       </div>
-                      <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
                     </div>
                   </div>
                 ))}
