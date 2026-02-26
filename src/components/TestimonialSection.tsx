@@ -82,8 +82,23 @@ const testimonials = [
   },
 ];
 
+const TESTIMONIALS_PER_ROW = 5;
+
+const chunkTestimonials = <T,>(items: T[], chunkSize: number): T[][] => {
+  const chunks: T[][] = [];
+  for (let index = 0; index < items.length; index += chunkSize) {
+    chunks.push(items.slice(index, index + chunkSize));
+  }
+  return chunks;
+};
+
 const TestimonialSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const testimonialPages = chunkTestimonials(testimonials, TESTIMONIALS_PER_ROW);
+  const duplicatedPages = [...testimonialPages, ...testimonialPages, ...testimonialPages];
+  const reversePages = [...testimonialPages.slice(1), testimonialPages[0]];
+  const duplicatedReversePages = [...reversePages, ...reversePages, ...reversePages];
+
   return (
     <section
       className="py-20 bg-background overflow-hidden border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
@@ -121,34 +136,38 @@ const TestimonialSection = () => {
         {/* First Row - Scrolling Left (Normal) */}
         <div className="relative w-full overflow-hidden group">
           <div className="flex gap-6 animate-marquee w-max pr-6">
-            {/* Duplicate list to ensure seamless looping */}
-            {[...testimonials, ...testimonials, ...testimonials].map(
-              (testimonial, index) => (
-                <div
-                  key={`row1-${index}`}
-                  className="w-[350px] md:w-[400px] flex-shrink-0 p-6 rounded-xl border border-border/60 bg-card shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${testimonial.color}`}
-                    >
-                      {testimonial.initials}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground text-sm">
-                        {testimonial.name}
+            {duplicatedPages.map((page, pageIndex) => (
+              <div
+                key={`row1-page-${pageIndex}`}
+                className="grid grid-cols-5 gap-6 flex-shrink-0 w-[1796px]"
+              >
+                {page.map((testimonial, cardIndex) => (
+                  <div
+                    key={`row1-card-${pageIndex}-${cardIndex}-${testimonial.name}`}
+                    className="p-6 rounded-xl border border-border/60 bg-card shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${testimonial.color}`}
+                      >
+                        {testimonial.initials}
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        {testimonial.role}
+                      <div>
+                        <div className="font-semibold text-foreground text-sm">
+                          {testimonial.name}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {testimonial.role}
+                        </div>
                       </div>
                     </div>
+                    <p className="text-muted-foreground italic text-sm leading-relaxed font-sans">
+                      "{testimonial.quote}"
+                    </p>
                   </div>
-                  <p className="text-muted-foreground italic text-sm leading-relaxed font-sans">
-                    "{testimonial.quote}"
-                  </p>
-                </div>
-              ),
-            )}
+                ))}
+              </div>
+            ))}
           </div>
 
           {/* Gradient Fade Edges */}
@@ -159,34 +178,38 @@ const TestimonialSection = () => {
         {/* Second Row - Scrolling Right (Reverse) */}
         <div className="relative w-full overflow-hidden group">
           <div className="flex gap-6 animate-marquee-reverse w-max pr-6">
-            {/* Duplicate list to ensure seamless looping */}
-            {[...testimonials, ...testimonials, ...testimonials].map(
-              (testimonial, index) => (
-                <div
-                  key={`row2-${index}`}
-                  className="w-[350px] md:w-[400px] flex-shrink-0 p-6 rounded-xl border border-border/60 bg-card shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${testimonial.color}`}
-                    >
-                      {testimonial.initials}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground text-sm">
-                        {testimonial.name}
+            {duplicatedReversePages.map((page, pageIndex) => (
+              <div
+                key={`row2-page-${pageIndex}`}
+                className="grid grid-cols-5 gap-6 flex-shrink-0 w-[1796px]"
+              >
+                {page.map((testimonial, cardIndex) => (
+                  <div
+                    key={`row2-card-${pageIndex}-${cardIndex}-${testimonial.name}`}
+                    className="p-6 rounded-xl border border-border/60 bg-card shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${testimonial.color}`}
+                      >
+                        {testimonial.initials}
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        {testimonial.role}
+                      <div>
+                        <div className="font-semibold text-foreground text-sm">
+                          {testimonial.name}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {testimonial.role}
+                        </div>
                       </div>
                     </div>
+                    <p className="text-muted-foreground italic text-sm leading-relaxed font-sans">
+                      "{testimonial.quote}"
+                    </p>
                   </div>
-                  <p className="text-muted-foreground italic text-sm leading-relaxed font-sans">
-                    "{testimonial.quote}"
-                  </p>
-                </div>
-              ),
-            )}
+                ))}
+              </div>
+            ))}
           </div>
 
           {/* Gradient Fade Edges */}

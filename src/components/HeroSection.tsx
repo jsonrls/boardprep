@@ -29,14 +29,14 @@ const HeroSection = () => {
 
             {/* Headline */}
             <h1 className="animate-fade-up delay-100 font-display text-6xl md:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-[1.1] mb-8 text-center md:text-left">
-              Master your board exam with{" "}
+              Ace your board exam with{" "}
               <em className="not-italic text-accent">top-notch</em> drills.
             </h1>
 
             {/* Subheadline */}
             <p className="animate-fade-up delay-200 text-lg md:text-xl text-foreground mb-10 leading-relaxed max-w-xl font-light text-center md:text-left font-sans">
               Affordable but high-quality question drills curated by board
-              topnotchers. Join our self-paced review classes and study at your
+              topnotchers. Join our self-paced online review classes and study at your
               own convenience.
             </p>
 

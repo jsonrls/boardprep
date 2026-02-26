@@ -15,12 +15,12 @@ const stats = [
   {
     value: 100,
     suffix: "+",
-    label: "Board topnotchers and specialist question contributors",
+    label: "Board topnotcher   and industry expert question contributors",
   },
   {
     value: 50,
     suffix: "%",
-    label: "Better than national passing average",
+    label: "Better than national passing rate",
   },
 ];
 

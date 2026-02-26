@@ -15,6 +15,7 @@ import {
   Target,
   TrendingUp,
   UserPlus,
+  Rocket,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -75,20 +76,21 @@ const courseFeatures = [
     icon: Target,
     title: "Mock Exams",
     description:
-      "Test your knowledge with hundreds of practice questions and detailed explanations.",
+      "Test your knowledge with hundreds of TOO practice questions and detailed explanations.",
   },
 ];
 
 const curriculumTopics = [
   { title: "Veterinary Anatomy",},
+  { title: "Veterinary Pharmacology",},
   { title: "Veterinary Physiology",},
-  { title: "Veterinary Pathology"},
-  { title: "Veterinary Pharmacology"},
-  { title: "Veterinary Medicine"},
-  { title: "Veterinary Surgery"},
-  { title: "Zootechnics"},
-  { title: "Veterinary Microbiology and Public Health"},
-  { title: "Veterinary Parasitology"},
+  { title: "Veterinary Microbiology & Public Health",},
+  { title: "Veterinary Parasitology",},
+  { title: "Veterinary Surgery",},
+  { title: "Veterinary Pathology",},
+  { title: "Zootechnics",},
+  { title: "Veterinary Medicine",},
+  
 ];
 
 const speakers = [
@@ -180,7 +182,7 @@ const speakers = [
   {
     id: 13,
     name: "Dr. Paul Cadenio",
-    specialty: "Pharmacology",
+    specialty: "Diagnostic Imaging",
     credential: "VLE 2014 - Top 3",
     image: speaker13,
   },
@@ -307,7 +309,7 @@ const speakers = [
     id: 31, 
     name: "Dr. Jaypee Gonzales",
     specialty: "Public Health",
-    credential: "Public Health",
+    credential: "Industry Expert",
     image: speaker31,
   },
   {
@@ -319,17 +321,40 @@ const speakers = [
   },
 ];
 
+const specialtyOrder = [
+  "Anatomy",
+  "Physiology",
+  "Parasitology",
+  "Pathology",
+  "Pharmacology",
+  "Microbiology",
+  "Public Health",
+  "Surgery",
+  "Zootechnics",
+  "Medicine",
+];
+
+const specialtyRank = new Map(
+  specialtyOrder.map((specialty, index) => [specialty, index]),
+);
+
+const orderedSpeakers = [...speakers].sort((a, b) => {
+  const rankA = specialtyRank.get(a.specialty) ?? Number.MAX_SAFE_INTEGER;
+  const rankB = specialtyRank.get(b.specialty) ?? Number.MAX_SAFE_INTEGER;
+  return rankA - rankB;
+});
+
 const stats = [
   { icon: Users, value: "1000+", label: "Enrolled DVM" },
   { icon: Clock, value: "150+", label: "Hours of Content" },
-  { icon: Star, value: "4.9/5", label: "Student Rating" },
+  { icon: Star, value: "4.9/5", label: "Reviewee Rating" },
 ];
 
 const VetDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="VET Review Class"
+        title="VOnline Vet Review Class"
         description="Comprehensive review for the Veterinarian Licensure Examination. Expert instructors, complete materials, and proven results."
       />
       <Header />
@@ -355,13 +380,11 @@ const VetDetails = () => {
               </div>
 
               <h1 className="animate-fade-up delay-100 text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
-                VET Review Class
+                Online Vet Review Class
               </h1>
 
               <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed font-sans">
-                Master the Veterinarian Licensure Examination with comprehensive
-                review materials, expert instructors, and a proven curriculum
-                designed by board topnotchers.
+                Ace the Veterinarian Licensure Examination with comprehensive review materials, expert instructors, and a proven review program designed by board topnotchers.
               </p>
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
@@ -442,7 +465,7 @@ const VetDetails = () => {
               </p>
               <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
                 Everything you need to{" "}
-                <em className="not-italic text-accent">succeed</em>
+                <em className="not-italic text-accent">succeed.</em>
               </h2>
               <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our vet review class provides comprehensive preparation with
@@ -529,7 +552,7 @@ const VetDetails = () => {
                 Expert Instructors
               </p>
               <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-                Learn from the <em className="not-italic text-accent">best</em>
+                Learn from the <em className="not-italic text-accent">best!</em>
               </h2>
               <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
                 Our instructors are board topnotchers and experienced
@@ -538,93 +561,37 @@ const VetDetails = () => {
             </div>
           </div>
 
-          {/* Full-width marquee rows */}
-          <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] px-0">
-            <div className="space-y-8">
-              {/* First Row - Scrolling Left (similar to testimonials) */}
-              <div className="relative w-full overflow-hidden group">
-                <div className="flex gap-6 animate-marquee w-max pr-6">
-                  {[...speakers.slice(0, 16), ...speakers.slice(0, 16), ...speakers.slice(0, 16)].map(
-                    (speaker, index) => (
-                      <div
-                        key={`vet-row1-${index}-${speaker.name}`}
-                        className="w-[260px] md:w-[320px] flex-shrink-0"
-                      >
-                        <p>{speaker.id}</p>
-                        <div className="bg-card rounded-sm p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center">
-                          <div className="relative inline-block mb-4">
-                            <img
-                              src={speaker.image}
-                              alt={speaker.name}
-                              className="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
-                            />
-                            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                              <Star className="w-5 h-5 text-white fill-white" />
-                            </div>
-                          </div>
-                          <h3 className="font-display text-lg md:text-xl text-foreground mb-2">
-                            {speaker.name}
-                          </h3>
-                          <p className="text-xs md:text-sm text-muted-foreground mb-3">
-                            {speaker.specialty}
-                          </p>
-                          <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1 mt-auto">
-                            <Award className="w-3 h-3 text-secondary" />
-                            <span className="text-[11px] md:text-xs font-medium text-secondary">
-                              {speaker.credential}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ),
-                  )}
+          <div className="container mx-auto px-6 lg:px-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+              {orderedSpeakers.map((speaker) => (
+                <div
+                  key={`vet-speaker-${speaker.id}`}
+                  className="bg-card rounded-sm p-6 md:p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center"
+                >
+                  <div className="relative inline-block mb-4">
+                    <img
+                      src={speaker.image}
+                      alt={speaker.name}
+                      className="w-24 h-24 md:w-28 md:h-28 rounded-full mx-auto border-4 border-accent/20 object-cover"
+                    />
+                    <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                      <Rocket className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="font-display text-base md:text-lg text-foreground mb-2">
+                    {speaker.name}
+                  </h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mb-3">
+                    {speaker.specialty}
+                  </p>
+                  <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1 mt-auto">
+                    <Award className="w-3 h-3 text-secondary" />
+                    <span className="text-[11px] md:text-xs font-medium text-secondary">
+                      {speaker.credential}
+                    </span>
+                  </div>
                 </div>
-                {/* Fade edges */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-background to-transparent" />
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-background to-transparent" />
-              </div>
-
-              {/* Second Row - Scrolling Right (reverse) */}
-              <div className="relative w-full overflow-hidden group">
-                <div className="flex gap-6 animate-marquee-reverse w-max pr-6">
-                  {[...speakers.slice(16), ...speakers.slice(16), ...speakers.slice(16)].map(
-                    (speaker, index) => (
-                      <div
-                        key={`vet-row2-${index}-${speaker.name}`}
-                        className="w-[260px] md:w-[320px] flex-shrink-0"
-                      >
-                        <div className="bg-card rounded-sm p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center">
-                          <div className="relative inline-block mb-4">
-                            <img
-                              src={speaker.image}
-                              alt={speaker.name}
-                              className="w-28 h-28 md:w-32 md:h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
-                            />
-                            <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                              <Star className="w-5 h-5 text-white fill-white" />
-                            </div>
-                          </div>
-                          <h3 className="font-display text-lg md:text-xl text-foreground mb-2">
-                            {speaker.name}
-                          </h3>
-                          <p className="text-xs md:text-sm text-muted-foreground mb-3">
-                            {speaker.specialty}
-                          </p>
-                          <div className="inline-flex items-center gap-2 bg-accent/10 rounded-full px-3 py-1 mt-auto">
-                            <Award className="w-3 h-3 text-secondary" />
-                            <span className="text-[11px] md:text-xs font-medium text-secondary">
-                              {speaker.credential}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ),
-                  )}
-                </div>
-                {/* Fade edges */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-20 bg-gradient-to-r from-background to-transparent" />
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-20 bg-gradient-to-l from-background to-transparent" />
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -645,10 +612,10 @@ const VetDetails = () => {
                 </p>
                 <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-secondary-foreground leading-tight mb-6 max-w-4xl mx-auto">
                   Ready to ace your{" "}
-                  <em className="not-italic text-primary">VLE exam</em>?
+                  <em className="not-italic text-primary">VLE</em>?
                 </h2>
                 <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed font-sans">
-                  Join hundreds of successful students who have passed the
+                  Join hundreds of successful veterinarians  who have passed the
                   Veterinarian Licensure Examination with our comprehensive
                   review program.
                 </p>
@@ -664,14 +631,14 @@ const VetDetails = () => {
                       size="lg"
                       className="w-full sm:w-auto group font-display"
                     >
-                      Access Learning Platform
+                      Access BoardPrep Classroom
                       <ArrowRight
                         size={18}
                         className="transition-transform group-hover:translate-x-1"
                       />
                     </Button>
                   </a>
-                  <Link to="/question-drills" className="w-full sm:w-auto">
+                  <Link to="https://www.myboardprep.com/" className="w-full sm:w-auto">
                     <Button
                       variant="heroOutline"
                       size="lg"

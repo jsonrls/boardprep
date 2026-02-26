@@ -76,7 +76,7 @@ const programs = [
 const guaranteePoints = [
   "Curated by board topnotchers and industry experts.",
   "Designed to integrate with BoardPrep Question Drills.",
-  "Built for Philippine board exam takers.",
+  "Built for board exam takers.",
 ];
 
 const ReviewClass = () => {
@@ -188,7 +188,7 @@ const ReviewClass = () => {
         </section>
 
         {/* Programs grid */}
-        <section className="py-24 lg:py-32 bg-background">
+        {/* <section className="py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-6 lg:px-12">
             <div className="max-w-3xl mb-16">
               <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
@@ -249,7 +249,7 @@ const ReviewClass = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Guarantee / CTA */}
         <section className="py-24 lg:py-32 bg-muted/40">
@@ -331,20 +331,12 @@ const ReviewClass = () => {
                   </div>
                   <div className="space-y-3 text-sm text-secondary-foreground/80">
                     <div className="flex justify-between">
-                      <span>Mon–Wed</span>
+                      <span>Monday–Friday</span>
                       <span>Concept lectures</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Thu</span>
-                      <span>Board-style drills</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Fri–Sat</span>
-                      <span>Case discussions / Q&amp;A</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Sun</span>
-                      <span>Full mock exam (optional)</span>
+                      <span>Saturday</span>
+                      <span>Mock Exam</span>
                     </div>
                   </div>
                 </div>

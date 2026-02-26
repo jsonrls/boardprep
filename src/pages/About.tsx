@@ -69,15 +69,33 @@ const About = () => {
                 Our Partners
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-70">
-                {/* Partner Logo Placeholders */}
-                {[1, 2, 3, 4].map((i) => (
+                {[
+                  {
+                    src: new URL("@/assets/pcieerd.jpg", import.meta.url).href,
+                    alt: "Sustainability PH",
+                  },
+                  {
+                    src: new URL("@/assets/sustainability-ph.png", import.meta.url).href,
+                    alt: "Sustainability PH",
+                  },
+                  {
+                    src: new URL("@/assets/pvma.png", import.meta.url).href,
+                    alt: "Philippine Veterinary Medical Association Singapore",
+                  },
+                  {
+                    src: new URL("@/assets/prevail.png", import.meta.url).href,
+                    alt: "Prevail",
+                  },
+                ].map((partner, index) => (
                   <div
-                    key={i}
-                    className="h-24 bg-muted/50 rounded-lg flex items-center justify-center border border-border/50 hover:bg-muted transition-colors"
+                    key={index}
+                    className="h-24 flex items-center justify-center p-4 overflow-hidden bg-transparent hover:opacity-100 transition-opacity"
                   >
-                    <span className="text-muted-foreground font-medium font-sans">
-                      Partner {i}
-                    </span>
+                    <img
+                      src={partner.src}
+                      alt={partner.alt}
+                      className="max-w-full max-h-full object-contain bg-transparent"
+                    />
                   </div>
                 ))}
               </div>
@@ -105,12 +123,12 @@ const About = () => {
                 ].map((media, index) => (
                   <div
                     key={index}
-                    className="h-32 flex items-center justify-center p-4 overflow-hidden"
+                    className="h-32 flex items-center justify-center p-4 overflow-hidden bg-transparent"
                   >
                     <img
                       src={media.src}
                       alt={media.alt}
-                      className="max-w-full max-h-full object-contain transition-all duration-300"
+                      className="max-w-full max-h-full object-contain transition-all duration-300 bg-transparent"
                     />
                   </div>
                 ))}
@@ -140,12 +158,12 @@ const About = () => {
                 ].map((award, index) => (
                   <div
                     key={index}
-                    className="h-32 rounded-lg flex items-center justify-center  p-4 overflow-hidden"
+                    className="h-32 rounded-lg flex items-center justify-center p-4 overflow-hidden bg-transparent"
                   >
                     <img
                       src={award.src}
                       alt={award.alt}
-                      className="max-w-full max-h-full object-contain transition-all duration-300"
+                      className="max-w-full max-h-full object-contain transition-all duration-300 bg-transparent"
                     />
                   </div>
                 ))}

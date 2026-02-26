@@ -32,6 +32,14 @@ import gcashQr9499 from "@/assets/gcash-qr-9499.png";
 import gcashQr4499 from "@/assets/gcash-qr-4499.png";
 import gcashQr9999 from "@/assets/gcash-qr-9999.png";
 import gcashQr4999 from "@/assets/gcash-qr-4999.png";
+import gcashIcon from "@/assets/gcash-icon.svg";
+import mayaIcon from "@/assets/maya-icon.svg";
+import bpiIcon from "@/assets/bpi-icon.svg";
+import ubIcon from "@/assets/ub-icon.svg";
+import unionbankQr4499 from "@/assets/qr/4499.png";
+import unionbankQr4999 from "@/assets/qr/4999.png";
+import unionbankQr9499 from "@/assets/qr/9499.png";
+import unionbankQr9999 from "@/assets/qr/9999.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -80,6 +88,7 @@ const formSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   gender: z.string().min(1, "Please select your gender"),
   email: z.string().email("Invalid email address"),
+  retypeEmail: z.string().min(1, "Please re-enter your email"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   province: z.string().min(2, "Province is required"),
   city: z.string().min(2, "City is required"),
@@ -89,6 +98,7 @@ const formSchema = z.object({
   gradYear: z.string().min(4, "Please enter a valid year"),
   description: z.string().min(1, "Please select an option"),
   isEmployed: z.string().min(1, "Please select an option"),
+  employmentType: z.string().optional(),
   latinHonorProof: z.any().optional(), // File inputs are tricky with Zod, keeping lenient for now
   isExistingSubscriber: z.string().min(1, "Please select an option"),
   existingSubscriberEmail: z.string().optional(),
@@ -115,7 +125,16 @@ const formSchema = z.object({
     .refine((val) => val === true, "You must agree to the terms"),
   hasPreRegistered: z.string().min(1, "Please select an option"),
   isLatinHonor: z.string().min(1, "Please select an option"),
-});
+})
+  .refine((data) => data.retypeEmail === data.email, {
+    message: "Emails do not match",
+    path: ["retypeEmail"],
+  })
+  .refine(
+    (data) =>
+      data.isEmployed !== "yes" || (data.employmentType && data.employmentType.length > 0),
+    { message: "Please select your employment type", path: ["employmentType"] }
+  );
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -130,6 +149,7 @@ const steps = [
 const PreRegister = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0); // Start at Step 0
+  const [showFeeModal, setShowFeeModal] = useState(true);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { toast } = useToast();
@@ -141,6 +161,7 @@ const PreRegister = () => {
       lastName: "",
       gender: "",
       email: "",
+      retypeEmail: "",
       phone: "",
       province: "",
       city: "",
@@ -148,6 +169,7 @@ const PreRegister = () => {
       gradYear: "",
       description: "",
       isEmployed: "",
+      employmentType: "",
       isExistingSubscriber: "no",
       examType: "",
       targetDate: "",
@@ -155,7 +177,7 @@ const PreRegister = () => {
       examineeType: "",
       otherReviewCenter: "no",
       contactConsent: false,
-      paymentMethod: "unionbank",
+      paymentMethod: "qr",
       walletType: "",
       agreedToTerms: false,
       remarks: "",
@@ -172,12 +194,18 @@ const PreRegister = () => {
   } = form;
 
   const isExistingSubscriber = watch("isExistingSubscriber");
+  const isEmployed = watch("isEmployed");
   const otherReviewCenter = watch("otherReviewCenter");
   const hasPreRegistered = watch("hasPreRegistered");
   const isLatinHonor = watch("isLatinHonor");
   const examType = watch("examType");
-  const paymentMethod = watch("paymentMethod");
   const walletType = watch("walletType");
+  const email = watch("email");
+  const retypeEmail = watch("retypeEmail");
+  const emailsMatch =
+    email && retypeEmail && email.trim().toLowerCase() === retypeEmail.trim().toLowerCase();
+  const emailsMismatch =
+    email && retypeEmail && email.trim().toLowerCase() !== retypeEmail.trim().toLowerCase();
 
   const pricing: Record<string, { regular: string; discounted: string }> = {
     vet: {
@@ -224,24 +252,28 @@ const PreRegister = () => {
     maya: qrCode,
     bpi: qrCode,
     gcash: qrCode,
+    unionbank: qrCode,
   };
 
   const qrWalletImagesPrereg: Record<string, string> = {
     maya: qrCodePreregister,
     bpi: qrCodePreregister,
     gcash: qrCodePreregister,
+    unionbank: qrCodePreregister,
   };
 
   const qrWalletImagesLatinHonor: Record<string, string> = {
     maya: qrCodeLatinHonor,
     bpi: qrCodeLatinHonor,
     gcash: qrCodeLatinHonor,
+    unionbank: qrCodeLatinHonor,
   };
 
   const qrWalletImagesLatinHonorPrereg: Record<string, string> = {
     maya: qrCodeLatinHonorPrereg,
     bpi: qrCodeLatinHonorPrereg,
     gcash: qrCodeLatinHonorPrereg,
+    unionbank: qrCodeLatinHonorPrereg,
   };
 
   const activeQrImages =
@@ -267,6 +299,13 @@ const PreRegister = () => {
     4999: gcashQr4999,
   };
 
+  const unionbankQrImagesByAmount: Record<number, string> = {
+    9499: unionbankQr9499,
+    4499: unionbankQr4499,
+    9999: unionbankQr9999,
+    4999: unionbankQr4999,
+  };
+
   const getActiveQrImageForWallet = () => {
     if (walletType === "maya") {
       const mayaImage = mayaQrImagesByAmount[getFinalAmount()];
@@ -279,6 +318,13 @@ const PreRegister = () => {
       const gcashImage = gcashQrImagesByAmount[getFinalAmount()];
       if (gcashImage) {
         return gcashImage;
+      }
+    }
+
+    if (walletType === "unionbank") {
+      const unionbankImage = unionbankQrImagesByAmount[getFinalAmount()];
+      if (unionbankImage) {
+        return unionbankImage;
       }
     }
 
@@ -321,6 +367,7 @@ const PreRegister = () => {
         "lastName",
         "gender",
         "email",
+        "retypeEmail",
         "phone",
         "province",
         "city",
@@ -333,7 +380,9 @@ const PreRegister = () => {
         "isEmployed",
         "isExistingSubscriber",
       ];
-      // Add conditional validation if needed
+      if (form.getValues("isEmployed") === "yes") {
+        fieldsToValidate.push("employmentType");
+      }
     } else if (currentStep === 3) {
       fieldsToValidate = [
         "examType",
@@ -453,7 +502,9 @@ const PreRegister = () => {
         "Will You Take the October 2025 Veterinarian Licensure Exam":
           data.takeOct2025 || "N/A",
         "Type of Examinee": data.examineeType || "N/A",
-        "Currently Employed": data.isEmployed,
+        "Currently Employed": data.isEmployed,  
+        "Employment Type (if employed)":
+          data.isEmployed === "yes" ? data.employmentType || "N/A" : "N/A",
         "Enrolled in Other Review Centers": data.otherReviewCenter,
         "Name of Current Review Center (if applicable)":
           data.otherReviewCenterName || "N/A",
@@ -815,6 +866,37 @@ const PreRegister = () => {
                       )}
                     />
 
+                    <FormField
+                      control={form.control}
+                      name="retypeEmail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Re-type Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="Re-enter your email address"
+                              {...field}
+                              className={
+                                emailsMismatch
+                                  ? "border-destructive focus-visible:ring-destructive"
+                                  : emailsMatch
+                                    ? "border-green-500 focus-visible:ring-green-500"
+                                    : ""
+                              }
+                            />
+                          </FormControl>
+                          {emailsMatch && (
+                            <FormDescription className="text-green-600 flex items-center gap-1.5">
+                              <Check className="h-4 w-4 shrink-0" />
+                              Emails match
+                            </FormDescription>
+                          )}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -1020,7 +1102,10 @@ const PreRegister = () => {
                         <FormItem>
                           <FormLabel>Are you currently employed?</FormLabel>
                           <Select
-                            onValueChange={field.onChange}
+                            onValueChange={(val) => {
+                              field.onChange(val);
+                              if (val === "no") form.setValue("employmentType", "");
+                            }}
                             defaultValue={field.value}
                           >
                             <FormControl>
@@ -1037,6 +1122,48 @@ const PreRegister = () => {
                         </FormItem>
                       )}
                     />
+
+                    {isEmployed === "yes" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="space-y-4 pl-4 border-l-2 border-primary/20"
+                      >
+                        <FormField
+                          control={form.control}
+                          name="employmentType"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Employment type</FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select employment type…" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="Livestock & Poultry">
+                                    Livestock & Poultry
+                                  </SelectItem>
+                                  <SelectItem value="Companion Animal">
+                                    Companion Animal
+                                  </SelectItem>
+                                  <SelectItem value="Government Service">
+                                    Government Service
+                                  </SelectItem>
+                                  <SelectItem value="Sales">Sales</SelectItem>
+                                  <SelectItem value="Others">Others</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
 
                     <div className="space-y-4 pt-4 border-t">
                       <FormField
@@ -1342,200 +1469,61 @@ const PreRegister = () => {
                         </div>
                       </div>
 
-                      <FormField
-                        control={form.control}
-                        name="paymentMethod"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel className="text-sm font-medium">
-                              Choose payment method
-                            </FormLabel>
-                            <div className="grid gap-3 md:grid-cols-2">
-                              {[
-                                {
-                                  id: "unionbank",
-                                  title: "BPI Bank Transfer",
-                                  description:
-                                    "Best for direct online banking or over-the-counter deposits.",
-                                },
-                                {
-                                  id: "qr",
-                                  title: "QR Wallets",
-                                  description:
-                                    "Pay via Maya, BPI InstaPay, or GCash using a QR code.",
-                                },
-                              ].map((option) => {
-                                const isActive = field.value === option.id;
-                                return (
-                                  <button
-                                    key={option.id}
-                                    type="button"
-                                    onClick={() => field.onChange(option.id)}
-                                    className={`text-left rounded-lg border px-4 py-3 transition-colors ${
-                                      isActive
-                                        ? "border-[#FFB63A] bg-[#FFB63A1A]"
-                                        : "border-border bg-card hover:bg-accent/40"
-                                    }`}
-                                  >
-                                    <div className="font-semibold text-sm text-foreground">
-                                      {option.title}
-                                    </div>
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                      {option.description}
-                                    </p>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      <div className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="walletType"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium">
+                                Choose QR wallet
+                              </FormLabel>
+                              <div className="flex flex-wrap gap-2">
+                                {[
+                                  { id: "gcash", label: "GCash" },
+                                  { id: "maya", label: "Maya" },
+                                  { id: "bpi", label: "BPI" },
+                                  { id: "unionbank", label: "UnionBank" },
+                                ].map((wallet) => {
+                                  const isActive = field.value === wallet.id;
+                                  const walletIcon =
+                                    wallet.id === "gcash"
+                                      ? gcashIcon
+                                      : wallet.id === "maya"
+                                        ? mayaIcon
+                                        : wallet.id === "bpi"
+                                          ? bpiIcon
+                                          : ubIcon;
+                                  return (
+                                    <button
+                                      key={wallet.id}
+                                      type="button"
+                                      onClick={() => field.onChange(wallet.id)}
+                                      className={`min-w-[88px] rounded-lg px-3 py-2 text-xs font-medium border transition-colors flex flex-col items-center gap-1.5 ${
+                                        isActive
+                                          ? "border-[#FFB63A] bg-[#FFB63A1A] text-foreground"
+                                          : "border-border bg-background hover:bg-accent/60"
+                                      }`}
+                                    >
+                                      <img
+                                        src={walletIcon}
+                                        alt={`${wallet.label} logo`}
+                                        className="h-6 w-6 object-contain"
+                                      />
+                                      <span>{wallet.label}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                      {paymentMethod === "unionbank" && (
-                        <div className="space-y-4">
-                          <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm space-y-2">
-                            <p className="font-semibold">
-                              BPI Bank Transfer
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              Please transfer the exact amount to the account
-                              below and use your full name as the reference.
-                            </p>
-                            <p className="text-muted-foreground leading-relaxed text-sm space-y-1.5">
-                              Bank:{" "}
-                              <span className="text-foreground font-medium">
-                                BPI
-                              </span>
-                              <br />
-                              <span className="inline-flex items-center gap-1.5">
-                                Name:{" "}
-                                <span className="text-foreground font-medium">
-                                  Ryan Bismark Padiernos
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    navigator.clipboard
-                                      ?.writeText("Ryan Bismark Padiernos")
-                                      .then(() => {
-                                        toast({
-                                          title: "Name copied",
-                                          description:
-                                            "Account name has been copied to clipboard.",
-                                        });
-                                      })
-                                      .catch(() => undefined);
-                                  }}
-                                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
-                                  aria-label="Copy account name"
-                                >
-                                  <Copy className="h-3.5 w-3.5" />
-                                </button>
-                              </span>
-                              <br />
-                              <span className="inline-flex items-center gap-1.5">
-                                Account:{" "}
-                                <span className="text-foreground font-bold">
-                                  1259 3728 67
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    navigator.clipboard
-                                      ?.writeText("1259 3728 67")
-                                      .then(() => {
-                                        toast({
-                                          title: "Account number copied",
-                                          description:
-                                            "Account number has been copied to clipboard.",
-                                        });
-                                      })
-                                      .catch(() => undefined);
-                                  }}
-                                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
-                                  aria-label="Copy account number"
-                                >
-                                  <Copy className="h-3.5 w-3.5" />
-                                </button>
-                              </span>
-                            </p>
-                          </div>
-
-                          <div className="border rounded-lg px-4 py-4 bg-card">
-                            <p className="font-semibold mb-2">
-                              Or pay via QR code
-                            </p>
-                            <FormField
-                              control={form.control}
-                              name="walletType"
-                              render={({ field }) => (
-                                <FormItem className="space-y-2">
-                                  
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <p className="text-sm text-muted-foreground mb-4">
-                              Open your <b>mobile banking app</b>, scan the QR code, and pay the full amount.
-                            </p>
-                            <div className="flex flex-col items-center justify-center">
-                              <img
-                                src={
-                                  activeQrImages[
-                                    (watch("walletType") || "maya") as keyof typeof activeQrImages
-                                  ]
-                                }
-                                alt="Payment QR Code"
-                                className="w-full max-w-sm h-auto object-contain rounded-md"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {paymentMethod === "qr" && (
-                        <div className="space-y-4">
-                          <FormField
-                            control={form.control}
-                            name="walletType"
-                            render={({ field }) => (
-                              <FormItem className="space-y-2">
-                                <FormLabel className="text-sm font-medium">
-                                  Choose QR wallet
-                                </FormLabel>
-                                <div className="flex flex-wrap gap-2">
-                                  {[
-                                    { id: "maya", label: "Maya" },
-                                    { id: "bpi", label: "BPI InstaPay" },
-                                    { id: "gcash", label: "GCash" },
-                                  ].map((wallet) => {
-                                    const isActive = field.value === wallet.id;
-                                    return (
-                                      <button
-                                        key={wallet.id}
-                                        type="button"
-                                        onClick={() => field.onChange(wallet.id)}
-                                        className={`rounded-full px-4 py-1.5 text-xs font-medium border transition-colors ${
-                                          isActive
-                                            ? "border-[#FFB63A] bg-[#FFB63A1A] text-foreground"
-                                            : "border-border bg-background hover:bg-accent/60"
-                                        }`}
-                                      >
-                                        {wallet.label}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <div className="border rounded-lg px-4 py-4 bg-card">
-                            <p className="font-semibold mb-2">
-                              Scan QR code to pay
-                            </p>
+                        <div className="border rounded-lg px-4 py-4 bg-card">
+                          <p className="font-semibold mb-2">
+                            Scan QR code to pay
+                          </p>
                             <p className="text-sm text-muted-foreground mb-4">
                               Open your mobile banking app, scan the QR code, and pay the full amount.
                               Please include your full name in the reference or
@@ -1548,9 +1536,8 @@ const PreRegister = () => {
                                 className="w-full max-w-sm h-auto object-contain rounded-md"
                               />
                             </div>
-                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
 
                     <div className="space-y-4">
@@ -1622,11 +1609,11 @@ const PreRegister = () => {
                                   team regarding my application.
                                 </FormLabel>
                                 <FormDescription className="mt-1 text-xs">
-                                  You will receive an email within 24 hours to
+                                  You will receive an email within 48 hours to
                                   confirm registration.
                                 </FormDescription>
                                 <FormDescription className="mt-1 text-xs">
-                                  Classroom invitations will be sent to your email address.
+                                  Classroom invitations will be sent to your email address after confirmation.
                                 </FormDescription>
                                 <FormMessage />
                               </div>
@@ -1756,7 +1743,7 @@ const PreRegister = () => {
                 <span className="font-semibold">Php 9,999</span> (or{" "}
                 <span className="font-semibold">Php 4,999</span> for qualified
                 Latin honor candidates/graduates).
-                <br />
+                <br /><br/>
                 If you have already pre-registered with a{" "}
                 <span className="font-semibold">Php 500</span> reservation fee,
                 your remaining balance during the Early Bird period is{" "}
@@ -1774,8 +1761,8 @@ const PreRegister = () => {
                 What is the duration of the Vet Review Class?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                The Vet Review Class will run from June 22 to August 28, 2026.
-                <br />
+                The Vet Review Class will run from June 22 to August 29, 2026.
+                <br /><br />
                 Schedule: Weekdays, 9:00 AM – 12:00 PM.
               </AccordionContent>
             </AccordionItem>
@@ -1805,9 +1792,96 @@ const PreRegister = () => {
                 Recorded lectures, however, are for online streaming only.
               </AccordionContent>
             </AccordionItem>
+
+            <AccordionItem
+              value="item-6"
+              className="border rounded-lg px-6 bg-card"
+            >
+              <AccordionTrigger className="text-left hover:no-underline">
+              Can I access the classroom on multiple devices?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+              Yes. However, each user account can be active on only one device at a time. If you log in on another device, you will be automatically logged out from the previous one.
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
       </main>
+
+      <Dialog open={showFeeModal} onOpenChange={setShowFeeModal}>
+        <DialogContent className="sm:max-w-2xl border-none bg-transparent p-4 shadow-none [&>button]:hidden">
+          <div className="rounded-2xl border bg-card p-5 shadow-xl sm:p-7">
+            <DialogHeader className="space-y-2 text-left">
+              <span className="w-fit rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
+                Important Notice
+              </span>
+              <DialogTitle className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Registration Fees
+              </DialogTitle>
+              <DialogDescription className="font-sans text-sm text-muted-foreground">
+                Please review the rates before proceeding.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="my-5 border-t border-border" />
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border border-border bg-muted/30 p-4">
+                <p className="text-lg font-semibold text-foreground">Early Bird</p>
+                <p className="mb-4 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  March 1-31, 2026
+                </p>
+                <div className="space-y-2 text-sm text-foreground">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-medium">Regular</span>
+                    <span className="font-semibold">Php 9,999.00</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-medium">Latin Honor</span>
+                    <span className="font-semibold">Php 4,999.00</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-medium">Pre-registered</span>
+                    <span className="font-semibold">Php 9,499.00</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-medium">Pre-reg + Latin Honor</span>
+                    <span className="font-semibold">Php 4,499.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-border bg-muted/30 p-4">
+                <p className="text-lg font-semibold text-foreground">Review Details</p>
+                <div className="space-y-2 text-sm">
+                  <p className="font-medium text-foreground">
+                    Vet Review Class (VLE)
+                  </p>
+                  <p className="text-muted-foreground">
+                    Duration: June 22 to August 29, 2026
+                  </p>
+                  <p className="text-muted-foreground">
+                    Weekdays, 9:00 AM - 12:00 PM
+                  </p>
+                  <p className="text-muted-foreground">
+                    Recorded lectures are available for same-day replay.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="mt-6 sm:justify-center">
+              <Button
+                variant="hero"
+                onClick={() => setShowFeeModal(false)}
+                className="rounded-full px-8 font-sans"
+              >
+                Continue to Registration
+              </Button>
+            </DialogFooter>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={showSuccessModal} onOpenChange={setShowSuccessModal}>
         <DialogContent className="sm:max-w-md">

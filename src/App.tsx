@@ -21,6 +21,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import PreRegister from "./pages/PreRegister";
 import Press from "./pages/Press";
+import PressArticle from "./pages/PressArticle";
 import ReviewClass from "./pages/ReviewClass";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/review/fisheries" element={<FisheriesDetails />} />
             <Route path="/review/abe" element={<AbeDetails />} />
             <Route path="/press" element={<Press />} />
+            <Route path="/press/:id" element={<PressArticle />} />
             <Route path="/enroll" element={<PreRegister />} />
             <Route path="/review-class" element={<ReviewClass />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

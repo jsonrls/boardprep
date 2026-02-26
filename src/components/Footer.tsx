@@ -15,7 +15,7 @@ const Footer = () => {
 
   const quickLinks = [
     {
-      label: "BoardPrep Classroom",
+      label: "BoardPrep® Classroom",
       href: "https://lms2.myboardprep.com/",
       isHash: false,
     },

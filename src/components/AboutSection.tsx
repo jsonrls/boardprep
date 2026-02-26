@@ -20,7 +20,7 @@ const AboutSection = () => {
               <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-8">
                 Your All-In-One Platform for{" "}
                 <em className="not-italic text-accent">
-                  Mastering Board Exams
+                  Acing Board Exams
                 </em>
               </h2>
               <div className="space-y-6">

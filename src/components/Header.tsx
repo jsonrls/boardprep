@@ -185,7 +185,7 @@ const Header = () => {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
 
-                  {/* <NavigationMenuItem>
+                  <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <Link
                         to="/press"
@@ -200,7 +200,7 @@ const Header = () => {
                         Press
                       </Link>
                     </NavigationMenuLink>
-                  </NavigationMenuItem> */}
+                  </NavigationMenuItem>
 
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
@@ -349,13 +349,13 @@ const Header = () => {
                     </AccordionItem>
                   </Accordion>
 
-                  {/* <Link
+                  <Link
                     to="/press"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Press
-                  </Link> */}
+                  </Link>
                   <Link
                     to="/contact"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
@@ -409,7 +409,7 @@ const ListItem = forwardRef<
               "group block select-none rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               className,
             )}
-            {...(props as any)}
+            {...props}
           >
             <div className="flex items-center gap-3">
               {Icon && (

@@ -14,10 +14,11 @@ import lite3 from "@/assets/boardprep-lite/3.png";
 import lite4 from "@/assets/boardprep-lite/4.png";
 import lms2 from "@/assets/lms/2.png";
 import lms3 from "@/assets/lms/3.png";
-import lms5 from "@/assets/lms/5.png";
-import rc1 from "@/assets/rc-1.png";
-import rc2 from "@/assets/rc-2.png";
+// import lms5 from "@/assets/lms/5.png";
+import rc1 from "@/assets/rc-10.png";
+import rc2 from "@/assets/rc-9.png";
 import rc3 from "@/assets/rc-3.png";
+import lms5 from "@/assets/classroom-1.png";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -52,9 +53,21 @@ export interface BoxesProps {
   cols?: number;
 }
 
-const cards = [
+interface ProductCardData {
+  title: string;
+  description: React.ReactNode;
+  image: string;
+  imageAlt: string;
+  color: string;
+  textColor: string;
+  imageClass?: string;
+  link?: string;
+  customVisual?: React.ReactNode;
+}
+
+const cards: ProductCardData[] = [
   {
-    title: "Mobile App for Everyone!",
+    title: "Question Drills for Everyone!",
     description: (
       <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-700">
@@ -114,7 +127,7 @@ const cards = [
     link: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
   },
   {
-    title: "Online Classrooms for Universities and Review Centers",
+    title: "BoardPrep® Classroom",
     description: (
       <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
@@ -190,7 +203,7 @@ const cards = [
           <Users className="w-6 h-6 text-sky-600" /> Expert Instructors
         </li>
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
-          <Trophy className="w-6 h-6 text-sky-600" /> Proven Track Record
+          <Trophy className="w-6 h-6 text-sky-600" /> TOS-based Mock Exams
         </li>
       </ul>
     ),
@@ -200,57 +213,42 @@ const cards = [
     textColor: "text-slate-900",
     imageClass: "w-[90%]",
     customVisual: (
-      <div className="relative w-full h-[350px] md:h-[450px] flex items-center justify-center group overflow-visible">
-        {/* Left Image */}
-        <div className="absolute left-[-12%] md:left-0 w-[55%] md:w-[60%] z-10 transform -rotate-6 -translate-y-2 opacity-85 transition-all duration-700 ease-out group-hover:-rotate-12 group-hover:-translate-x-6 group-hover:-translate-y-6 group-hover:opacity-100">
-          <motion.div
-            animate={{ y: [-6, 6, -6] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-            className="w-full h-full flex items-center justify-center drop-shadow-xl"
-          >
-            <img
-              src={rc1}
-              alt="Online Review Class Session 1"
-              className="w-full h-auto object-contain rounded-lg"
-            />
-          </motion.div>
-        </div>
+      <div className="w-full h-[400px] md:h-[520px] flex items-center justify-center overflow-visible">
+        <div className="flex w-full h-full items-center justify-center px-2 md:px-4">
+          <div className="basis-[76%] md:basis-[100%] shrink-0">
+            <motion.div
+              animate={{ y: [-10, 10, -10] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+              className="w-full h-full flex items-center justify-center drop-shadow-2xl"
+            >
+              <img
+                src={rc3}
+                alt="Online Review Class - Laptop"
+                className="w-full h-auto object-contain rounded-lg"
+              />
+            </motion.div>
+          </div>
 
-        {/* Right Image */}
-        <div className="absolute right-[-12%] md:right-0 w-[55%] md:w-[60%] z-10 transform rotate-6 -translate-y-2 opacity-85 transition-all duration-700 ease-out group-hover:rotate-12 group-hover:translate-x-6 group-hover:-translate-y-6 group-hover:opacity-100">
-          <motion.div
-            animate={{ y: [-5, 5, -5] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="w-full h-full flex items-center justify-center drop-shadow-xl"
-          >
-            <img
-              src={rc2}
-              alt="Online Review Class Session 2"
-              className="w-full h-auto object-contain rounded-lg"
-            />
-          </motion.div>
-        </div>
-
-        {/* Center Image */}
-        <div className="relative w-[70%] md:w-[75%] z-20 transform -translate-y-1 transition-all duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-4">
-          <motion.div
-            animate={{ y: [-10, 10, -10] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-            className="w-full h-full flex items-center justify-center drop-shadow-2xl"
-          >
-            <img
-              src={rc3}
-              alt="Online Review Class Session 3"
-              className="w-full h-auto object-contain rounded-lg"
-            />
-          </motion.div>
+          <div className="basis-[34%] md:basis-[50%] shrink-0 -ml-6 md:-ml-12">
+            <motion.div
+              animate={{ y: [-5, 5, -5] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+              className="w-full h-full flex items-center justify-center drop-shadow-xl"
+            >
+              <img
+                src={rc2}
+                alt="Online Review Class - Tablet"
+                className="w-full h-auto object-contain rounded-lg"
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     ),
     link: "/review-class",
   },
   {
-    title: "BoardPrep Lite",
+    title: "BoardPrep® Lite",
     description: (
       <ul className="text-left space-y-4 font-sans">
         <li className="flex items-center gap-3 text-lg font-medium text-slate-800">
@@ -497,7 +495,7 @@ const ProductDualSection = () => {
               progress={scrollYProgress}
               range={[rangeStart, 1]}
               targetScale={targetScale}
-              customVisual={(card as any).customVisual}
+              customVisual={card.customVisual}
             />
           );
         })}
