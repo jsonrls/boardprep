@@ -46,7 +46,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://www.facebook.com/sentinelvetdiagnostics"
+                href="https://web.facebook.com/myboardprep"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors duration-300"
@@ -54,7 +54,7 @@ const Footer = () => {
                 <Facebook size={18} />
               </a>
               <a
-                href="https://www.instagram.com/sentinel.vet/"
+                href="https://www.instagram.com/myboardprep"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#E4405F] hover:text-white transition-colors duration-300"

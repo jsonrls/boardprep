@@ -87,18 +87,18 @@ const Contact = () => {
                   </h3>
                   <div className="flex gap-4">
                     <a
-                      href="https://www.facebook.com/sentinelvetdiagnostics"
+                      href="https://web.facebook.com/myboardprep"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl text-foreground transition-colors"
+                      className="bg-secondary/5 hover:bg-[#1877F2] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <Facebook size={24} />
                     </a>
                     <a
-                      href="https://www.instagram.com/sentinel.vet/"
+                      href="https://www.instagram.com/myboardprep"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl text-foreground transition-colors"
+                      className="bg-secondary/5 hover:bg-[#E4405F] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <Instagram size={24} />
                     </a>
@@ -106,7 +106,7 @@ const Contact = () => {
                       href="https://ph.linkedin.com/company/board-prep"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl text-foreground transition-colors"
+                      className="bg-secondary/5 hover:bg-[#0A66C2] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <Linkedin size={24} />
                     </a>
@@ -114,7 +114,7 @@ const Contact = () => {
                       href="https://www.tiktok.com/@myboardprep"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-secondary/5 hover:bg-secondary/10 p-4 rounded-xl text-foreground transition-colors"
+                      className="bg-secondary/5 hover:bg-[#000000] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
