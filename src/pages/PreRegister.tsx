@@ -443,7 +443,7 @@ const PreRegister = () => {
 
   // Google Apps Script URL
   const GOOGLE_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxQQAYpUFi9CEqAfphw8ajKs91pr1Et5kaRotf5I1PAb6KEzh-1V3OHUqDwIVHU2wbX/exec";
+    "https://script.google.com/macros/s/AKfycbxl65523hdM5Uex6sY51fMegQ7wo0KCyWtJSXR2zkZ583fWPG2YR99SGPHZyTUK_OuPYg/exec";
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
