@@ -1082,10 +1082,10 @@ const PreRegister = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="undergraduate">
+                              <SelectItem value="graduating">
                                 Graduating This Year
                               </SelectItem>
-                              <SelectItem value="graduate">
+                              <SelectItem value="graduated">
                                 Already Graduated
                               </SelectItem>
                             </SelectContent>
