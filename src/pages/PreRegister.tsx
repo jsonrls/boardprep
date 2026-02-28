@@ -1893,16 +1893,37 @@ const PreRegister = () => {
               Registration Successful!
             </DialogTitle>
             <DialogDescription className="text-center text-base font-sans">
-              Thank you for registering with BoardPrep Solutions.
+              Dear Doc!
               <br />
-              We have received your details.
+              <br />
+              Thank you for submitting your registration information to
+              BoardPrep.
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4 text-center text-sm text-muted-foreground">
+          <div className="py-4 text-center text-sm text-muted-foreground space-y-3">
             <p>
-              Our team will review your information and reach out to you within
-              1-2 business days reregarding the next steps and BoardPrep Classroom invitation.
+              We would like to inform you that your registration details have
+              been successfully received. Kindly allow 24-48 hours for our tech
+              team to verify and confirm your registration payment.
             </p>
+            <p>
+              Once your payment has been confirmed, you will receive a
+              confirmation email together with your official BoardPrep Classroom
+              invitation.
+            </p>
+            <p>
+              If you do not receive any email from us within the given time
+              frame, please feel free to send us a message at{" "}
+              <a
+                href="mailto:acewithboardprep@gmail.com"
+                className="underline underline-offset-2"
+              >
+                acewithboardprep@gmail.com
+              </a>
+              , and we will gladly assist you.
+            </p>
+            <p>Thank you for choosing BoardPrep.</p>
+            <p>Together, let's ace the test!</p>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:justify-center w-full">
             <Button
