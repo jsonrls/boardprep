@@ -1038,6 +1038,7 @@ const PreRegister = () => {
                                 <SelectItem value="USM">USM</SelectItem>
                                 <SelectItem value="VMUF">VMUF</SelectItem>
                                 <SelectItem value="VSU">VSU</SelectItem>
+                                <SelectItem value="Others">Others</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage className="font-sans" />
