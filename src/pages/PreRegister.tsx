@@ -1019,6 +1019,7 @@ const PreRegister = () => {
                                 <SelectItem value="ASU">ASU</SelectItem>
                                 <SelectItem value="BASC">BASC</SelectItem>
                                 <SelectItem value="BSU">BSU</SelectItem>
+                                <SelectItem value="CapSU">CapSU</SelectItem>
                                 <SelectItem value="CBSUA">CBSUA</SelectItem>
                                 <SelectItem value="CLSU">CLSU</SelectItem>
                                 <SelectItem value="CMU">CMU</SelectItem>
@@ -1026,7 +1027,7 @@ const PreRegister = () => {
                                 <SelectItem value="CTU">CTU</SelectItem>
                                 <SelectItem value="CvSU">CvSU</SelectItem>
                                 <SelectItem value="DLSAU">DLSAU</SelectItem>
-                                <SelectItem value="DMMMSU">DMMMSU</SelectItem>
+                                <SelectItem value="DMMMSU">DMMMSU</SelectItem>``
                                 <SelectItem value="ISU">ISU</SelectItem>
                                 <SelectItem value="NVSU">NVSU</SelectItem>
                                 <SelectItem value="PSAU">PSAU</SelectItem>
