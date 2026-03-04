@@ -1482,7 +1482,6 @@ const PreRegister = () => {
                               </FormLabel>
                               <div className="flex flex-wrap gap-2">
                                 {[
-                                  { id: "gcash", label: "GCash" },
                                   { id: "maya", label: "Maya" },
                                   { id: "bpi", label: "BPI" },
                                   { id: "unionbank", label: "UnionBank" },
