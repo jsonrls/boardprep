@@ -13,6 +13,8 @@ export type PressPost = {
   image: string;
   readTime: string;
   sourceUrl?: string;
+  appStoreUrl?: string;
+  playStoreUrl?: string;
   content: PressContentBlock[];
 };
 
@@ -142,6 +144,79 @@ export const PRESS_POSTS: PressPost[] = [
       {
         type: "p",
         text: "Board Prep Solutions invites school administrators, academic leaders, and educators to start the conversation. Reach out to learn how the right platform can help your school build a more agile, future-ready learning ecosystem - one that works for your students and your community.",
+      },
+    ],
+  },
+  {
+    id: "boardprep-lite-launch",
+    title: "Meet BoardPrep Lite: The Smartest Way to Review Anywhere",
+    excerpt:
+      "BoardPrep introduces BoardPrep Lite, a flashcard-style mobile app available on the App Store and Google Play, designed to help students review smarter, faster, and anytime they need it.",
+    author: "BoardPrep Solutions",
+    date: "March 2026",
+    category: "Product Launch",
+    image:
+      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2670&auto=format&fit=crop",
+    readTime: "5 min read",
+    appStoreUrl: "https://apps.apple.com/ca/app/boardprep-lite/id6756837074",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.boardprepsolutionsincorporated.boardpreprlite",
+    content: [
+      {
+        type: "p",
+        text: "Preparing for the board exam can sometimes feel overwhelming, especially when you are faced with long notes, thick textbooks, and limited time to study. To make review more accessible and engaging, BoardPrep introduces BoardPrep Lite, the newest addition to the BoardPrep review ecosystem. Available on both the App Store and Google Play, BoardPrep Lite is designed to help students review smarter, faster, and anytime they need it.",
+      },
+      { type: "h2", text: "A Simple and Interactive Way to Study" },
+      {
+        type: "p",
+        text: "BoardPrep Lite uses a flashcard-style learning system that makes studying easy and interactive. When using the app, a question appears instantly on your screen and you can reveal the answer with a tap. After reviewing the answer, you simply swipe right if you answered correctly or swipe left if you got the question wrong. The app records your responses so you can monitor your progress and identify which topics need more practice.",
+      },
+      { type: "h2", text: "A Review Experience That Feels Familiar" },
+      {
+        type: "p",
+        text: "One of the most engaging aspects of BoardPrep Lite is its intuitive swipe interface. The swiping action feels similar to how people interact with modern mobile apps, making the experience natural and easy to use. It may feel like you are casually scrolling through an app, but in reality, you are strengthening your memory and sharpening your test-taking skills for the board exam.",
+      },
+      { type: "h2", text: "Hundreds of Practice Questions — Free for Everyone" },
+      {
+        type: "p",
+        text: "Currently, BoardPrep Lite is free to use, giving students access to hundreds of practice questions across several professional fields. The app already includes question sets for:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Veterinary Medicine",
+          "Agriculture",
+          "Fisheries",
+          "Food Technology",
+          "Psychology",
+        ],
+      },
+      {
+        type: "p",
+        text: "This makes it a valuable study companion for students and professionals preparing for licensure examinations.",
+      },
+      { type: "h2", text: "Create Your Own Flashcards" },
+      {
+        type: "p",
+        text: "Another powerful feature of BoardPrep Lite is the ability to create your own flashcards. Users can add their own questions and answers, allowing them to build personalized study decks based on their own review materials. This transforms the app into a personal review buddy that can support daily study habits, quick reviews, and focused preparation before exams.",
+      },
+      { type: "h2", text: "Part of the BoardPrep Review Ecosystem" },
+      {
+        type: "p",
+        text: "BoardPrep Lite is part of BoardPrep's continuing effort to innovate how students prepare for licensure examinations. By offering a mobile-first learning tool focused on quick recall and continuous practice, BoardPrep helps students maximize their review time and build stronger mastery of key concepts.",
+      },
+      { type: "h2", text: "More Questions Coming Soon" },
+      {
+        type: "p",
+        text: "While the app already provides a large set of free questions, additional content may become available through optional upgrades in the future. This will allow learners who want deeper practice to unlock more questions and expand their study materials as they prepare for their exams.",
+      },
+      { type: "h2", text: "Download BoardPrep Lite Today 🚀" },
+      {
+        type: "p",
+        text: "BoardPrep Lite is now available for download on both the App Store and Google Play. With its simple design, engaging swipe-based interface, and growing library of questions, it offers a modern and practical way to review anytime and anywhere.",
+      },
+      {
+        type: "p",
+        text: "Sometimes, getting closer to passing the board exam can start with something as simple as a swipe. 🚀",
       },
     ],
   },

@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -10,6 +9,7 @@ import { PRESS_POSTS } from "@/data/press";
 
 const Press = () => {
   const featuredPost = PRESS_POSTS.length > 0 ? PRESS_POSTS[0] : null;
+  const remainingPosts = PRESS_POSTS.slice(1);
 
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20">
@@ -121,13 +121,13 @@ const Press = () => {
                           </p>
                         </div>
                       </div>
-                        <Link
-                          to={`/press/${featuredPost.id}`}
-                          className="inline-flex items-center hover:underline"
-                        >
-                          Read Article{" "}
-                          <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
-                        </Link>
+                      <Link
+                        to={`/press/${featuredPost.id}`}
+                        className="inline-flex items-center hover:underline"
+                      >
+                        Read Article{" "}
+                        <ArrowRight className="ml-2 w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -135,23 +135,66 @@ const Press = () => {
             </motion.section>
           )}
 
-          {/* Additional content message instead of regular posts */}
-          {featuredPost ? (
+          {/* Additional Articles Grid */}
+          {remainingPosts.length > 0 ? (
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <h2 className="font-display text-2xl text-foreground mb-8">More Articles</h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {remainingPosts.map((post, idx) => (
+                  <motion.div
+                    key={post.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 * idx }}
+                    className="group rounded-2xl overflow-hidden bg-card border border-border/50 shadow-soft hover:shadow-elegant transition-all duration-500 flex flex-col"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      <Badge className="absolute top-3 left-3 bg-background/80 backdrop-blur text-foreground hover:bg-background">
+                        {post.category}
+                      </Badge>
+                    </div>
+                    <div className="p-6 flex flex-col flex-1">
+                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+                        <span>{post.date}</span>
+                        <span className="text-muted-foreground/40">•</span>
+                        <span>{post.readTime}</span>
+                      </div>
+                      <Link to={`/press/${post.id}`} className="block no-underline text-inherit">
+                        <h3 className="font-display text-lg text-foreground mb-2 leading-snug line-clamp-2">
+                          {post.title}
+                        </h3>
+                      </Link>
+                      <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
+                        {post.excerpt}
+                      </p>
+                      <Link
+                        to={`/press/${post.id}`}
+                        className="inline-flex items-center text-sm font-medium hover:underline mt-auto"
+                      >
+                        Read Article <ArrowRight className="ml-1 w-4 h-4" />
+                      </Link>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          ) : (
             <div className="text-center py-12">
               <h3 className="text-xl font-display text-foreground mb-2">
                 More articles coming soon
               </h3>
               <p className="text-muted-foreground">
-                We’ll be adding additional stories and insights here soon.
-              </p>
-            </div>
-          ) : (
-            <div className="text-center py-20">
-              <h3 className="text-xl font-display text-foreground mb-2">
-                No articles yet
-              </h3>
-              <p className="text-muted-foreground">
-                Check back soon for new content.
+                We'll be adding additional stories and insights here soon.
               </p>
             </div>
           )}
