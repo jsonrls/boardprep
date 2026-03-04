@@ -6,6 +6,18 @@ import logoFull from "@/assets/logo-transparent.png";
 import { ArrowLeft, Twitter, Linkedin, Facebook } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { getPressPostById } from "@/data/press";
+import { useEffect } from "react";
+
+const BASE_OG_IMAGE = "https://www.myboardprep.org/og-image.png";
+
+/** Updates a <meta> tag by property or name, then returns a restore function. */
+function swapMetaContent(selector: string, newContent: string) {
+  const el = document.querySelector<HTMLMetaElement>(selector);
+  if (!el) return () => { };
+  const prev = el.getAttribute("content") ?? "";
+  el.setAttribute("content", newContent);
+  return () => el.setAttribute("content", prev);
+}
 
 // Threads SVG icon (no lucide equivalent)
 const ThreadsIcon = ({ className }: { className?: string }) => (
@@ -24,6 +36,34 @@ const buildShareUrls = (url: string, title: string) => ({
 const PressArticle = () => {
   const { id } = useParams();
   const post = typeof id === "string" ? getPressPostById(id) : undefined;
+
+  // Dynamically update og:image for this article page; restore on unmount
+  useEffect(() => {
+    if (!post) return;
+    const imageUrl = post.image.startsWith("http")
+      ? post.image
+      : `https://www.myboardprep.org${post.image}`;
+
+    const restoreOg = swapMetaContent('meta[property="og:image"]', imageUrl);
+    const restoreTwitter = swapMetaContent('meta[name="twitter:image"]', imageUrl);
+    const restoreTitle = swapMetaContent('meta[property="og:title"]', post.title);
+    const restoreDesc = swapMetaContent(
+      'meta[property="og:description"]',
+      post.excerpt
+    );
+    const restoreUrl = swapMetaContent(
+      'meta[property="og:url"]',
+      window.location.href
+    );
+
+    return () => {
+      restoreOg();
+      restoreTwitter();
+      restoreTitle();
+      restoreDesc();
+      restoreUrl();
+    };
+  }, [post]);
 
   if (!post) {
     return (
