@@ -43,8 +43,7 @@ const PRESS_OG_DATA: Record<
             "Next Steps PH: A New Career Program for Licensed Teachers and Professionals in the Philippines",
         description:
             "Board Prep Solutions introduces Next Steps PH, a career advancement program designed for licensed professionals—especially teachers—who are ready to grow beyond the board exam.",
-        image:
-            "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop",
+        image: "https://www.myboardprep.org/next-step.png",
     },
     "boardprep-lite-launch": {
         title: "Meet BoardPrep Lite: The Smartest Way to Review Anywhere",

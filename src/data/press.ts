@@ -230,8 +230,7 @@ const ALL_PRESS_POSTS: PressPost[] = [
     author: "BoardPrep Solutions",
     date: "March 2026",
     category: "Career Development",
-    image:
-      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2670&auto=format&fit=crop",
+    image: "/next-step.png",
     readTime: "7 min read",
     sourceUrl: "https://nextstepsph.com/",
     content: [
