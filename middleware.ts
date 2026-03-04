@@ -38,6 +38,21 @@ const PRESS_OG_DATA: Record<
         image:
             "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
     },
+    "next-steps-ph-career-program": {
+        title:
+            "Next Steps PH: A New Career Program for Licensed Teachers and Professionals in the Philippines",
+        description:
+            "Board Prep Solutions introduces Next Steps PH, a career advancement program designed for licensed professionals—especially teachers—who are ready to grow beyond the board exam.",
+        image:
+            "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop",
+    },
+    "boardprep-lite-launch": {
+        title: "Meet BoardPrep Lite: The Smartest Way to Review Anywhere",
+        description:
+            "BoardPrep introduces BoardPrep Lite, a flashcard-style mobile app available on the App Store and Google Play, designed to help students review smarter, faster, and anytime they need it.",
+        image:
+            "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop",
+    },
 };
 
 const SITE_URL = "https://www.myboardprep.org";

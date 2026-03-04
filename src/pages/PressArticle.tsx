@@ -55,28 +55,49 @@ const PressArticle = () => {
     if (post.appStoreUrl) replacements.push({ label: "App Store", url: post.appStoreUrl });
     if (post.playStoreUrl) replacements.push({ label: "Google Play", url: post.playStoreUrl });
 
-    if (replacements.length === 0) return <>{text}</>;
+    // Split on both named labels AND raw https:// URLs
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    const labelPattern =
+      replacements.length > 0
+        ? new RegExp(`(${replacements.map((r) => r.label).join("|")}|https?:\\/\\/[^\\s]+)`, "g")
+        : urlPattern;
 
-    const pattern = new RegExp(`(${replacements.map((r) => r.label).join("|")})`, "g");
-    const parts = text.split(pattern);
+    const parts = text.split(labelPattern).filter((p) => p !== undefined);
+
+    const hasLinks = replacements.length > 0 || urlPattern.test(text);
+    if (!hasLinks) return <>{text}</>;
 
     return (
       <>
         {parts.map((part, i) => {
-          const match = replacements.find((r) => r.label === part);
-          return match ? (
-            <a
-              key={i}
-              href={match.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-foreground underline underline-offset-2 decoration-foreground/40 hover:decoration-foreground transition-colors"
-            >
-              {part}
-            </a>
-          ) : (
-            <span key={i}>{part}</span>
-          );
+          const namedMatch = replacements.find((r) => r.label === part);
+          if (namedMatch) {
+            return (
+              <a
+                key={i}
+                href={namedMatch.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-foreground underline underline-offset-2 decoration-foreground/40 hover:decoration-foreground transition-colors"
+              >
+                {part}
+              </a>
+            );
+          }
+          if (/^https?:\/\//.test(part)) {
+            return (
+              <a
+                key={i}
+                href={part}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-foreground underline underline-offset-2 decoration-foreground/40 hover:decoration-foreground break-all transition-colors"
+              >
+                {part}
+              </a>
+            );
+          }
+          return <span key={i}>{part}</span>;
         })}
       </>
     );
@@ -184,23 +205,7 @@ const PressArticle = () => {
                         </>
                       );
                     })()}
-                    {post.sourceUrl ? (
-                      <Button asChild variant="outline" size="sm">
-                        <a
-                          href={post.sourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2"
-                        >
-                          Source{" "}
-                          <svg className="h-4 w-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                            <polyline points="15 3 21 3 21 9" />
-                            <line x1="10" y1="14" x2="21" y2="3" />
-                          </svg>
-                        </a>
-                      </Button>
-                    ) : null}
+
                   </div>
                 </div>
 
@@ -210,7 +215,7 @@ const PressArticle = () => {
                       return (
                         <h2
                           key={idx}
-                          className="font-display text-xl md:text-2xl text-foreground"
+                          className="font-display text-xl md:text-2xl text-foreground pt-2"
                         >
                           {block.text}
                         </h2>
@@ -221,17 +226,28 @@ const PressArticle = () => {
                       return (
                         <ul
                           key={idx}
-                          className="list-decimal pl-5 space-y-2 text-muted-foreground"
+                          className="list-disc pl-6 space-y-2 text-muted-foreground"
                         >
                           {block.items.map((item) => (
-                            <li key={item}>{item}</li>
+                            <li key={item} className="leading-relaxed">{item}</li>
                           ))}
                         </ul>
                       );
                     }
 
+                    // Short emphatic closing lines get a bolder treatment
+                    const isClosingLine =
+                      block.text.length < 60 && !block.text.includes(". ");
+
                     return (
-                      <p key={idx} className="text-muted-foreground leading-relaxed">
+                      <p
+                        key={idx}
+                        className={
+                          isClosingLine
+                            ? "font-semibold text-foreground text-base md:text-lg leading-relaxed"
+                            : "text-muted-foreground leading-relaxed"
+                        }
+                      >
                         {renderParagraph(block.text)}
                       </p>
                     );

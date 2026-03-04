@@ -15,10 +15,11 @@ export type PressPost = {
   sourceUrl?: string;
   appStoreUrl?: string;
   playStoreUrl?: string;
+  draft?: boolean;
   content: PressContentBlock[];
 };
 
-export const PRESS_POSTS: PressPost[] = [
+const ALL_PRESS_POSTS: PressPost[] = [
   {
     id: "microcredentials-and-technology",
     title:
@@ -158,6 +159,7 @@ export const PRESS_POSTS: PressPost[] = [
     image:
       "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2670&auto=format&fit=crop",
     readTime: "5 min read",
+    draft: true,
     appStoreUrl: "https://apps.apple.com/ca/app/boardprep-lite/id6756837074",
     playStoreUrl: "https://play.google.com/store/apps/details?id=com.boardprepsolutionsincorporated.boardpreprlite",
     content: [
@@ -220,9 +222,157 @@ export const PRESS_POSTS: PressPost[] = [
       },
     ],
   },
+  {
+    id: "next-steps-ph-career-program",
+    title: "Next Steps PH: A New Career Program for Licensed Teachers and Professionals in the Philippines",
+    excerpt:
+      "Board Prep Solutions introduces Next Steps PH, a career advancement program designed for licensed professionals—especially teachers—who are ready to grow beyond the board exam.",
+    author: "BoardPrep Solutions",
+    date: "March 2026",
+    category: "Career Development",
+    image:
+      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2670&auto=format&fit=crop",
+    readTime: "7 min read",
+    sourceUrl: "https://nextstepsph.com/",
+    content: [
+      {
+        type: "p",
+        text: "Manila, Philippines — As global demand for qualified teachers continues to rise, Filipino licensed professionals are uniquely positioned to take advantage of new career pathways. In response to this shifting landscape, Board Prep Solutions, Inc. proudly introduces Next Steps PH, a career advancement program designed specifically for licensed professionals—especially teachers—who are ready to grow beyond the board exam.",
+      },
+      { type: "h2", text: "The Global Teacher Shortage: A Growing Opportunity" },
+      {
+        type: "p",
+        text: "The world is facing a serious teacher shortage. According to UNESCO (2023), an estimated 44 million additional teachers are needed globally by 2030 to achieve universal education goals.",
+      },
+      {
+        type: "p",
+        text: "In the United States, the demand is visible at the state level. In Arizona, workforce reports show that more than 4,000 teaching positions remain either vacant or filled by substitute or emergency-certified personnel each school year (Arizona Department of Education, 2024).",
+      },
+      {
+        type: "p",
+        text: "The message is clear: Licensed teachers are in high demand. For Filipino professional teachers, this creates real opportunities — both locally and internationally. But to fully benefit from this global demand, educators need:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Clear career direction",
+          "Strategic professional positioning",
+          "Leadership development",
+          "Career mobility planning",
+        ],
+      },
+      {
+        type: "p",
+        text: "This is where Next Steps PH becomes essential.",
+      },
+      { type: "h2", text: "What is Next Steps PH?" },
+      {
+        type: "p",
+        text: "Next Steps PH is a career development program by Board Prep Solutions created for:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Licensed Professional Teachers (LET passers)",
+          "Newly licensed professionals exploring career direction",
+          "Experienced teachers seeking leadership, mobility, or transition",
+          "Board Prep alumni who want structured career growth",
+        ],
+      },
+      {
+        type: "p",
+        text: "Unlike traditional employment placement services, Next Steps PH focuses on career clarity, strategic planning, and long-term professional positioning. It answers the question many licensed professionals silently ask: \"I passed the board exam. What's next?\"",
+      },
+      { type: "h2", text: "Why Teachers Should Consider Next Steps PH" },
+      { type: "h2", text: "1. Career Direction After Licensure" },
+      {
+        type: "p",
+        text: "Passing the Licensure Examination for Teachers (LET) is a milestone—but it's only the beginning. Next Steps PH helps teachers define clear career trajectories, whether in education, corporate training, leadership, or international opportunities.",
+      },
+      { type: "h2", text: "2. Professional Growth Beyond the Classroom" },
+      {
+        type: "p",
+        text: "The modern education landscape demands more than classroom teaching. Teachers can explore roles in:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Instructional design",
+          "EdTech",
+          "Academic leadership",
+          "Corporate learning and development",
+          "Consultancy and training",
+        ],
+      },
+      {
+        type: "p",
+        text: "Next Steps PH provides structured guidance for these pathways.",
+      },
+      { type: "h2", text: "3. Future-Proofing Your Teaching Career" },
+      {
+        type: "p",
+        text: "With global teacher shortages and changing education systems, adaptability is key. This program equips teachers with tools to stay competitive in both local and international markets.",
+      },
+      { type: "h2", text: "For Board Prep Alumni: Help a Teacher Take Their Next Step" },
+      {
+        type: "p",
+        text: "If you are a licensed professional who previously enrolled in a Board Prep review program, you already understand the power of structured preparation. Now, imagine giving that same advantage to a teacher friend navigating career uncertainty.",
+      },
+      {
+        type: "p",
+        text: "By recommending Next Steps PH, you help:",
+      },
+      {
+        type: "ul",
+        items: [
+          "Support career clarity",
+          "Strengthen professional confidence",
+          "Expand leadership potential within the education sector",
+        ],
+      },
+      { type: "h2", text: "Built by Board Prep Solutions: A Trusted Name in Professional Development" },
+      {
+        type: "p",
+        text: "Board Prep Solutions has helped thousands of professionals prepare for licensure examinations through structured learning systems, mentorship, and high-yield preparation strategies. Next Steps PH builds on that same foundation—this time focusing on career acceleration, not just exam success.",
+      },
+      { type: "h2", text: "Who Should Join Next Steps PH?" },
+      {
+        type: "p",
+        text: "You should consider Next Steps PH if you are:",
+      },
+      {
+        type: "ul",
+        items: [
+          "A newly licensed teacher unsure of your next move",
+          "A practicing teacher seeking career advancement",
+          "A professional exploring leadership or international opportunities",
+          "A Board Prep alumnus wanting to mentor or refer fellow educators",
+        ],
+      },
+      { type: "h2", text: "The Future of Teaching Careers Starts Here" },
+      {
+        type: "p",
+        text: "The global teacher shortage highlights one reality: teachers are essential—but they must also be empowered. Next Steps PH is about helping Filipino licensed professionals take ownership of their career trajectory in an evolving global landscape.",
+      },
+      {
+        type: "p",
+        text: "Your license is your foundation.",
+      },
+      {
+        type: "p",
+        text: "Your next step is your choice.",
+      },
+      {
+        type: "p",
+        text: "🔗 Discover how to move forward with clarity and confidence at: https://nextstepsph.com/",
+      },
+    ],
+  },
 ];
 
+export const PRESS_POSTS: PressPost[] = ALL_PRESS_POSTS.filter((p) => !p.draft);
+
 export function getPressPostById(id: string) {
-  return PRESS_POSTS.find((p) => p.id === id);
+  return ALL_PRESS_POSTS.find((p) => p.id === id && !p.draft);
 }
 
