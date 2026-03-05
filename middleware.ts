@@ -5,17 +5,18 @@
 const CRAWLER_UA_PATTERNS = [
     "facebookexternalhit",
     "facebookcatalog",
-    "Facebot",
-    "Twitterbot",
-    "LinkedInBot",
-    "WhatsApp",
-    "Slackbot",
-    "TelegramBot",
-    "Discordbot",
-    "Pinterest",
-    "Googlebot",
+    "facebot",
+    "twitterbot",
+    "linkedinbot",
+    "whatsapp",
+    "slackbot",
+    "telegrambot",
+    "discordbot",
+    "pinterest",
+    "googlebot",
     "bingbot",
-    "Applebot",
+    "applebot",
+    "ia_archiver",
 ];
 
 function isCrawler(userAgent: string): boolean {
@@ -97,16 +98,32 @@ export default function middleware(request: Request): Response | undefined {
     const url = new URL(request.url);
     const userAgent = request.headers.get("user-agent") || "";
 
-    // Only intercept social media crawlers on /press/:id routes
+    // Let regular browsers through unchanged
     if (!isCrawler(userAgent)) return undefined;
 
+    const fullUrl = `${SITE_URL}${url.pathname}`;
+
+    // /press index page
+    if (url.pathname === "/press" || url.pathname === "/press/") {
+        const html = buildMetaHtml(
+            fullUrl,
+            "BoardPrep Press | Insights for a Future-Ready Education",
+            "Perspectives on workforce trends, policy shifts, and learning innovations shaping how institutions prepare students for changing careers.",
+            DEFAULT_OG_IMAGE
+        );
+        return new Response(html, {
+            status: 200,
+            headers: { "Content-Type": "text/html; charset=utf-8" },
+        });
+    }
+
+    // /press/:id article page
     const pressMatch = url.pathname.match(/^\/press\/([^/]+)$/);
     if (!pressMatch) return undefined;
 
     const articleId = pressMatch[1];
     const og = PRESS_OG_DATA[articleId];
 
-    const fullUrl = `${SITE_URL}${url.pathname}`;
     const title = og?.title ?? "BoardPrep | Ace Your Board Exams";
     const description =
         og?.description ??
@@ -121,5 +138,5 @@ export default function middleware(request: Request): Response | undefined {
 }
 
 export const config = {
-    matcher: ["/press/:path*"],
+    matcher: ["/press", "/press/:path*"],
 };
