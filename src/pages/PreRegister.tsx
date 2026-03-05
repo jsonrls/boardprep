@@ -487,7 +487,7 @@ const PreRegister = () => {
 
       // Map form data to Google Sheet headers
       const sheetData = {
-        Timestamp: new Date().toLocaleString(),
+        Timestamp: new Date().toLocaleString("en-PH", { timeZone: "Asia/Manila" }),
         "Email Address": data.email,
         "Name (First Name)": data.firstName,
         "Name (Last Name)": data.lastName,
@@ -502,7 +502,7 @@ const PreRegister = () => {
         "Will You Take the October 2025 Veterinarian Licensure Exam":
           data.takeOct2025 || "N/A",
         "Type of Examinee": data.examineeType || "N/A",
-        "Currently Employed": data.isEmployed,  
+        "Currently Employed": data.isEmployed,
         "Employment Type (if employed)":
           data.isEmployed === "yes" ? data.employmentType || "N/A" : "N/A",
         "Enrolled in Other Review Centers": data.otherReviewCenter,
@@ -604,13 +604,12 @@ const PreRegister = () => {
                   onClick={() => isCompleted && setCurrentStep(step.id)}
                 >
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors duration-300 ${
-                      isActive
+                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors duration-300 ${isActive
                         ? "bg-primary text-primary-foreground"
                         : isCompleted
                           ? "border-green-500 bg-green-500 text-white"
                           : "border-gray-200 bg-white text-muted-foreground"
-                    }`}
+                      }`}
                   >
                     {isCompleted ? (
                       <Check className="w-5 h-5" />
@@ -619,11 +618,10 @@ const PreRegister = () => {
                     )}
                   </div>
                   <span
-                    className={`mt-2 text-xs font-medium transition-colors duration-300 hidden sm:block font-sans ${
-                      isActive || isCompleted
+                    className={`mt-2 text-xs font-medium transition-colors duration-300 hidden sm:block font-sans ${isActive || isCompleted
                         ? "text-foreground"
                         : "text-muted-foreground"
-                    }`}
+                      }`}
                   >
                     {step.name}
                   </span>
@@ -729,7 +727,7 @@ const PreRegister = () => {
                             Honors?
                           </FormLabel>
                           <FormDescription>
-                          If proof is not yet available, please select “No” and proceed with the full fee.<br/>Contact us later to request a refund, which will be processed once proof is submitted and verified.
+                            If proof is not yet available, please select “No” and proceed with the full fee.<br />Contact us later to request a refund, which will be processed once proof is submitted and verified.
                           </FormDescription>
                           <Select
                             onValueChange={field.onChange}
@@ -1500,11 +1498,10 @@ const PreRegister = () => {
                                       key={wallet.id}
                                       type="button"
                                       onClick={() => field.onChange(wallet.id)}
-                                      className={`min-w-[88px] rounded-lg px-3 py-2 text-xs font-medium border transition-colors flex flex-col items-center gap-1.5 ${
-                                        isActive
+                                      className={`min-w-[88px] rounded-lg px-3 py-2 text-xs font-medium border transition-colors flex flex-col items-center gap-1.5 ${isActive
                                           ? "border-[#FFB63A] bg-[#FFB63A1A] text-foreground"
                                           : "border-border bg-background hover:bg-accent/60"
-                                      }`}
+                                        }`}
                                     >
                                       <img
                                         src={walletIcon}
@@ -1525,18 +1522,18 @@ const PreRegister = () => {
                           <p className="font-semibold mb-2">
                             Scan QR code to pay
                           </p>
-                            <p className="text-sm text-muted-foreground mb-4">
-                              Open your mobile banking app, scan the QR code, and pay the full amount.
-                              Please include your full name in the reference or
-                              notes section.
-                            </p>
-                            <div className="flex flex-col items-center justify-center">
-                              <img
-                                src={getActiveQrImageForWallet()}
-                                alt="Payment QR Code"
-                                className="w-full max-w-sm h-auto object-contain rounded-md"
-                              />
-                            </div>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Open your mobile banking app, scan the QR code, and pay the full amount.
+                            Please include your full name in the reference or
+                            notes section.
+                          </p>
+                          <div className="flex flex-col items-center justify-center">
+                            <img
+                              src={getActiveQrImageForWallet()}
+                              alt="Payment QR Code"
+                              className="w-full max-w-sm h-auto object-contain rounded-md"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1744,7 +1741,7 @@ const PreRegister = () => {
                 <span className="font-semibold">Php 9,999</span> (or{" "}
                 <span className="font-semibold">Php 4,999</span> for qualified
                 Latin honor candidates/graduates).
-                <br /><br/>
+                <br /><br />
                 If you have already pre-registered with a{" "}
                 <span className="font-semibold">Php 500</span> reservation fee,
                 your remaining balance during the Early Bird period is{" "}
@@ -1799,10 +1796,10 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-              Can I access the classroom on multiple devices?
+                Can I access the classroom on multiple devices?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-              Yes. However, each user account can be active on only one device at a time. If you log in on another device, you will be automatically logged out from the previous one.
+                Yes. However, each user account can be active on only one device at a time. If you log in on another device, you will be automatically logged out from the previous one.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
