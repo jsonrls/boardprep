@@ -314,8 +314,8 @@ const Header = () => {
                             Mobile App
                           </Link>
 
-                          <span className="text-sm py-2 text-muted-foreground/50 font-sans">
-                            BoarPrep Lite (Coming App)
+                          <span className="text-sm py-2 text-muted-foreground font-sans">
+                            BoarPrep Lite
                           </span>
                           <Link
                             to="/classroom"
