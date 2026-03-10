@@ -382,13 +382,13 @@ const Header = () => {
                   >
                     Press
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/contact"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contact
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/about"
                     className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
