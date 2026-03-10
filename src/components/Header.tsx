@@ -134,14 +134,14 @@ const Header = () => {
                           href="https://www.myboardprep.com"
                           target="_blank"
                           rel="noopener noreferrer"
-                          title="Question Drills"
+                          title="BoardPrep Drills"
                           icon={FileText}
                         />
                         <ListItem
                           href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US"
                           target="_blank"
                           rel="noopener noreferrer"
-                          title="Mobile App"
+                          title="BoardPrep Mobile App"
                           icon={Smartphone}
                         />
                         <ListItem
@@ -158,6 +158,13 @@ const Header = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           icon={Zap}
+                        />
+                        <ListItem
+                          title="Next Steps PH"
+                          href="https://nextstepsph.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          icon={Sprout}
                         />
                       </ul>
                     </NavigationMenuContent>
@@ -304,26 +311,45 @@ const Header = () => {
                             className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Question Drills
+                            BoardPrep Drills
                           </a>
-                          <Link
-                            to="/mobile-app"
+                          <a
+                            href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Mobile App
-                          </Link>
+                            BoardPrep Mobile App
+                          </a>
 
-                          <span className="text-sm py-2 text-muted-foreground font-sans">
-                            BoarPrep Lite
-                          </span>
-                          <Link
-                            to="/classroom"
+                          <a
+                            href="https://apps.apple.com/ca/app/boardprep-lite/id6756837074"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm py-2 text-muted-foreground font-sans"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            BoardPrep Lite
+                          </a>
+                          <a
+                            href="https://lms2.myboardprep.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             BoardPrep Classroom
-                          </Link>
+                          </a>
+                          <a
+                            href="https://nextstepsph.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm py-2 text-muted-foreground font-sans"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            Next Steps PH
+                          </a>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
