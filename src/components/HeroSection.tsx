@@ -23,7 +23,7 @@ const HeroSection = () => {
           {/* Text Content */}
           <div className="w-full md:w-1/2 max-w-2xl">
             {/* Tagline */}
-            <p className="animate-fade-up text-accent font-medium tracking-[0.2em] uppercase text-sm mb-6 text-center md:text-left font-sans">
+            <p className="animate-fade-up text-foreground font-medium tracking-[0.2em] uppercase text-sm mb-6 text-center md:text-left font-sans">
               Ed-Tech Board Exam Prep
             </p>
 
