@@ -209,7 +209,7 @@ const Header = () => {
                     </NavigationMenuLink>
                   </NavigationMenuItem>
 
-                  <NavigationMenuItem>
+                  {/* <NavigationMenuItem>
                     <NavigationMenuLink asChild>
                       <Link
                         to="/contact"
@@ -224,7 +224,7 @@ const Header = () => {
                         Contact
                       </Link>
                     </NavigationMenuLink>
-                  </NavigationMenuItem>
+                  </NavigationMenuItem> */}
 
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild>
