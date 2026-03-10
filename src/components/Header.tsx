@@ -12,7 +12,7 @@ import {
   Stethoscope,
   Utensils,
   Fish,
-  Sprout,
+  Rocket,
   Cpu,
   ChevronRight,
 } from "lucide-react";
@@ -160,11 +160,11 @@ const Header = () => {
                           icon={Zap}
                         />
                         <ListItem
-                          title="Program"
+                          title="Next Steps Program"
                           href="https://nextstepsph.com/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          icon={Sprout}
+                          icon={Rocket}
                         />
                       </ul>
                     </NavigationMenuContent>
@@ -348,7 +348,7 @@ const Header = () => {
                             className="text-sm py-2 text-muted-foreground font-sans"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Program
+                            Next Steps Program
                           </a>
                         </div>
                       </AccordionContent>
