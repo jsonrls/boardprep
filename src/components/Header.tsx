@@ -126,7 +126,7 @@ const Header = () => {
                           : "border-transparent hover:border-accent",
                       )}
                     >
-                      Product
+                      Products
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[350px] gap-1 p-2 bg-popover">
@@ -159,13 +159,6 @@ const Header = () => {
                           rel="noopener noreferrer"
                           icon={Zap}
                         />
-                        <ListItem
-                          title="Next Steps PH"
-                          href="https://nextstepsph.com/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          icon={Sprout}
-                        />
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -190,6 +183,22 @@ const Header = () => {
                         />
                       </ul>
                     </NavigationMenuContent>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild>
+                      <a
+                        href="https://nextstepsph.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "bg-transparent hover:bg-transparent focus:bg-transparent border-b-2 rounded-none px-2 font-display border-transparent hover:border-accent",
+                        )}
+                      >
+                        Program
+                      </a>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
@@ -300,7 +309,7 @@ const Header = () => {
                       className="border-b border-border/50"
                     >
                       <AccordionTrigger className="text-sm font-medium py-4 hover:no-underline text-foreground font-display">
-                        Product
+                        Products
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-2 pl-4 py-2">
@@ -341,15 +350,6 @@ const Header = () => {
                           >
                             BoardPrep Classroom
                           </a>
-                          <a
-                            href="https://nextstepsph.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm py-2 text-muted-foreground font-sans"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            Next Steps PH
-                          </a>
                         </div>
                       </AccordionContent>
                     </AccordionItem>
@@ -374,6 +374,16 @@ const Header = () => {
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
+
+                  <a
+                    href="https://nextstepsph.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium py-4 border-b border-border/50 text-foreground font-display"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Program
+                  </a>
 
                   <Link
                     to="/press"
