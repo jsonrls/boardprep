@@ -52,7 +52,7 @@ import speaker29 from "@/assets/speakers/29.png";
 import speaker30 from "@/assets/speakers/30.png";
 import speaker31 from "@/assets/speakers/31.png";
 import speaker32 from "@/assets/speakers/32.png";
-import speaker33 from "@/assets/speakers/33.jpg";
+import speaker33 from "@/assets/speakers/33.png";
 
 const courseFeatures = [
   {
@@ -307,13 +307,6 @@ const speakers = [
     image: speaker30,
   },
   {
-    id: 33, 
-    name: "Dr. Yves Masdal" ,
-    specialty: "Pharmacology",
-    credential: "VLE 2025 - Top 4",
-    image: speaker33,
-  },
-  {
     id: 31, 
     name: "Dr. Jaypee Gonzales",
     specialty: "Public Health",
@@ -326,6 +319,13 @@ const speakers = [
     specialty: "Physiology",
     credential: "VLE 2024 - Top 1",
     image: speaker32,
+  },
+  {
+    id: 33, 
+    name: "Dr. Yves Masdal" ,
+    specialty: "Pharmacology",
+    credential: "VLE 2025 - Top 4",
+    image: speaker33,
   },
 ];
 
@@ -346,11 +346,16 @@ const specialtyRank = new Map(
   specialtyOrder.map((specialty, index) => [specialty, index]),
 );
 
-const orderedSpeakers = [...speakers].sort((a, b) => {
+const sortedBySpecialty = [...speakers].sort((a, b) => {
   const rankA = specialtyRank.get(a.specialty) ?? Number.MAX_SAFE_INTEGER;
   const rankB = specialtyRank.get(b.specialty) ?? Number.MAX_SAFE_INTEGER;
   return rankA - rankB;
 });
+
+const orderedSpeakers = [
+  ...sortedBySpecialty.filter(s => s.id !== 33),
+  ...sortedBySpecialty.filter(s => s.id === 33)
+];
 
 const stats = [
   { icon: Users, value: "1000+", label: "Enrolled DVM" },
@@ -362,7 +367,7 @@ const VetDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="VOnline Vet Review Class"
+        title="Online Vet Review Class"
         description="Comprehensive review for the Veterinarian Licensure Examination. Expert instructors, complete materials, and proven results."
       />
       <Header />
