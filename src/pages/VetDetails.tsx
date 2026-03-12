@@ -52,6 +52,7 @@ import speaker29 from "@/assets/speakers/29.png";
 import speaker30 from "@/assets/speakers/30.png";
 import speaker31 from "@/assets/speakers/31.png";
 import speaker32 from "@/assets/speakers/32.png";
+import speaker33 from "@/assets/speakers/33.jpg";
 
 const courseFeatures = [
   {
@@ -306,6 +307,13 @@ const speakers = [
     image: speaker30,
   },
   {
+    id: 33, 
+    name: "Dr. Yves Masdal" ,
+    specialty: "Pharmacology",
+    credential: "VLE 2025 - Top 4",
+    image: speaker33,
+  },
+  {
     id: 31, 
     name: "Dr. Jaypee Gonzales",
     specialty: "Public Health",
@@ -519,11 +527,11 @@ const VetDetails = () => {
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 {curriculumTopics.map((topic, index) => (
                   <div
                     key={topic.title}
-                    className={`animate-fade-up delay-${(index + 3) * 100} bg-card border border-border rounded-sm p-6 hover-lift group`}
+                    className={`animate-fade-up delay-${(index + 3) * 100} bg-card border border-border rounded-sm p-6 hover-lift group w-full md:w-[calc(50%-0.5rem)]`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -562,11 +570,11 @@ const VetDetails = () => {
           </div>
 
           <div className="container mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
               {orderedSpeakers.map((speaker) => (
                 <div
                   key={`vet-speaker-${speaker.id}`}
-                  className="bg-card rounded-sm p-6 md:p-8 shadow-soft border border-border/50 text-center h-full flex flex-col items-center justify-center"
+                  className="bg-card rounded-sm p-6 md:p-8 shadow-soft border border-border/50 text-center flex flex-col items-center justify-center w-[calc(50%-1.5rem)] md:w-[calc(33.33%-2rem)] lg:w-[calc(25%-2rem)] min-w-[160px]"
                 >
                   <div className="relative inline-block mb-4">
                     <img
