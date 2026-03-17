@@ -5,10 +5,201 @@ import { Button } from "@/components/ui/button";
 import logoFull from "@/assets/logo-transparent.png";
 import { ArrowLeft, Twitter, Linkedin, Facebook } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import { getPressPostById } from "@/data/press";
-import { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { apiGet } from "@/lib/api";
 
 const BASE_OG_IMAGE = "https://www.myboardprep.org/og-image.png";
+
+const htmlToText = (html: string) => {
+  if (typeof document === "undefined") {
+    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  }
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return (doc.body.textContent || "").replace(/\s+/g, " ").trim();
+};
+
+const htmlToParagraphs = (html: string) => {
+  // Turn common block boundaries into newlines before stripping tags.
+  const withBreaks = html
+    .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+    .replace(/<\/\s*p\s*>/gi, "\n\n")
+    .replace(/<\/\s*div\s*>/gi, "\n\n")
+    .replace(/<\/\s*li\s*>/gi, "\n")
+    .replace(/<\/\s*h[1-6]\s*>/gi, "\n\n");
+
+  const text = htmlToText(withBreaks);
+  return text
+    .split(/\n{2,}/g)
+    .map((p) => p.trim())
+    .filter(Boolean);
+};
+
+const renderRichHtml = (html: string): React.ReactNode[] => {
+  if (typeof document === "undefined") {
+    const paragraphs = htmlToParagraphs(html);
+    return paragraphs.map((t, i) => (
+      <p key={i} className="text-muted-foreground leading-relaxed">
+        {t}
+      </p>
+    ));
+  }
+
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const allowed = new Set([
+    "P",
+    "BR",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H5",
+    "H6",
+    "UL",
+    "OL",
+    "LI",
+    "A",
+    "STRONG",
+    "EM",
+    "B",
+    "I",
+    "BLOCKQUOTE",
+    "CODE",
+    "PRE",
+    "SPAN",
+    "DIV",
+  ]);
+
+  const walk = (node: Node, key: string): React.ReactNode => {
+    if (node.nodeType === Node.TEXT_NODE) return (node.textContent ?? "").replace(/\s+/g, " ");
+    if (node.nodeType !== Node.ELEMENT_NODE) return null;
+
+    const el = node as HTMLElement;
+    const tag = el.tagName.toUpperCase();
+
+    if (!allowed.has(tag)) {
+      return (
+        <React.Fragment key={key}>
+          {Array.from(el.childNodes).map((c, i) => walk(c, `${key}.${i}`))}
+        </React.Fragment>
+      );
+    }
+
+    const children = Array.from(el.childNodes).map((c, i) => walk(c, `${key}.${i}`));
+
+    switch (tag) {
+      case "H1":
+      case "H2":
+      case "H3":
+      case "H4":
+      case "H5":
+      case "H6": {
+        const level = Number(tag.slice(1));
+        const cls =
+          level <= 2
+            ? "font-display text-xl md:text-2xl text-foreground pt-2"
+            : "font-display text-lg md:text-xl text-foreground pt-2";
+        const Comp = tag.toLowerCase() as keyof JSX.IntrinsicElements;
+        return (
+          <Comp key={key} className={cls}>
+            {children}
+          </Comp>
+        );
+      }
+      case "P":
+        return (
+          <p key={key} className="text-[#121212] leading-relaxed">
+            {children}
+          </p>
+        );
+      case "BR":
+        return <br key={key} />;
+      case "UL":
+        return (
+          <ul key={key} className="list-disc pl-6 space-y-2 text-[#121212]">
+            {children}
+          </ul>
+        );
+      case "OL":
+        return (
+          <ol key={key} className="list-decimal pl-6 space-y-2 text-[#121212]">
+            {children}
+          </ol>
+        );
+      case "LI":
+        return (
+          <li key={key} className="leading-relaxed">
+            {children}
+          </li>
+        );
+      case "A": {
+        const href = el.getAttribute("href") || "#";
+        const safeHref =
+          href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:")
+            ? href
+            : "#";
+        return (
+          <a
+            key={key}
+            href={safeHref}
+            target={safeHref.startsWith("http") ? "_blank" : undefined}
+            rel={safeHref.startsWith("http") ? "noopener noreferrer" : undefined}
+            className="font-semibold text-foreground underline underline-offset-2 decoration-foreground/40 hover:decoration-foreground transition-colors break-words"
+          >
+            {children}
+          </a>
+        );
+      }
+      case "STRONG":
+      case "B":
+        return (
+          <strong key={key} className="text-foreground">
+            {children}
+          </strong>
+        );
+      case "EM":
+      case "I":
+        return <em key={key}>{children}</em>;
+      case "BLOCKQUOTE":
+        return (
+          <blockquote
+            key={key}
+            className="border-l-4 border-border pl-4 italic text-[#121212]"
+          >
+            {children}
+          </blockquote>
+        );
+      case "CODE":
+        return (
+          <code key={key} className="font-mono text-sm bg-muted px-1 py-0.5 rounded">
+            {children}
+          </code>
+        );
+      case "PRE":
+        return (
+          <pre key={key} className="font-mono text-sm bg-muted p-4 rounded overflow-auto">
+            {children}
+          </pre>
+        );
+      // span/div are treated as passthrough containers (we ignore inline styles)
+      case "SPAN":
+      case "DIV":
+        return <React.Fragment key={key}>{children}</React.Fragment>;
+      default: {
+        const Comp = tag.toLowerCase() as keyof JSX.IntrinsicElements;
+        return <Comp key={key}>{children}</Comp>;
+      }
+    }
+  };
+
+  const blocks = Array.from(doc.body.childNodes)
+    .map((n, i) => walk(n, `b${i}`))
+    .filter(Boolean);
+
+  // If content is all inline (e.g. a single div/span), ensure paragraphs still show nicely.
+  if (blocks.length === 0) return [];
+  return blocks as React.ReactNode[];
+};
 
 /** Updates a <meta> tag by property or name, then returns a restore function. */
 function swapMetaContent(selector: string, newContent: string) {
@@ -35,21 +226,61 @@ const buildShareUrls = (url: string, title: string) => ({
 
 const PressArticle = () => {
   const { id } = useParams();
-  const post = typeof id === "string" ? getPressPostById(id) : undefined;
+
+  type PressItem = {
+    id: string;
+    title: string;
+    content: string;
+    author: string;
+    imageUrl?: string | null;
+    date: string;
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["public-press", id],
+    enabled: typeof id === "string" && id.length > 0,
+    queryFn: () => apiGet<{ item: PressItem }>(`/public/press/${id}`),
+    staleTime: 60_000,
+  });
+
+  const post = data?.item;
+
+  const formattedDate = useMemo(() => {
+    if (!post?.date) return "";
+    const d = new Date(post.date);
+    if (Number.isNaN(d.getTime())) return post.date;
+    return d.toLocaleDateString(undefined, { year: "numeric", month: "long" });
+  }, [post?.date]);
+
+  const readTime = useMemo(() => {
+    const text = post?.content ?? "";
+    const words = htmlToText(text).trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 220));
+    return `${minutes} min read`;
+  }, [post?.content]);
+
+  const richNodes = useMemo(() => {
+    const html = (post?.content ?? "").trim();
+    if (!html) return [];
+    return renderRichHtml(html);
+  }, [post?.content]);
 
   // Dynamically update og:image for this article page; restore on unmount
   useEffect(() => {
     if (!post) return;
-    const imageUrl = post.image.startsWith("http")
-      ? post.image
-      : `https://www.myboardprep.org${post.image}`;
+    const imageUrl =
+      post.imageUrl && post.imageUrl.startsWith("http")
+        ? post.imageUrl
+        : post.imageUrl
+          ? `https://www.myboardprep.org${post.imageUrl}`
+          : BASE_OG_IMAGE;
 
     const restoreOg = swapMetaContent('meta[property="og:image"]', imageUrl);
     const restoreTwitter = swapMetaContent('meta[name="twitter:image"]', imageUrl);
     const restoreTitle = swapMetaContent('meta[property="og:title"]', post.title);
     const restoreDesc = swapMetaContent(
       'meta[property="og:description"]',
-      post.excerpt
+      htmlToText(post.content ?? "").slice(0, 160)
     );
     const restoreUrl = swapMetaContent(
       'meta[property="og:url"]',
@@ -73,10 +304,12 @@ const PressArticle = () => {
           <div className="container mx-auto px-6 lg:px-12">
             <div className="max-w-2xl mx-auto text-center py-20">
               <h1 className="font-display text-3xl md:text-4xl text-foreground mb-3">
-                Article not found
+                {isLoading ? "Loading article…" : "Article not found"}
               </h1>
               <p className="text-muted-foreground mb-8">
-                The press article you're looking for doesn't exist.
+                {isLoading
+                  ? "Please wait while we load this press item."
+                  : "The press article you're looking for doesn't exist."}
               </p>
               <Button asChild variant="outline">
                 <Link to="/press">Back to Press</Link>
@@ -89,209 +322,116 @@ const PressArticle = () => {
     );
   }
 
-  // Renders a paragraph, turning "App Store" / "Google Play" into clickable links
-  const renderParagraph = (text: string) => {
-    const replacements: { label: string; url: string }[] = [];
-    if (post.appStoreUrl) replacements.push({ label: "App Store", url: post.appStoreUrl });
-    if (post.playStoreUrl) replacements.push({ label: "Google Play", url: post.playStoreUrl });
-
-    // Split on both named labels AND raw https:// URLs
-    const urlPattern = /(https?:\/\/[^\s]+)/g;
-    const labelPattern =
-      replacements.length > 0
-        ? new RegExp(`(${replacements.map((r) => r.label).join("|")}|https?:\\/\\/[^\\s]+)`, "g")
-        : urlPattern;
-
-    const parts = text.split(labelPattern).filter((p) => p !== undefined);
-
-    const hasLinks = replacements.length > 0 || urlPattern.test(text);
-    if (!hasLinks) return <>{text}</>;
-
-    return (
-      <>
-        {parts.map((part, i) => {
-          const namedMatch = replacements.find((r) => r.label === part);
-          if (namedMatch) {
-            return (
-              <a
-                key={i}
-                href={namedMatch.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-foreground underline underline-offset-2 decoration-foreground/40 hover:decoration-foreground transition-colors"
-              >
-                {part}
-              </a>
-            );
-          }
-          if (/^https?:\/\//.test(part)) {
-            return (
-              <a
-                key={i}
-                href={part}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-foreground underline underline-offset-2 decoration-foreground/40 hover:decoration-foreground break-all transition-colors"
-              >
-                {part}
-              </a>
-            );
-          }
-          return <span key={i}>{part}</span>;
-        })}
-      </>
-    );
-  };
-
   return (
-    <div className="min-h-screen bg-background font-sans selection:bg-primary/20">
+    <div className="min-h-screen bg-background font-sans selection:bg-primary/20 text-[#121212]">
       <Header />
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <Link to="/press" className="inline-flex items-center gap-2 my-6 text-foreground hover:underline">
               <ArrowLeft className="h-4 w-4" />
               Back to Press
             </Link>
 
             <div className="rounded-2xl overflow-hidden border border-border/50 bg-card shadow-soft">
-              <div className="relative h-64 md:h-80 overflow-hidden">
+              <div className="relative h-72 md:h-[420px] overflow-hidden">
                 <img
-                  src={post.image}
+                  src={
+                    post.imageUrl ||
+                    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2670&auto=format&fit=crop"
+                  }
                   alt={post.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <Badge className="bg-background/80 backdrop-blur text-foreground hover:bg-background">
-                    {post.category}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10">
+                  <Badge className="bg-background/85 backdrop-blur text-foreground hover:bg-background">
+                    Press/News
                   </Badge>
-                  <h1 className="font-display text-2xl md:text-4xl text-white mt-3 leading-tight">
+                  <h1 className="font-display text-3xl md:text-5xl lg:text-6xl text-white mt-4 leading-tight tracking-tight">
                     {post.title}
                   </h1>
-                  <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/80">
-                    <span>{post.date}</span>
+                  <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/85">
+                    <span>{formattedDate}</span>
                     <span className="text-white/40">•</span>
-                    <span>{post.readTime}</span>
+                    <span>{readTime}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6 md:p-10">
-                <div className="flex items-center justify-between gap-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={logoFull}
-                      alt="BoardPrep Solutions logo"
-                      className="w-10 h-10 rounded-full bg-primary/10 object-cover"
-                    />
-                    <div>
-                      <p className="font-semibold text-foreground">{post.author}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Press • {post.category}
-                      </p>
+              <div className="p-6 md:p-12 lg:p-14">
+                <div className="flex flex-col gap-8">
+                  <div className="rounded-2xl border border-border/60 bg-background/60 backdrop-blur p-5">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <img
+                          src={logoFull}
+                          alt="BoardPrep Solutions logo"
+                          className="w-10 h-10 rounded-full bg-primary/10 object-cover"
+                        />
+                        <div className="min-w-0">
+                          <p className="font-semibold text-foreground truncate">{post.author}</p>
+                          <p className="text-xs text-muted-foreground">Press • Press/News</p>
+                        </div>
+                      </div>
+
+                      {(() => {
+                        const pageUrl = window.location.href;
+                        const share = buildShareUrls(pageUrl, post.title);
+                        const iconBtn =
+                          "inline-flex items-center justify-center h-9 w-9 rounded-md border transition-all duration-200";
+                        return (
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-xs font-medium text-muted-foreground mr-1">
+                              Share
+                            </span>
+                            <a
+                              href={share.facebook}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Share on Facebook"
+                              className={`${iconBtn} border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2] hover:text-white`}
+                            >
+                              <Facebook className="h-4 w-4" />
+                            </a>
+                            <a
+                              href={share.linkedin}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Share on LinkedIn"
+                              className={`${iconBtn} border-[#0A66C2] text-[#0A66C2] hover:bg-[#0A66C2] hover:text-white`}
+                            >
+                              <Linkedin className="h-4 w-4" />
+                            </a>
+                            <a
+                              href={share.threads}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Share on Threads"
+                              className={`${iconBtn} border-foreground text-foreground hover:bg-foreground hover:text-background`}
+                            >
+                              <ThreadsIcon className="h-4 w-4" />
+                            </a>
+                            <a
+                              href={share.x}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Share on X"
+                              className={`${iconBtn} border-foreground text-foreground hover:bg-foreground hover:text-background`}
+                            >
+                              <Twitter className="h-4 w-4" />
+                            </a>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {(() => {
-                      const pageUrl = window.location.href;
-                      const share = buildShareUrls(pageUrl, post.title);
-                      const iconBtn =
-                        "inline-flex items-center justify-center h-9 w-9 rounded-md border transition-all duration-200";
-                      return (
-                        <>
-                          <span className="text-xs font-medium text-muted-foreground hidden sm:inline">Share:</span>
-                          {/* Facebook */}
-                          <a
-                            href={share.facebook}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Share on Facebook"
-                            className={`${iconBtn} border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2] hover:text-white`}
-                          >
-                            <Facebook className="h-4 w-4" />
-                          </a>
-                          {/* LinkedIn */}
-                          <a
-                            href={share.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Share on LinkedIn"
-                            className={`${iconBtn} border-[#0A66C2] text-[#0A66C2] hover:bg-[#0A66C2] hover:text-white`}
-                          >
-                            <Linkedin className="h-4 w-4" />
-                          </a>
-                          {/* Threads */}
-                          <a
-                            href={share.threads}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Share on Threads"
-                            className={`${iconBtn} border-foreground text-foreground hover:bg-foreground hover:text-background`}
-                          >
-                            <ThreadsIcon className="h-4 w-4" />
-                          </a>
-                          {/* X (Twitter) */}
-                          <a
-                            href={share.x}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Share on X"
-                            className={`${iconBtn} border-foreground text-foreground hover:bg-foreground hover:text-background`}
-                          >
-                            <Twitter className="h-4 w-4" />
-                          </a>
-                        </>
-                      );
-                    })()}
-
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  {post.content.map((block, idx) => {
-                    if (block.type === "h2") {
-                      return (
-                        <h2
-                          key={idx}
-                          className="font-display text-xl md:text-2xl text-foreground pt-2"
-                        >
-                          {block.text}
-                        </h2>
-                      );
-                    }
-
-                    if (block.type === "ul") {
-                      return (
-                        <ul
-                          key={idx}
-                          className="list-disc pl-6 space-y-2 text-muted-foreground"
-                        >
-                          {block.items.map((item) => (
-                            <li key={item} className="leading-relaxed">{item}</li>
-                          ))}
-                        </ul>
-                      );
-                    }
-
-                    // Short emphatic closing lines get a bolder treatment
-                    const isClosingLine =
-                      block.text.length < 60 && !block.text.includes(". ");
-
-                    return (
-                      <p
-                        key={idx}
-                        className={
-                          isClosingLine
-                            ? "font-semibold text-foreground text-base md:text-lg leading-relaxed"
-                            : "text-muted-foreground leading-relaxed"
-                        }
-                      >
-                        {renderParagraph(block.text)}
-                      </p>
-                    );
-                  })}
+                  <article className="min-w-0">
+                    <div className="space-y-6 text-[15px] md:text-base leading-relaxed">
+                      {richNodes}
+                    </div>
+                  </article>
                 </div>
               </div>
             </div>

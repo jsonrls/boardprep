@@ -18,6 +18,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import SpeakersGrid from "@/components/SpeakersGrid";
 
 const courseFeatures = [
   {
@@ -55,33 +56,6 @@ const curriculumTopics = [
   { title: "Post-Harvest Technology", lessons: 20 },
   { title: "Aquatic Resources Conservation", lessons: 14 },
   { title: "Fisheries Economics", lessons: 12 },
-];
-
-const speakers = [
-  {
-    name: "Dr. Carlos Rivera",
-    specialty: "Aquaculture Systems",
-    credential: "Board Topnotcher 2023",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=CarlosRivera",
-  },
-  {
-    name: "Dr. Marina Santos",
-    specialty: "Marine Ecology",
-    credential: "20+ Years Teaching Experience",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=MarinaSantos",
-  },
-  {
-    name: "Dr. Jose Aquino",
-    specialty: "Fisheries Management",
-    credential: "Board Topnotcher 2022",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=JoseAquino",
-  },
-  {
-    name: "Dr. Lisa Fernandez",
-    specialty: "Post-Harvest Technology",
-    credential: "Licensed Fisheries Professional",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=LisaFernandez",
-  },
 ];
 
 const stats = [
@@ -298,37 +272,7 @@ const FisheriesDetails = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-              {speakers.map((speaker, index) => (
-                <div
-                  key={speaker.name}
-                  className={`animate-fade-up delay-${(index + 3) * 100} bg-card rounded-sm p-8 shadow-soft hover-lift border border-border/50 text-center`}
-                >
-                  <div className="relative inline-block mb-4">
-                    <img
-                      src={speaker.image}
-                      alt={speaker.name}
-                      className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20"
-                    />
-                    <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-accent rounded-full flex items-center justify-center">
-                      <Star className="w-5 h-5 text-white fill-white" />
-                    </div>
-                  </div>
-                  <h3 className="font-display text-xl text-foreground mb-2">
-                    {speaker.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    {speaker.specialty}
-                  </p>
-                  <div className="inline-flex items-center gap-2 bg-accent/20 rounded-full px-3 py-1">
-                    <Award className="w-3 h-3 text-secondary" />
-                    <span className="text-xs font-medium text-secondary">
-                      {speaker.credential}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <SpeakersGrid />
           </div>
         </section>
 
