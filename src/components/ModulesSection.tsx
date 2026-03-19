@@ -6,7 +6,8 @@ const moduleImage = (filename: string) => `/modules/${encodeURIComponent(filenam
 
 const modules = [
   {
-    title: "Veterinarians Licensure Examination",
+    title: "Veterinary Medicine",
+    examTitle: "Veterinarians Licensure Exam",
     description:
       "Advanced animal care and medical training for aspiring veterinarians.",
     tags: ["6 Years", "Doctorate"],
@@ -14,15 +15,8 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Professional Food Technologists Licensure Examination",
-    description:
-      "Advanced techniques and laboratory practice for food innovation.",
-    tags: ["2-4 Years", "Advanced"],
-    image: moduleImage("Food Technology.png"),
-    highlight: false,
-  },
-  {
-    title: "Fisheries Professional Licensure Examination",
+    title: "Fisheries",
+    examTitle: "Fisheries Professional Licensure Exam",
     description:
       "For aspiring professionals. Focus on fundamentals and practical skills.",
     tags: ["2-4 Years", "Undergrad"],
@@ -30,7 +24,8 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Psychologists and Psychometricians Licensure Examination",
+    title: "Psychology",
+    examTitle: "Psychologists and Psychometricians Licensure Exam",
     description:
       "For future practitioners. From beginner concepts to advanced methodologies.",
     tags: ["4 Years", "All levels"],
@@ -38,7 +33,8 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Agriculturists Licensure Examination",
+    title: "Agriculture",
+    examTitle: "Agriculturists Licensure Exam",
     description:
       "Comprehensive coaching and concepts to take your knowledge to the next level.",
     tags: ["4 Years", "Licensure"],
@@ -46,7 +42,8 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Criminology Licensure Examination",
+    title: "Criminology",
+    examTitle: "Criminology Licensure Exam",
     description:
       "Extensive training and preparation for criminal justice careers.",
     tags: ["4 Years", "Core"],
@@ -54,7 +51,17 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Agricultural and Biosystems Engineers Licensure Examination",
+    title: "Food Technology",
+    examTitle: "Professional Food Technologists Licensure Exam",
+    description:
+      "Advanced techniques and laboratory practice for food innovation.",
+    tags: ["2-4 Years", "Advanced"],
+    image: moduleImage("Food Technology.png"),
+    highlight: false,
+  },
+  {
+    title: "Agricultural and Biosystems Engineering",
+    examTitle: "Agricultural and Biosystems Engineers Licensure Exam",
     description:
       "Modern engineering and biosystems approaches to agriculture.",
     tags: ["5 Years", "Engineering"],
@@ -126,7 +133,7 @@ const ModulesSection = () => {
         <div className="mx-auto mb-14 max-w-3xl text-center">
 
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
-            Exam Prep <span className="text-accent">Modules</span>
+            BoardPrep <span className="text-accent">Modules</span>
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl font-sans text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -162,18 +169,17 @@ const ModulesSection = () => {
                 {/* Top content area */}
                 <div className="flex flex-1 flex-col px-6 pb-2 pt-8 sm:px-8">
                   {/* Title stacked nicely */}
-                  <h3 className="mb-4 font-display text-3xl font-semibold leading-[1.05] tracking-tight text-black">
-                    {item.title}
-                  </h3>
+                  {/* Title stacked nicely */}
+                  <div className="mb-4 flex flex-col justify-end">
+                    <h3 className="mb-6 font-display text-[2rem] font-bold leading-[1.05] tracking-tight text-black sm:text-4xl">
+                      {item.title}
+                    </h3>
+                    <p className="pr-2 text-[0.8rem] font-medium leading-[1.3] text-black/90 sm:text-[1.1rem]">
+                      {item.examTitle}
+                    </p>
+                  </div>
 
-                  {/* Description */}
-                  <p
-                    className={`text-[13px] font-medium leading-relaxed tracking-tight sm:text-sm ${
-                      item.highlight ? "text-black/80" : "text-black/60"
-                    } pr-4`}
-                  >
-                    {item.description}
-                  </p>
+
                 </div>
 
                 {/* Bottom Image Container nestled seamlessly */}
