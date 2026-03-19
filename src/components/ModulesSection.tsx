@@ -6,7 +6,7 @@ const moduleImage = (filename: string) => `/modules/${encodeURIComponent(filenam
 
 const modules = [
   {
-    title: "Veterinary Medicine",
+    title: "Veterinarians Licensure Examination",
     description:
       "Advanced animal care and medical training for aspiring veterinarians.",
     tags: ["6 Years", "Doctorate"],
@@ -14,7 +14,7 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Food Tech",
+    title: "Professional Food Technologists Licensure Examination",
     description:
       "Advanced techniques and laboratory practice for food innovation.",
     tags: ["2-4 Years", "Advanced"],
@@ -22,7 +22,7 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Fisheries",
+    title: "Fisheries Professional Licensure Examination",
     description:
       "For aspiring professionals. Focus on fundamentals and practical skills.",
     tags: ["2-4 Years", "Undergrad"],
@@ -30,7 +30,7 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Psychology",
+    title: "Psychologists and Psychometricians Licensure Examination",
     description:
       "For future practitioners. From beginner concepts to advanced methodologies.",
     tags: ["4 Years", "All levels"],
@@ -38,7 +38,7 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Agriculture",
+    title: "Agriculturists Licensure Examination",
     description:
       "Comprehensive coaching and concepts to take your knowledge to the next level.",
     tags: ["4 Years", "Licensure"],
@@ -46,7 +46,7 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Criminology",
+    title: "Criminology Licensure Examination",
     description:
       "Extensive training and preparation for criminal justice careers.",
     tags: ["4 Years", "Core"],
@@ -54,7 +54,7 @@ const modules = [
     highlight: false,
   },
   {
-    title: "Agricultural Biosystems",
+    title: "Agricultural and Biosystems Engineers Licensure Examination",
     description:
       "Modern engineering and biosystems approaches to agriculture.",
     tags: ["5 Years", "Engineering"],
@@ -162,7 +162,7 @@ const ModulesSection = () => {
                 {/* Top content area */}
                 <div className="flex flex-1 flex-col px-6 pb-2 pt-8 sm:px-8">
                   {/* Title stacked nicely */}
-                  <h3 className="mb-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-black">
+                  <h3 className="mb-4 font-display text-3xl font-semibold leading-[1.05] tracking-tight text-black">
                     {item.title}
                   </h3>
 
