@@ -5,11 +5,55 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import logoFull from "@/assets/logo-transparent.png";
-import { PRESS_POSTS } from "@/data/press";
+import { useQuery } from "@tanstack/react-query";
+import { apiGet } from "@/lib/api";
+
+type PressItem = {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  imageUrl?: string | null;
+  date: string;
+};
+
+type PressListResponse = { items: PressItem[] };
+
+const htmlToText = (html: string) => {
+  if (typeof document === "undefined") {
+    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  }
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return (doc.body.textContent || "").replace(/\s+/g, " ").trim();
+};
+
+const formatPressDate = (iso: string) => {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString(undefined, { year: "numeric", month: "long" });
+};
+
+const estimateReadTime = (text: string) => {
+  const words = htmlToText(text).trim().split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 220));
+  return `${minutes} min read`;
+};
+
+const buildExcerpt = (text: string) => {
+  const cleaned = htmlToText(text).replace(/\s+/g, " ").trim();
+  return cleaned.length > 180 ? `${cleaned.slice(0, 177)}…` : cleaned;
+};
 
 const Press = () => {
-  const featuredPost = PRESS_POSTS.length > 0 ? PRESS_POSTS[0] : null;
-  const remainingPosts = PRESS_POSTS.slice(1);
+  const { data, isLoading } = useQuery({
+    queryKey: ["public-press"],
+    queryFn: () => apiGet<PressListResponse>("/public/press"),
+    staleTime: 60_000,
+  });
+
+  const posts = data?.items ?? [];
+  const featuredPost = posts.length > 0 ? posts[0] : null;
+  const remainingPosts = posts.slice(1);
 
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20">
@@ -76,7 +120,10 @@ const Press = () => {
                 <div className="grid md:grid-cols-2 gap-0">
                   <div className="relative h-64 md:h-auto overflow-hidden">
                     <img
-                      src={featuredPost.image}
+                      src={
+                        featuredPost.imageUrl ||
+                        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2670&auto=format&fit=crop"
+                      }
                       alt={featuredPost.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -88,10 +135,10 @@ const Press = () => {
                   </div>
                   <div className="p-8 md:p-12 flex flex-col justify-center">
                     <div className="flex items-center gap-4 text-xs font-medium text-accent mb-4 uppercase tracking-wider">
-                      <span>{featuredPost.category}</span>
+                      <span>Press/News</span>
                       <span className="text-muted-foreground/40">•</span>
                       <span className="text-muted-foreground">
-                        {featuredPost.readTime}
+                        {estimateReadTime(featuredPost.content)}
                       </span>
                     </div>
                     <Link
@@ -103,7 +150,7 @@ const Press = () => {
                       </h2>
                     </Link>
                     <p className="text-muted-foreground text-base md:text-lg mb-6 line-clamp-3 font-sans">
-                      {featuredPost.excerpt}
+                      {buildExcerpt(featuredPost.content)}
                     </p>
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex items-center gap-3">
@@ -117,7 +164,7 @@ const Press = () => {
                             {featuredPost.author}
                           </p>
                           <p className="text-muted-foreground text-xs">
-                            {featuredPost.date}
+                            {formatPressDate(featuredPost.date)}
                           </p>
                         </div>
                       </div>
@@ -154,20 +201,23 @@ const Press = () => {
                   >
                     <div className="relative h-48 overflow-hidden">
                       <img
-                        src={post.image}
+                        src={
+                          post.imageUrl ||
+                          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2670&auto=format&fit=crop"
+                        }
                         alt={post.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <Badge className="absolute top-3 left-3 bg-background/80 backdrop-blur text-foreground hover:bg-background">
-                        {post.category}
+                        Press/News
                       </Badge>
                     </div>
                     <div className="p-6 flex flex-col flex-1">
                       <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                        <span>{post.date}</span>
+                        <span>{formatPressDate(post.date)}</span>
                         <span className="text-muted-foreground/40">•</span>
-                        <span>{post.readTime}</span>
+                        <span>{estimateReadTime(post.content)}</span>
                       </div>
                       <Link to={`/press/${post.id}`} className="block no-underline text-inherit">
                         <h3 className="font-display text-lg text-foreground mb-2 leading-snug line-clamp-2">
@@ -175,7 +225,7 @@ const Press = () => {
                         </h3>
                       </Link>
                       <p className="text-muted-foreground text-sm line-clamp-3 mb-4 flex-1">
-                        {post.excerpt}
+                        {buildExcerpt(post.content)}
                       </p>
                       <Link
                         to={`/press/${post.id}`}
@@ -191,10 +241,12 @@ const Press = () => {
           ) : (
             <div className="text-center py-12">
               <h3 className="text-xl font-display text-foreground mb-2">
-                More articles coming soon
+                {isLoading ? "Loading articles…" : "More articles coming soon"}
               </h3>
               <p className="text-muted-foreground">
-                We'll be adding additional stories and insights here soon.
+                {isLoading
+                  ? "Please wait while we load the latest press items."
+                  : "We'll be adding additional stories and insights here soon."}
               </p>
             </div>
           )}
