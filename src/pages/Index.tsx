@@ -9,6 +9,7 @@ import MobileAppSection from "@/components/MobileAppSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import StatsSection from "@/components/StatsSection";
+import ModulesSection from "@/components/ModulesSection";
 import AboutSection from "@/components/AboutSection";
 import TestimonialSection from "@/components/TestimonialSection";
 import CTASection from "@/components/CTASection";
@@ -26,6 +27,7 @@ const Index = () => {
         <main>
           <HeroSection />
           <StatsSection />
+          <ModulesSection />
           <ProductDualSection />
           <MobileAppSection />
           <FeaturesSection />
