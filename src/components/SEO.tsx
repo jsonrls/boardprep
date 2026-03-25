@@ -11,7 +11,7 @@ const SEO = ({
   title, 
   description, 
   image = '/og-image.png', 
-  url = 'https://boardprep.ph' 
+  url = 'https://www.myboardprep.org' 
 }: SEOProps) => {
   const siteTitle = `${title} | BoardPrep`;
 

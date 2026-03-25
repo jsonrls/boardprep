@@ -1,55 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://boardprep.ph/</loc>
+    <loc>https://www.myboardprep.org/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/about</loc>
+    <loc>https://www.myboardprep.org/about</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/contact</loc>
+    <loc>https://www.myboardprep.org/contact</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/question-drills</loc>
+    <loc>https://www.myboardprep.org/question-drills</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/classroom</loc>
+    <loc>https://www.myboardprep.org/classroom</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/ios</loc>
+    <loc>https://www.myboardprep.org/ios</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/lite</loc>
+    <loc>https://www.myboardprep.org/lite</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/review/vet</loc>
+    <loc>https://www.myboardprep.org/review/vet</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/review/ftle</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://boardprep.ph/review/fisheries</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://boardprep.ph/review/abe</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://boardprep.ph/press</loc>
+    <loc>https://www.myboardprep.org/press</loc>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://boardprep.ph/enroll</loc>
+    <loc>https://www.myboardprep.org/enroll</loc>
     <priority>0.8</priority>
   </url>
 </urlset>

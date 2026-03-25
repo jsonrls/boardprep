@@ -16,8 +16,11 @@ import {
   TrendingUp,
   UserPlus,
   Rocket,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import vetHeroBg from "@/assets/vet-hero-bg.png";
 import SpeakersGrid from "@/components/SpeakersGrid";
@@ -50,16 +53,82 @@ const courseFeatures = [
 ];
 
 const curriculumTopics = [
-  { title: "Veterinary Anatomy",},
-  { title: "Veterinary Pharmacology",},
-  { title: "Veterinary Physiology",},
-  { title: "Veterinary Microbiology & Public Health",},
-  { title: "Veterinary Parasitology",},
-  { title: "Veterinary Surgery",},
-  { title: "Veterinary Pathology",},
-  { title: "Zootechnics",},
-  { title: "Veterinary Medicine",},
-  
+  {
+    title: "Veterinary Anatomy",
+    subTopics: [
+      "Gross Anatomy",
+      "Comparative Anatomy",
+      "Developmental Anatomy",
+      "Microscopic Anatomy",
+    ],
+  },
+  {
+    title: "Veterinary Physiology",
+    subTopics: [
+      "Principles of Physiology",
+      "Systemic Physiology I",
+      "Systemic Physiology II",
+      "Endocrinology",
+      "Reproductive Physiology",
+    ],
+  },
+  {
+    title: "Veterinary Parasitology",
+    subTopics: ["Protozoology", "Entomology", "Helminthology"],
+  },
+  {
+    title: "Veterinary Pathology",
+    subTopics: ["General Pathology", "Systemic Pathology", "Clinical Pathology"],
+  },
+  {
+    title: "Veterinary Pharmacology",
+    subTopics: ["General Pharmacology", "Clinical Pharmacology", "Toxicology"],
+  },
+  {
+    title: "Veterinary Microbiology and Public Health",
+    subTopics: [
+      "General Microbiology",
+      "Bacteriology and Mycology",
+      "Virology",
+      "Immunology",
+      "Zoonoses, One Health and EIDs",
+      "Epidemiology",
+      "Food Hygiene",
+    ],
+  },
+  {
+    title: "Veterinary Surgery",
+    subTopics: [
+      "Principles of Surgery",
+      "Small Animal Surgery",
+      "Large Animal Surgery",
+      "Diagnostic Imaging",
+    ],
+  },
+  {
+    title: "Zootechnics",
+    subTopics: [
+      "Breeding and Genetics",
+      "Animal Nutrition",
+      "Ruminant Production",
+      "Swine Production",
+      "Equine Production",
+      "Poultry Production",
+      "Zoo and Exotic Animal Management",
+    ],
+  },
+  {
+    title: "Veterinary Medicine",
+    subTopics: [
+      "Small Animal Medicine",
+      "Poultry Medicine",
+      "Equine Medicine",
+      "Swine Medicine",
+      "Ruminant Medicine",
+      "Theriogenology",
+      "Lab Animal Medicine",
+    ],
+  },
 ];
 
 const stats = [
@@ -69,6 +138,12 @@ const stats = [
 ];
 
 const VetDetails = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleAccordion = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
@@ -237,26 +312,53 @@ const VetDetails = () => {
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <div className="flex flex-wrap justify-center gap-4">
-                {curriculumTopics.map((topic, index) => (
-                  <div
-                    key={topic.title}
-                    className={`animate-fade-up delay-${(index + 3) * 100} bg-card border border-border rounded-sm p-6 hover-lift group w-full md:w-[calc(50%-0.5rem)]`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                          <CheckCircle2 className="w-5 h-5 text-accent" />
-                        </div>
-                        <div>
-                          <h3 className="font-display text-lg text-foreground mb-1">
+              <div className="grid gap-4">
+                {curriculumTopics.map((topic, index) => {
+                  return (
+                    <div
+                      key={topic.title}
+                      className={`animate-fade-up delay-${(index + 3) * 100} bg-card border border-border rounded-sm overflow-hidden transition-all duration-300`}
+                    >
+                      <button
+                        onClick={() => toggleAccordion(index)}
+                        className="w-full text-left p-6 flex items-center justify-between hover:bg-accent/5 transition-colors group"
+                      >
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                            <CheckCircle2 className="w-5 h-5 text-accent" />
+                          </div>
+                          <h3 className="font-display text-lg md:text-xl text-foreground">
                             {topic.title}
                           </h3>
                         </div>
+                        {openIndex === index ? (
+                          <ChevronUp className="w-5 h-5 text-muted-foreground" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                        )}
+                      </button>
+                      
+                      <div 
+                        className={`grid transition-all duration-300 ease-in-out ${
+                          openIndex === index ? "grid-rows-[1fr] border-t border-border bg-muted/20 opacity-100" : "grid-rows-[0fr] opacity-0"
+                        } overflow-hidden`}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="p-6 md:px-12">
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                              {topic.subTopics.map((sub) => (
+                                <li key={sub} className="flex items-center gap-3 text-muted-foreground">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-accent/60" />
+                                  <span className="text-sm font-sans">{sub}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
