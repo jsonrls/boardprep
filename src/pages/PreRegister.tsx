@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
   ChevronRight,
@@ -18,8 +18,12 @@ import {
   Upload,
   Loader2,
   Copy,
+  Stethoscope,
+  Fish,
+  Sparkles,
+  Award,
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import qrCode from "@/assets/qr-code.png";
 import qrCodePreregister from "@/assets/qr-code-preregister.png";
 import qrCodeLatinHonor from "@/assets/qr-code-latin-honor.png";
@@ -40,6 +44,7 @@ import unionbankQr4499 from "@/assets/qr/4499.png";
 import unionbankQr4999 from "@/assets/qr/4999.png";
 import unionbankQr9499 from "@/assets/qr/9499.png";
 import unionbankQr9999 from "@/assets/qr/9999.png";
+import fisheriesQrMaya from "@/assets/payment/fisheries_qr_maya.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -94,7 +99,7 @@ const formSchema = z.object({
   city: z.string().min(2, "City is required"),
 
   // Step 2: Academic & Professional
-  school: z.string().min(1, "Please select your school"),
+  school: z.string().optional(),
   gradYear: z.string().min(4, "Please enter a valid year"),
   description: z.string().min(1, "Please select an option"),
   isEmployed: z.string().min(1, "Please select an option"),
@@ -134,12 +139,18 @@ const formSchema = z.object({
     (data) =>
       data.isEmployed !== "yes" || (data.employmentType && data.employmentType.length > 0),
     { message: "Please select your employment type", path: ["employmentType"] }
-  );
+  )
+  .refine((data) => {
+    if (data.examType === "vet" || data.examType === "fisheries") {
+      return !!(data.school && data.school.trim().length > 0);
+    }
+    return true;
+  }, { message: "Please enter your school", path: ["school"] });
 
 type FormValues = z.infer<typeof formSchema>;
 
 const steps = [
-  { id: 0, name: "Pre-Check", icon: CheckCircle }, // New Step 0
+  { id: 0, name: "Pre-Check", icon: CheckCircle },
   { id: 1, name: "Personal Details", icon: User },
   { id: 2, name: "Academic & Pro", icon: School },
   { id: 3, name: "Exam Details", icon: BookOpen },
@@ -148,11 +159,13 @@ const steps = [
 
 const PreRegister = () => {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0); // Start at Step 0
-  const [showFeeModal, setShowFeeModal] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0); 
+  const [showFeeModal, setShowFeeModal] = useState(false);
+  const [showExamChoiceModal, setShowExamChoiceModal] = useState(true);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -199,6 +212,42 @@ const PreRegister = () => {
   const hasPreRegistered = watch("hasPreRegistered");
   const isLatinHonor = watch("isLatinHonor");
   const examType = watch("examType");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const filteredSteps = useMemo(() => {
+    if (examType === "fisheries") {
+      return steps.filter((s) => s.id !== 0);
+    }
+    return steps;
+  }, [examType]);
+
+  // Handle initial URL state
+  useEffect(() => {
+    const examParam = searchParams.get("exam");
+    if (examParam === "fisheries" || examParam === "vet") {
+      setValue("examType", examParam);
+      setShowExamChoiceModal(false);
+      if (examParam === "fisheries") {
+        setValue("hasPreRegistered", "no");
+        setValue("isLatinHonor", "no");
+        if (currentStep === 0) {
+          setCurrentStep(1);
+        }
+      }
+    }
+  }, [searchParams, setValue]);
+
+  // Sync examType with URL search params
+  useEffect(() => {
+    if (examType) {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev);
+        next.set("exam", examType);
+        return next;
+      }, { replace: true });
+    }
+  }, [examType, setSearchParams]);
+
   const walletType = watch("walletType");
   const email = watch("email");
   const retypeEmail = watch("retypeEmail");
@@ -217,8 +266,8 @@ const PreRegister = () => {
       discounted: "2,499",
     },
     fisheries: {
-      regular: "3,999",
-      discounted: "1,999",
+      regular: "999",
+      discounted: "999",
     },
     abe: {
       regular: "4,999",
@@ -307,6 +356,10 @@ const PreRegister = () => {
   };
 
   const getActiveQrImageForWallet = () => {
+    if (examType === "fisheries") {
+      return fisheriesQrMaya;
+    }
+
     if (walletType === "maya") {
       const mayaImage = mayaQrImagesByAmount[getFinalAmount()];
       if (mayaImage) {
@@ -348,6 +401,12 @@ const PreRegister = () => {
       pricing[examType as keyof typeof pricing]?.regular || "0";
     let amount = parseInt(baseRegularStr.replace(/,/g, ""), 10);
     if (Number.isNaN(amount)) amount = 0;
+
+    // For Fisheries, it's a flat rate of 999
+    if (examType === "fisheries") {
+      return 999;
+    }
+
     if (hasPreRegistered === "yes" && isLatinHonor === "yes") {
       amount = Math.floor(amount / 2) - 500;
     } else {
@@ -438,14 +497,18 @@ const PreRegister = () => {
   };
 
   const prevStep = () => {
+    if (examType === "fisheries" && currentStep === 1) {
+      setShowExamChoiceModal(true);
+      return;
+    }
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
   // Google Apps Script URL
-  const GOOGLE_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbwbjkhkHWuI3no_XMbNi9n65M6ZJPeEYc2kWEnHTQLNSiJfDh5n7R5Njf_rlpYeV96Taw/exec";
+  // const GOOGLE_SCRIPT_URL =
+  //   "https://script.google.com/macros/s/AKfycbwbjkhkHWuI3no_XMbNi9n65M6ZJPeEYc2kWEnHTQLNSiJfDh5n7R5Njf_rlpYeV96Taw/exec";
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyW11H-jfCHakmIad1bXPF373v2EiP0cUiHUxLnOaqAsnfUXYC3nJnHUVnPw1PIYbeN/exec";
 
   const fileToBase64 = (
     file: File,
@@ -488,6 +551,11 @@ const PreRegister = () => {
       // Map form data to Google Sheet headers
       const sheetData = {
         Timestamp: new Date().toLocaleString("en-PH", { timeZone: "Asia/Manila" }),
+        "Exam Type": data.examType || "",
+        "Licensure Exam":
+          data.examType === "fisheries"
+            ? "Fisheries Professionals Licensure Exam (FPLE)"
+            : "Veterinarian Licensure Exam (VLE)",
         "Email Address": data.email,
         "Name (First Name)": data.firstName,
         "Name (Last Name)": data.lastName,
@@ -572,7 +640,7 @@ const PreRegister = () => {
           <h1 className="text-3xl font-display font-bold tracking-tight mb-2">
             Registration
           </h1>
-          <p className="text-muted-foreground font-sans">
+          <p className="text-muted-foreground font-sans text-wrap: balance">
             Join us to start your journey to success.
           </p>
         </div>
@@ -585,7 +653,7 @@ const PreRegister = () => {
                 className="absolute top-0 left-0 h-full bg-green-500"
                 initial={{ width: "0%" }}
                 animate={{
-                  width: `${(currentStep / (steps.length - 1)) * 100}%`,
+                  width: `${(filteredSteps.findIndex(s => s.id === currentStep) / (filteredSteps.length - 1)) * 100}%`,
                 }}
                 transition={{ duration: 0.3 }}
               />
@@ -593,7 +661,7 @@ const PreRegister = () => {
           </div>
 
           <div className="flex justify-between items-center relative z-10">
-            {steps.map((step) => {
+            {filteredSteps.map((step, index) => {
               const isActive = step.id === currentStep;
               const isCompleted = step.id < currentStep;
 
@@ -836,64 +904,63 @@ const PreRegister = () => {
                       />
                     </div>
 
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Email
-                            <span className="text-xs text-destructive ml-2 font-bold uppercase tracking-wide">
-                              (USE PERSONAL EMAIL ONLY. DO NOT USE SCHOOL
-                              EMAIL.)
-                            </span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="e.g. john.doe@example.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormDescription>
-                            You'll receive updates and calendar invites through
-                            this email.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex flex-wrap items-center gap-x-2">
+                              Email
+                              <span className="text-[10px] text-destructive font-bold uppercase tracking-tight bg-destructive/5 px-1.5 py-0.5 rounded border border-destructive/10">
+                                Personal Email Only
+                              </span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="e.g. john.doe@example.com"
+                                {...field}
+                                spellCheck={false}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="retypeEmail"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Re-type Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="Re-enter your email address"
-                              {...field}
-                              className={
-                                emailsMismatch
-                                  ? "border-destructive focus-visible:ring-destructive"
-                                  : emailsMatch
-                                    ? "border-green-500 focus-visible:ring-green-500"
-                                    : ""
-                              }
-                            />
-                          </FormControl>
-                          {emailsMatch && (
-                            <FormDescription className="text-green-600 flex items-center gap-1.5">
-                              <Check className="h-4 w-4 shrink-0" />
-                              Emails match
-                            </FormDescription>
-                          )}
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="retypeEmail"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Re-type Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="Re-enter email address"
+                                {...field}
+                                spellCheck={false}
+                                className={
+                                  emailsMismatch
+                                    ? "border-destructive focus-visible:ring-destructive"
+                                    : emailsMatch
+                                      ? "border-green-500 focus-visible:ring-green-500"
+                                      : ""
+                                }
+                              />
+                            </FormControl>
+                            {emailsMatch && (
+                              <FormDescription className="text-green-600 flex items-center gap-1.5 text-[11px] h-4 mt-1">
+                                <Check className="h-3 w-3 shrink-0" />
+                                Emails match
+                              </FormDescription>
+                            )}
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <FormField
@@ -995,7 +1062,7 @@ const PreRegister = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="space-y-4"
                   >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormField
                         control={form.control}
                         name="school"
@@ -1004,41 +1071,49 @@ const PreRegister = () => {
                             <FormLabel className="font-sans">
                               University
                             </FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              value={field.value ?? ""}
-                            >
+                            {examType === "fisheries" ? (
                               <FormControl>
-                                <SelectTrigger className="font-sans">
-                                  <SelectValue placeholder="Select university / school…" />
-                                </SelectTrigger>
+                                <Input
+                                  placeholder="Enter your school name"
+                                  {...field}
+                                  className="font-sans"
+                                  spellCheck={false}
+                                />
                               </FormControl>
-                              <SelectContent className="font-sans">
-                                <SelectItem value="ASU">ASU</SelectItem>
-                                <SelectItem value="BASC">BASC</SelectItem>
-                                <SelectItem value="BSU">BSU</SelectItem>
-                                <SelectItem value="CapSU">CapSU</SelectItem>
-                                <SelectItem value="CBSUA">CBSUA</SelectItem>
-                                <SelectItem value="CLSU">CLSU</SelectItem>
-                                <SelectItem value="CMU">CMU</SelectItem>
-                                <SelectItem value="CSU">CSU</SelectItem>
-                                <SelectItem value="CTU">CTU</SelectItem>
-                                <SelectItem value="CvSU">CvSU</SelectItem>
-                                <SelectItem value="DLSAU">DLSAU</SelectItem>
-                                <SelectItem value="DMMMSU">DMMMSU</SelectItem>
-                                <SelectItem value="ISU">ISU</SelectItem>
-                                <SelectItem value="NVSU">NVSU</SelectItem>
-                                <SelectItem value="PSAU">PSAU</SelectItem>
-                                <SelectItem value="SWU">SWU</SelectItem>
-                                <SelectItem value="TAU">TAU</SelectItem>
-                                <SelectItem value="UEP">UEP</SelectItem>
-                                <SelectItem value="UPLB">UPLB</SelectItem>
-                                <SelectItem value="USM">USM</SelectItem>
-                                <SelectItem value="VMUF">VMUF</SelectItem>
-                                <SelectItem value="VSU">VSU</SelectItem>
-                                <SelectItem value="Others">Others</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            ) : (
+                              <Select onValueChange={field.onChange} value={field.value ?? ""}>
+                                <FormControl>
+                                  <SelectTrigger className="font-sans">
+                                    <SelectValue placeholder="Select university…" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="font-sans">
+                                  <SelectItem value="ASU">ASU</SelectItem>
+                                  <SelectItem value="BASC">BASC</SelectItem>
+                                  <SelectItem value="BSU">BSU</SelectItem>
+                                  <SelectItem value="CapSU">CapSU</SelectItem>
+                                  <SelectItem value="CBSUA">CBSUA</SelectItem>
+                                  <SelectItem value="CLSU">CLSU</SelectItem>
+                                  <SelectItem value="CMU">CMU</SelectItem>
+                                  <SelectItem value="CSU">CSU</SelectItem>
+                                  <SelectItem value="CTU">CTU</SelectItem>
+                                  <SelectItem value="CvSU">CvSU</SelectItem>
+                                  <SelectItem value="DLSAU">DLSAU</SelectItem>
+                                  <SelectItem value="DMMMSU">DMMMSU</SelectItem>
+                                  <SelectItem value="ISU">ISU</SelectItem>
+                                  <SelectItem value="NVSU">NVSU</SelectItem>
+                                  <SelectItem value="PSAU">PSAU</SelectItem>
+                                  <SelectItem value="SWU">SWU</SelectItem>
+                                  <SelectItem value="TAU">TAU</SelectItem>
+                                  <SelectItem value="UEP">UEP</SelectItem>
+                                  <SelectItem value="UPLB">UPLB</SelectItem>
+                                  <SelectItem value="USM">USM</SelectItem>
+                                  <SelectItem value="VMUF">VMUF</SelectItem>
+                                  <SelectItem value="VSU">VSU</SelectItem>
+                                  <SelectItem value="Others">Others</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            )}
                             <FormMessage className="font-sans" />
                           </FormItem>
                         )}
@@ -1064,64 +1139,67 @@ const PreRegister = () => {
                       />
                     </div>
 
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Which of the following best describes you?
-                          </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select description…" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="graduating">
-                                Graduating This Year
-                              </SelectItem>
-                              <SelectItem value="graduated">
-                                Already Graduated
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Which of the following best describes you?
+                            </FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select description…" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="graduating">
+                                  Graduating This Year
+                                </SelectItem>
+                                <SelectItem value="graduated">
+                                  Already Graduated
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="isEmployed"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Are you currently employed?</FormLabel>
-                          <Select
-                            onValueChange={(val) => {
-                              field.onChange(val);
-                              if (val === "no") form.setValue("employmentType", "");
-                            }}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select option…" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="yes">Yes</SelectItem>
-                              <SelectItem value="no">No</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="isEmployed"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Are you currently employed?</FormLabel>
+                            <Select
+                              onValueChange={(val) => {
+                                field.onChange(val);
+                                if (val === "no")
+                                  form.setValue("employmentType", "");
+                              }}
+                              value={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select option…" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="yes">Yes</SelectItem>
+                                <SelectItem value="no">No</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
                     {isEmployed === "yes" && (
                       <motion.div
@@ -1165,7 +1243,7 @@ const PreRegister = () => {
                       </motion.div>
                     )}
 
-                    <div className="space-y-4 pt-4 border-t">
+                    <div className="pt-4 border-t">
                       <FormField
                         control={form.control}
                         name="isExistingSubscriber"
@@ -1176,7 +1254,7 @@ const PreRegister = () => {
                             </FormLabel>
                             <Select
                               onValueChange={field.onChange}
-                              defaultValue={field.value}
+                              value={field.value}
                             >
                               <FormControl>
                                 <SelectTrigger>
@@ -1197,7 +1275,7 @@ const PreRegister = () => {
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
-                          className="space-y-4 pl-4 border-l-2 border-primary/20"
+                          className="mt-4 pl-4 border-l-2 border-primary/20"
                         >
                           <FormField
                             control={form.control}
@@ -1211,6 +1289,7 @@ const PreRegister = () => {
                                   <Input
                                     placeholder="email@example.com"
                                     {...field}
+                                    spellCheck={false}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -1242,13 +1321,19 @@ const PreRegister = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger
+                                className="pointer-events-none cursor-default opacity-100"
+                                aria-disabled
+                              >
                                 <SelectValue placeholder="Select an exam…" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="vet">
                                 Veterinarian Licensure Exam (VLE)
+                              </SelectItem>
+                              <SelectItem value="fisheries">
+                                Fisheries Professionals Licensure Exam (FPLE)
                               </SelectItem>
                             </SelectContent>
                           </Select>
@@ -1310,7 +1395,7 @@ const PreRegister = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              Will you take the VLE this year?
+                              Will you take the {examType === "fisheries" ? "FPLE" : "VLE"} this year?
                             </FormLabel>
                             <Select
                               onValueChange={field.onChange}
@@ -1335,42 +1420,40 @@ const PreRegister = () => {
                       />
                     </div>
 
-                    <FormField
-                      control={form.control}
-                      name="examineeType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type of Examinee</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select type…" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="first-timer">
-                                First Timer
-                              </SelectItem>
-                              <SelectItem value="retaker">Retaker</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <FormField
+                        control={form.control}
+                        name="examineeType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Type of Examinee</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select type…" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="first-timer">
+                                  First Timer
+                                </SelectItem>
+                                <SelectItem value="retaker">Retaker</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <div className="space-y-4 pt-4 border-t">
                       <FormField
                         control={form.control}
                         name="otherReviewCenter"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>
-                              Are you enrolled in other Review Centers?
-                            </FormLabel>
+                            <FormLabel>Other Review Centers?</FormLabel>
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={field.value}
@@ -1389,33 +1472,34 @@ const PreRegister = () => {
                           </FormItem>
                         )}
                       />
-
-                      {otherReviewCenter === "yes" && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                        >
-                          <FormField
-                            control={form.control}
-                            name="otherReviewCenterName"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>
-                                  Name of Review Center
-                                </FormLabel>
-                                <FormControl>
-                                  <Input
-                                    placeholder="e.g. ABC Review Center"
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </motion.div>
-                      )}
                     </div>
+
+                    {otherReviewCenter === "yes" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                      >
+                        <FormField
+                          control={form.control}
+                          name="otherReviewCenterName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                Name of Review Center
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="e.g. ABC Review Center"
+                                  {...field}
+                                  spellCheck={false}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
                   </motion.div>
                 )}
 
@@ -1437,11 +1521,11 @@ const PreRegister = () => {
                           Amount to pay
                         </p>
                         <div className="inline-flex items-center gap-2">
-                          <p className="inline-flex items-baseline gap-1 text-base font-semibold text-foreground">
+                          <p className="inline-flex items-baseline gap-1 text-base font-semibold text-foreground font-variant-numeric: tabular-nums">
                             <span className="text-sm font-medium text-muted-foreground">
-                              Php
+                              ₱ 
                             </span>
-                            <span className="text-2xl font-extrabold">
+                            <span className="text-2xl font-extrabold tabular-nums">
                               {getFinalAmount().toLocaleString()}
                               .00
                             </span>
@@ -1478,7 +1562,7 @@ const PreRegister = () => {
                               <FormLabel className="text-sm font-medium">
                                 Choose QR wallet
                               </FormLabel>
-                              <div className="flex flex-wrap gap-2">
+                              <div className="flex flex-wrap gap-3">
                                 {[
                                   { id: "maya", label: "Maya" },
                                   { id: "bpi", label: "BPI" },
@@ -1498,15 +1582,23 @@ const PreRegister = () => {
                                       key={wallet.id}
                                       type="button"
                                       onClick={() => field.onChange(wallet.id)}
-                                      className={`min-w-[88px] rounded-lg px-3 py-2 text-xs font-medium border transition-colors flex flex-col items-center gap-1.5 ${isActive
-                                          ? "border-[#FFB63A] bg-[#FFB63A1A] text-foreground"
-                                          : "border-border bg-background hover:bg-accent/60"
-                                        }`}
+                                      className={`group relative min-w-[100px] overflow-hidden rounded-xl px-4 py-3 text-xs font-semibold border-2 transition-all duration-300 flex flex-col items-center gap-2 ${isActive
+                                          ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20 ring-offset-2"
+                                          : "border-border bg-background hover:bg-accent/40 hover:border-border/80"
+                                        } active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
                                     >
+                                      {isActive && (
+                                        <motion.div
+                                          layoutId="active-wallet-bg"
+                                          className="absolute inset-0 bg-primary/5 -z-10"
+                                          initial={false}
+                                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                        />
+                                      )}
                                       <img
                                         src={walletIcon}
                                         alt={`${wallet.label} logo`}
-                                        className="h-6 w-6 object-contain"
+                                        className="h-7 w-7 object-contain group-hover:scale-110 transition-transform"
                                       />
                                       <span>{wallet.label}</span>
                                     </button>
@@ -1625,46 +1717,45 @@ const PreRegister = () => {
 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between pt-4 border-t mt-6">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={prevStep}
-                    disabled={currentStep === 0}
-                    size="sm"
-                    className={
-                      currentStep === 0 ? "invisible" : "visible rounded-full"
-                    }
-                  >
-                    <ChevronLeft className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    {currentStep === steps.length ? "Back" : "Back"}
-                  </Button>
-
-                  {currentStep < steps.length - 1 ? (
                     <Button
-                      key="next-btn"
                       type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        nextStep();
-                      }}
-                      variant="hero"
-                      className="group"
+                      variant="secondary"
+                      onClick={prevStep}
+                      disabled={currentStep === 0}
                       size="sm"
+                      className={`${currentStep === 0 ? "invisible" : "visible"} group rounded-full px-5 shadow-sm hover:shadow-md transition-all active:scale-95`}
                     >
-                      Next{" "}
-                      <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                      Back
                     </Button>
-                  ) : (
-                    <Button
-                      key="submit-btn"
-                      type="submit"
-                      variant="hero"
-                      size="sm"
-                      disabled={isSubmitting}
-                    >
-                      Submit Registration
-                    </Button>
-                  )}
+
+                    {currentStep < steps.length - 1 ? (
+                      <Button
+                        key="next-btn"
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          nextStep();
+                        }}
+                        variant="hero"
+                        className="group rounded-full px-6 shadow-md hover:shadow-lg transition-all active:scale-95"
+                        size="sm"
+                      >
+                        Next{" "}
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </Button>
+                    ) : (
+                      <Button
+                        key="submit-btn"
+                        type="submit"
+                        variant="hero"
+                        size="sm"
+                        className="rounded-full px-8 shadow-md hover:shadow-lg transition-all active:scale-95 font-bold"
+                        disabled={isSubmitting}
+                      >
+                        Submit Registration
+                      </Button>
+                    )}
                 </div>
               </form>
             </Form>
@@ -1676,9 +1767,9 @@ const PreRegister = () => {
           <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
             <Loader2 className="h-16 w-16 animate-spin text-yellow-500 mb-4" />
             <h2 className="text-2xl font-bold font-display">
-              Submitting Registration...
+              Submitting Registration…
             </h2>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-muted-foreground mt-2 text-wrap: balance text-center">
               Please wait while we process your details.
             </p>
           </div>
@@ -1706,7 +1797,7 @@ const PreRegister = () => {
         {/* FAQ Section */}
         <div className="mb-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold tracking-tight mb-2 font-display">
+            <h2 className="text-3xl font-bold tracking-tight mb-2 font-display text-wrap: balance">
               Frequently Asked Questions
             </h2>
             <p className="text-muted-foreground font-sans">
@@ -1733,21 +1824,26 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                How much is the Vet Review Class?
+                How much is the {examType === "fisheries" ? "Fisheries" : "Vet"} Review Class?
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                During the Early Bird Promo (March 1–31, 2026), the Vet Review
+               <AccordionContent className="text-muted-foreground">
+                During the Early Bird Promo (March 1–31, 2026), the {examType === "fisheries" ? "Fisheries" : "Vet"} Review
                 Class fee is{" "}
-                <span className="font-semibold">Php 9,999</span> (or{" "}
-                <span className="font-semibold">Php 4,999</span> for qualified
-                Latin honor candidates/graduates).
-                <br /><br />
-                If you have already pre-registered with a{" "}
-                <span className="font-semibold">Php 500</span> reservation fee,
-                your remaining balance during the Early Bird period is{" "}
-                <span className="font-semibold">Php 9,499</span> (or{" "}
-                <span className="font-semibold">Php 4,499</span> for qualified
-                Latin honor candidates/graduates).
+                <span className="font-semibold">₱  {pricing[examType || 'vet']?.regular}.00</span>
+                {examType !== "fisheries" && (
+                  <>
+                    {" "}(or{" "}
+                    <span className="font-semibold">₱  {pricing[examType || 'vet']?.discounted}</span> for qualified
+                    Latin honor candidates/graduates).
+                    <br /><br />
+                    If you have already pre-registered with a{" "}
+                    <span className="font-semibold">₱  500</span> reservation fee,
+                    your remaining balance during the Early Bird period is{" "}
+                    <span className="font-semibold">₱  9,499</span> (or{" "}
+                    <span className="font-semibold">₱  4,499</span> for qualified
+                    Latin honor candidates/graduates).
+                  </>
+                )}
               </AccordionContent>
             </AccordionItem>
 
@@ -1756,12 +1852,12 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                What is the duration of the Vet Review Class?
+                What is the duration of the {examType === "fisheries" ? "Fisheries" : "Vet"} Review Class?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                The Vet Review Class will run from June 22 to August 29, 2026.
+                The {examType === "fisheries" ? "Fisheries" : "Vet"} Review Class will run from {examType === "fisheries" ? "June 25 to August 28, 2026" : "June 22 to August 29, 2026"}.
                 <br /><br />
-                Schedule: Weekdays, 9:00 AM – 12:00 PM.
+                Schedule: Weekdays, 9:00 AM – {examType === "fisheries" ? "4:00 PM" : "12:00 PM"}.
               </AccordionContent>
             </AccordionItem>
 
@@ -1806,17 +1902,24 @@ const PreRegister = () => {
         </div>
       </main>
 
-      <Dialog open={showFeeModal} onOpenChange={setShowFeeModal}>
-        <DialogContent className="sm:max-w-2xl border-none bg-transparent p-4 shadow-none [&>button]:hidden">
+      <Dialog open={showFeeModal}>
+        <DialogContent 
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+          className="sm:max-w-2xl border-none bg-transparent p-4 shadow-none [&>button]:hidden text-foreground"
+        >
           <div className="rounded-2xl border bg-card p-5 shadow-xl sm:p-7">
-            <DialogHeader className="space-y-2 text-left">
-              <span className="w-fit rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-                Important Notice
-              </span>
-              <DialogTitle className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <DialogHeader className="space-y-3 text-left">
+              <div className="flex items-center gap-2">
+                <span className="w-fit rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary uppercase tracking-wider">
+                  Important Notice
+                </span>
+                <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+              </div>
+              <DialogTitle className="w-full text-center font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-wrap: balance">
                 Registration Fees
               </DialogTitle>
-              <DialogDescription className="font-sans text-sm text-muted-foreground">
+              <DialogDescription className="w-full text-center font-sans text-sm text-muted-foreground">
                 Please review the rates before proceeding.
               </DialogDescription>
             </DialogHeader>
@@ -1824,45 +1927,80 @@ const PreRegister = () => {
             <div className="my-5 border-t border-border" />
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-border bg-muted/30 p-4">
-                <p className="text-lg font-semibold text-foreground">Early Bird</p>
-                <p className="mb-4 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  March 1-31, 2026
-                </p>
-                <div className="space-y-2 text-sm text-foreground">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-medium">Regular</span>
-                    <span className="font-semibold">Php 9,999.00</span>
+              <div className="rounded-xl border border-border bg-muted/30 p-0 shadow overflow-hidden">
+                {/* Ticket notch effect */}
+                <div className="relative">
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-12 h-6">
+                    <svg width="48" height="24" viewBox="0 0 48 24" fill="none" className="block">
+                      <circle cx="24" cy="24" r="12" fill="#FAFAFA" className="dark:fill-muted/30" />
+                    </svg>
                   </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-medium">Latin Honor</span>
-                    <span className="font-semibold">Php 4,999.00</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-medium">Pre-registered</span>
-                    <span className="font-semibold">Php 9,499.00</span>
-                  </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-medium">Pre-reg + Latin Honor</span>
-                    <span className="font-semibold">Php 4,499.00</span>
-                  </div>
+                </div>
+                <div className="p-4 pt-6">
+                  <p className="text-lg font-semibold text-foreground mb-0.5">Review Fee</p>
+                  <p className="mb-5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    March 1-31, 2026
+                  </p>
+                  <dl className="text-sm text-foreground tabular-nums">
+                    {examType === "fisheries" ? (
+                      <div className="flex items-start justify-between gap-3 py-1.5 rounded-md bg-primary/5 border border-primary/10">
+                        <dt className="font-medium">Regular</dt>
+                        <dd className="font-bold">
+                          <span>₱ </span>
+                          <span>999.00</span>
+                        </dd>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
+                          <dt className="font-medium">Regular</dt>
+                          <dd className="font-bold">₱  9,999.00</dd>
+                        </div>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
+                          <dt className="font-medium">Latin Honor</dt>
+                          <dd className="font-bold">₱  4,999.00</dd>
+                        </div>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
+                          <dt className="font-medium">Pre-registered</dt>
+                          <dd className="font-bold">₱  9,499.00</dd>
+                        </div>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md bg-primary/5 border border-primary/10">
+                          <dt className="font-medium">Pre-reg + Latin Honor</dt>
+                          <dd className="flex flex-col font-bold text-primary">
+                            <span>₱ </span>
+                            <span>4,499.00</span>
+                          </dd>
+                        </div>
+                      </>
+                    )}
+                  </dl>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-border bg-muted/30 p-4">
+                  <div className="rounded-xl border border-border bg-muted/30 p-4">
                 <p className="text-lg font-semibold text-foreground">Review Details</p>
-                <div className="space-y-2 text-sm">
-                  <p className="font-medium text-foreground">
-                    Vet Review Class (VLE)
-                  </p>
-                  <p className="text-muted-foreground">
-                    Duration: June 22 to August 29, 2026
-                  </p>
-                  <p className="text-muted-foreground">
-                    Weekdays, 9:00 AM - 12:00 PM
-                  </p>
-                  <p className="text-muted-foreground">
-                    Recorded lectures are available for same-day replay.
+                <div className="space-y-2 text-sm mt-2">
+                  <p className="text-muted-foreground ">
+                    {examType === "fisheries" 
+                      ? (
+                        <>
+                          <span className="font-bold">Asynchronous review class.</span> You will gain immediate access to all review materials once your payment has been verified.
+                        </>
+                      )
+                      : (
+                        <div>
+                          <div className="font-bold mb-1">Vet Review Class (VLE)</div>
+                          <div className="mb-1">
+                            <span className="font-semibold">Duration:</span> June 22 to August 29, 2026
+                          </div>
+                          <div className="mb-1">
+                            <span className="font-semibold">Schedule:</span> Weekdays, 9:00 AM - 12:00 PM
+                          </div>
+                          <div>
+                            Recorded lectures are available for same-day replay.
+                          </div>
+                        </div>
+                      )}
                   </p>
                 </div>
               </div>
@@ -1871,7 +2009,12 @@ const PreRegister = () => {
             <DialogFooter className="mt-6 sm:justify-center">
               <Button
                 variant="hero"
-                onClick={() => setShowFeeModal(false)}
+                onClick={() => {
+                  setShowFeeModal(false);
+                  if (examType === "fisheries" && currentStep === 0) {
+                    setCurrentStep(1);
+                  }
+                }}
                 className="rounded-full px-8 font-sans"
               >
                 Continue to Registration
@@ -1887,41 +2030,29 @@ const PreRegister = () => {
             <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-2">
               <CheckCircle className="w-10 h-10 text-green-600" />
             </div>
-            <DialogTitle className="text-2xl font-bold text-center font-display">
+            <DialogTitle className="w-full text-center text-2xl font-bold font-display text-wrap: balance">
               Registration Successful!
             </DialogTitle>
-            <DialogDescription className="text-center text-base font-sans">
-              Dear Doc!
-              <br />
-              <br />
-              Thank you for submitting your registration information to
-              BoardPrep.
+            <DialogDescription className="text-center text-base font-sans text-wrap: balance">
+              
+              Thank you for registering with BoardPrep.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 text-center text-sm text-muted-foreground space-y-3">
             <p>
-              We would like to inform you that your registration details have
-              been successfully received. Kindly allow 24-48 hours for our tech
-              team to verify and confirm your registration payment.
+              Your registration has been received. Please allow 24-48 hours for payment verification and account confirmation.
             </p>
             <p>
-              Once your payment has been confirmed, you will receive a
-              confirmation email together with your official BoardPrep Classroom
-              invitation.
-            </p>
-            <p>
-              If you do not receive any email from us within the given time
-              frame, please feel free to send us a message at{" "}
+              Once approved, we will send your official BoardPrep Classroom invitation by email. If you do not receive it on time, contact us at{" "}
               <a
                 href="mailto:acewithboardprep@gmail.com"
                 className="underline underline-offset-2"
               >
                 acewithboardprep@gmail.com
               </a>
-              , and we will gladly assist you.
+              .
             </p>
-            <p>Thank you for choosing BoardPrep.</p>
-            <p>Together, let's ace the test!</p>
+            <p>Thank you for choosing BoardPrep. Together, let's ace the test!</p>
           </div>
           <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:justify-center w-full">
             <Button
@@ -1945,10 +2076,10 @@ const PreRegister = () => {
       <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-display">
+            <DialogTitle className="font-display text-xl font-bold text-wrap: balance">
               Confirm Registration
             </DialogTitle>
-            <DialogDescription className="font-sans">
+            <DialogDescription className="font-sans text-wrap: balance">
               Are you sure you want to submit your registration details? Please
               double-check your information before proceeding.
             </DialogDescription>
@@ -1969,6 +2100,112 @@ const PreRegister = () => {
               Confirm & Submit
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showExamChoiceModal}>
+        <DialogContent 
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+          className="sm:max-w-2xl border-none bg-transparent p-4 shadow-none [&>button]:hidden"
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.97, y: 18 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/95 p-6 shadow-2xl backdrop-blur sm:p-8"
+          >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-primary/10 to-transparent" />
+            <div className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
+
+            <div className="mb-8 text-center">
+              <motion.div 
+                initial={{ y: -4, opacity: 0.8, scale: 0.95 }}
+                animate={{ rotate: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                className="relative mb-3 inline-flex items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 p-4"
+              >
+                <BookOpen className="h-12 w-12 text-secondary" />
+              </motion.div>
+              <h2 className="font-display text-3xl font-bold tracking-tight text-foreground text-wrap: balance">
+                Choose Board Exam
+              </h2>
+              <p className="mx-auto mt-2 max-w-[520px] font-sans text-sm text-muted-foreground text-wrap: balance">
+                Select the licensure exam you are preparing for to tailor your registration experience.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  form.setValue("examType", "vet");
+                  setShowExamChoiceModal(false);
+                  setShowFeeModal(true);
+                }}
+                className="group relative flex min-h-[168px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-5 text-left transition-colors hover:border-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/30"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-secondary/20 group-hover:bg-secondary/10">
+                    <Stethoscope className="h-6 w-6 text-foreground transition-colors group-hover:text-secondary" />
+                  </div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors group-hover:border-secondary/30 group-hover:text-secondary">
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+                <div className="mt-5">
+                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-secondary">Veterinary Medicine</h3>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    For VLE 2026 Review Class
+                  </p>
+                  <div>
+                    <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
+                      Popular Program
+                    </p>
+                  </div>
+                </div>
+              </motion.button>
+
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  form.setValue("examType", "fisheries");
+                  form.setValue("hasPreRegistered", "no");
+                  form.setValue("isLatinHonor", "no");
+                  setShowExamChoiceModal(false);
+                  setShowFeeModal(true);
+                }}
+                className="group relative flex min-h-[168px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-5 text-left transition-colors hover:border-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/30"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-secondary/20 group-hover:bg-secondary/10">
+                    <Fish className="h-6 w-6 text-foreground transition-colors group-hover:text-secondary" />
+                  </div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors group-hover:border-secondary/30 group-hover:text-secondary">
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+                <div className="mt-5">
+                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-secondary">Fisheries</h3>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    For FPLE 2026 Review Class
+                  </p>
+                  <div>
+                    <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
+                      Asynchronous Track
+                    </p>
+                  </div>
+                </div>
+              </motion.button>
+            </div>
+
+            <div className="mt-7 border-t border-border/80 pt-5 text-center">
+              <p className="mx-auto max-w-[460px] text-xs font-sans text-muted-foreground">
+                Your choice will customize your review path and scheduling requirements.
+              </p>
+            </div>
+          </motion.div>
         </DialogContent>
       </Dialog>
 
