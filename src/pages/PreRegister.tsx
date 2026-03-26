@@ -45,6 +45,8 @@ import unionbankQr4999 from "@/assets/qr/4999.png";
 import unionbankQr9499 from "@/assets/qr/9499.png";
 import unionbankQr9999 from "@/assets/qr/9999.png";
 import fisheriesQrMaya from "@/assets/payment/fisheries_qr_maya.png";
+import fisheriesQrBpi from "@/assets/payment/fisheries_qr_bpi.png";
+import fisheriesQrUnionbank from "@/assets/payment/fisheries_qr_unionbank.png";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -99,7 +101,7 @@ const formSchema = z.object({
   city: z.string().min(2, "City is required"),
 
   // Step 2: Academic & Professional
-  school: z.string().optional(),
+  school: z.string().min(1, "Please enter your school"),
   gradYear: z.string().min(4, "Please enter a valid year"),
   description: z.string().min(1, "Please select an option"),
   isEmployed: z.string().min(1, "Please select an option"),
@@ -119,12 +121,12 @@ const formSchema = z.object({
 
   // Step 4: Payment & Verification
   paymentMethod: z.string().min(1, "Please choose a payment method"),
-  walletType: z.string().optional(),
+  walletType: z.string().min(1, "Please choose a QR wallet"),
   paymentProof: z
     .any()
     .refine((val) => val != null && val instanceof File, "Please upload proof of payment"),
   preRegProof: z.any().optional(),
-  remarks: z.string().optional(),
+  remarks: z.string().min(1, "Remarks is required"),
   agreedToTerms: z
     .boolean()
     .refine((val) => val === true, "You must agree to the terms"),
@@ -135,6 +137,12 @@ const formSchema = z.object({
     message: "Emails do not match",
     path: ["retypeEmail"],
   })
+  .refine((data) => {
+    if (data.examType === "vet" || data.examType === "fisheries") {
+      return !!(data.school && data.school.trim().length > 0);
+    }
+    return true;
+  }, { message: "Please enter your school", path: ["school"] })
   .refine(
     (data) =>
       data.examType === "fisheries" ||
@@ -142,12 +150,33 @@ const formSchema = z.object({
       (data.employmentType && data.employmentType.length > 0),
     { message: "Please select your employment type", path: ["employmentType"] }
   )
-  .refine((data) => {
-    if (data.examType === "vet" || data.examType === "fisheries") {
-      return !!(data.school && data.school.trim().length > 0);
+  .refine(
+    (data) =>
+      data.otherReviewCenter !== "yes" ||
+      (data.otherReviewCenterName && data.otherReviewCenterName.trim().length > 0),
+    { message: "Please enter the review center name", path: ["otherReviewCenterName"] }
+  )
+  .refine(
+    (data) =>
+      data.isExistingSubscriber !== "yes" ||
+      (data.existingSubscriberEmail && data.existingSubscriberEmail.trim().length > 0),
+    {
+      message: "Please enter your registered subscriber email",
+      path: ["existingSubscriberEmail"],
     }
-    return true;
-  }, { message: "Please enter your school", path: ["school"] });
+  )
+  .refine(
+    (data) =>
+      data.hasPreRegistered !== "yes" ||
+      (data.preRegProof != null && data.preRegProof instanceof File),
+    { message: "Please upload your pre-registration proof", path: ["preRegProof"] }
+  )
+  .refine(
+    (data) =>
+      data.isLatinHonor !== "yes" ||
+      (data.latinHonorProof != null && data.latinHonorProof instanceof File),
+    { message: "Please upload your Latin honor proof", path: ["latinHonorProof"] }
+  );
 
 type FormValues = z.infer<typeof formSchema>;
 
@@ -251,6 +280,16 @@ const PreRegister = () => {
   }, [examType, setSearchParams]);
 
   const walletType = watch("walletType");
+  useEffect(() => {
+    if (
+      examType === "fisheries" &&
+      walletType !== "maya" &&
+      walletType !== "bpi" &&
+      walletType !== "unionbank"
+    ) {
+      setValue("walletType", "maya", { shouldValidate: true });
+    }
+  }, [examType, walletType, setValue]);
   const email = watch("email");
   const retypeEmail = watch("retypeEmail");
   const emailsMatch =
@@ -359,6 +398,12 @@ const PreRegister = () => {
 
   const getActiveQrImageForWallet = () => {
     if (examType === "fisheries") {
+      if (walletType === "bpi") {
+        return fisheriesQrBpi;
+      }
+      if (walletType === "unionbank") {
+        return fisheriesQrUnionbank;
+      }
       return fisheriesQrMaya;
     }
 
@@ -1569,7 +1614,15 @@ const PreRegister = () => {
                                   { id: "maya", label: "Maya" },
                                   { id: "bpi", label: "BPI" },
                                   { id: "unionbank", label: "UnionBank" },
-                                ].map((wallet) => {
+                                ]
+                                  .filter((wallet) =>
+                                    examType === "fisheries"
+                                      ? wallet.id === "maya" ||
+                                        wallet.id === "bpi" ||
+                                        wallet.id === "unionbank"
+                                      : true
+                                  )
+                                  .map((wallet) => {
                                   const isActive = field.value === wallet.id;
                                   const walletIcon =
                                     wallet.id === "gcash"
