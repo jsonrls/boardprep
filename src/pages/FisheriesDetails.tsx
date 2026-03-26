@@ -18,7 +18,6 @@ import {
   UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import SpeakersGrid from "@/components/SpeakersGrid";
 
 const courseFeatures = [
   {
@@ -48,14 +47,10 @@ const courseFeatures = [
 ];
 
 const curriculumTopics = [
-  { title: "Aquaculture Systems", lessons: 22 },
-  { title: "Fish Biology & Physiology", lessons: 18 },
-  { title: "Marine Ecology", lessons: 20 },
-  { title: "Fisheries Management", lessons: 24 },
-  { title: "Capture Fisheries", lessons: 16 },
-  { title: "Post-Harvest Technology", lessons: 20 },
-  { title: "Aquatic Resources Conservation", lessons: 14 },
-  { title: "Fisheries Economics", lessons: 12 },
+  { title: "Aquaculture", lessons: 0 },
+  { title: "Capture Fisheries", lessons: 0 },
+  { title: "Post Harvest Fisheries", lessons: 0 },
+  { title: "Aquatic Resources and Ecology", lessons: 0 },
 ];
 
 const stats = [
@@ -243,7 +238,7 @@ const FisheriesDetails = () => {
                             {topic.title}
                           </h3>
                           <p className="text-sm text-muted-foreground">
-                            {topic.lessons} lessons
+                            {topic.lessons > 0 ? `${topic.lessons} lessons` : "Included"}
                           </p>
                         </div>
                       </div>
@@ -253,26 +248,6 @@ const FisheriesDetails = () => {
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Speakers Section */}
-        <section className="py-28 lg:py-36 bg-muted/30">
-          <div className="container mx-auto px-6 lg:px-12">
-            <div className="max-w-3xl mx-auto text-center mb-20">
-              <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
-                Expert Instructors
-              </p>
-              <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-                Learn from the <em className="not-italic text-accent">best</em>
-              </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
-                Our instructors are board topnotchers and experienced fisheries
-                professionals dedicated to your success.
-              </p>
-            </div>
-
-            <SpeakersGrid />
           </div>
         </section>
 

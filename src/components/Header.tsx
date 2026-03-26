@@ -14,6 +14,7 @@ import {
   Rocket,
   Cpu,
   ChevronRight,
+  Fish,
 } from "lucide-react";
 import { useState, useEffect, forwardRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -186,6 +187,11 @@ const Header = () => {
                           href="/review/vet"
                           title="Veterinarian"
                           icon={Stethoscope}
+                        />
+                        <ListItem
+                          href="/review/fisheries"
+                          title="Fisheries"
+                          icon={Fish}
                         />
                       </ul>
                     </NavigationMenuContent>
