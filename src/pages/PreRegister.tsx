@@ -137,7 +137,9 @@ const formSchema = z.object({
   })
   .refine(
     (data) =>
-      data.isEmployed !== "yes" || (data.employmentType && data.employmentType.length > 0),
+      data.examType === "fisheries" ||
+      data.isEmployed !== "yes" ||
+      (data.employmentType && data.employmentType.length > 0),
     { message: "Please select your employment type", path: ["employmentType"] }
   )
   .refine((data) => {
@@ -439,7 +441,7 @@ const PreRegister = () => {
         "isEmployed",
         "isExistingSubscriber",
       ];
-      if (form.getValues("isEmployed") === "yes") {
+      if (examType !== "fisheries" && form.getValues("isEmployed") === "yes") {
         fieldsToValidate.push("employmentType");
       }
     } else if (currentStep === 3) {
@@ -1201,7 +1203,7 @@ const PreRegister = () => {
                       />
                     </div>
 
-                    {isEmployed === "yes" && (
+                    {isEmployed === "yes" && examType !== "fisheries" && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
@@ -1938,9 +1940,6 @@ const PreRegister = () => {
                 </div>
                 <div className="p-4 pt-6">
                   <p className="text-lg font-semibold text-foreground mb-0.5">Review Fee</p>
-                  <p className="mb-5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                    March 1-31, 2026
-                  </p>
                   <dl className="text-sm text-foreground tabular-nums">
                     {examType === "fisheries" ? (
                       <div className="flex items-start justify-between gap-3 py-1.5 rounded-md bg-primary/5 border border-primary/10">
@@ -2198,6 +2197,7 @@ const PreRegister = () => {
                   </div>
                 </div>
               </motion.button>
+
             </div>
 
             <div className="mt-7 border-t border-border/80 pt-5 text-center">
