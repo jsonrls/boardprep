@@ -11,7 +11,6 @@ import {
   Zap,
   Stethoscope,
   Utensils,
-  Fish,
   Rocket,
   Cpu,
   ChevronRight,
@@ -187,11 +186,6 @@ const Header = () => {
                           href="/review/vet"
                           title="Veterinarian"
                           icon={Stethoscope}
-                        />
-                        <ListItem
-                          href="/review/fisheries"
-                          title="Fisheries"
-                          icon={Fish}
                         />
                       </ul>
                     </NavigationMenuContent>
@@ -374,13 +368,6 @@ const Header = () => {
                             onClick={() => setIsMenuOpen(false)}
                           >
                             Veterinarian Licensure Exam
-                          </Link>
-                          <Link
-                            to="/review/fisheries"
-                            className="text-sm py-2 text-muted-foreground font-sans"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            Fisheries Licensure Exam
                           </Link>
                         </div>
                       </AccordionContent>
