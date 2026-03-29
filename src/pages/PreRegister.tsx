@@ -290,6 +290,12 @@ const PreRegister = () => {
       setValue("walletType", "maya", { shouldValidate: true });
     }
   }, [examType, walletType, setValue]);
+
+  useEffect(() => {
+    if (examType === "vet" && walletType === "maya") {
+      setValue("walletType", "bpi", { shouldValidate: true });
+    }
+  }, [examType, walletType, setValue]);
   const email = watch("email");
   const retypeEmail = watch("retypeEmail");
   const emailsMatch =
@@ -1607,7 +1613,9 @@ const PreRegister = () => {
                           render={({ field }) => (
                             <FormItem className="space-y-2">
                               <FormLabel className="text-sm font-medium">
-                                Choose QR wallet
+                                {examType === "vet"
+                                  ? "Choose payment channel"
+                                  : "Choose QR wallet"}
                               </FormLabel>
                               <div className="flex flex-wrap gap-3">
                                 {[
@@ -1615,13 +1623,22 @@ const PreRegister = () => {
                                   { id: "bpi", label: "BPI" },
                                   { id: "unionbank", label: "UnionBank" },
                                 ]
-                                  .filter((wallet) =>
-                                    examType === "fisheries"
-                                      ? wallet.id === "maya" ||
+                                  .filter((wallet) => {
+                                    if (examType === "fisheries") {
+                                      return (
+                                        wallet.id === "maya" ||
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
-                                      : true
-                                  )
+                                      );
+                                    }
+                                    if (examType === "vet") {
+                                      return (
+                                        wallet.id === "bpi" ||
+                                        wallet.id === "unionbank"
+                                      );
+                                    }
+                                    return true;
+                                  })
                                   .map((wallet) => {
                                   const isActive = field.value === wallet.id;
                                   const walletIcon =
@@ -1665,23 +1682,25 @@ const PreRegister = () => {
                           )}
                         />
 
-                        <div className="border rounded-lg px-4 py-4 bg-card">
-                          <p className="font-semibold mb-2">
-                            Scan QR code to pay
-                          </p>
-                          <p className="text-sm text-muted-foreground mb-4">
-                            Open your mobile banking app, scan the QR code, and pay the full amount.
-                            Please include your full name in the reference or
-                            notes section.
-                          </p>
-                          <div className="flex flex-col items-center justify-center">
-                            <img
-                              src={getActiveQrImageForWallet()}
-                              alt="Payment QR Code"
-                              className="w-full max-w-sm h-auto object-contain rounded-md"
-                            />
+                        {examType !== "vet" && (
+                          <div className="border rounded-lg px-4 py-4 bg-card">
+                            <p className="font-semibold mb-2">
+                              Scan QR code to pay
+                            </p>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              Open your mobile banking app, scan the QR code, and pay the full amount.
+                              Please include your full name in the reference or
+                              notes section.
+                            </p>
+                            <div className="flex flex-col items-center justify-center">
+                              <img
+                                src={getActiveQrImageForWallet()}
+                                alt="Payment QR Code"
+                                className="w-full max-w-sm h-auto object-contain rounded-md"
+                              />
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
 
