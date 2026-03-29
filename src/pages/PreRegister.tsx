@@ -292,7 +292,10 @@ const PreRegister = () => {
   }, [examType, walletType, setValue]);
 
   useEffect(() => {
-    if (examType === "vet" && walletType === "maya") {
+    if (
+      examType === "vet" &&
+      (walletType === "maya" || walletType === "")
+    ) {
       setValue("walletType", "bpi", { shouldValidate: true });
     }
   }, [examType, walletType, setValue]);
@@ -402,7 +405,7 @@ const PreRegister = () => {
     4999: unionbankQr4999,
   };
 
-  const getActiveQrImageForWallet = () => {
+  const getActiveQrImageForWallet = (): string | null => {
     if (examType === "fisheries") {
       if (walletType === "bpi") {
         return fisheriesQrBpi;
@@ -411,6 +414,10 @@ const PreRegister = () => {
         return fisheriesQrUnionbank;
       }
       return fisheriesQrMaya;
+    }
+
+    if (examType === "vet" && walletType === "maya") {
+      return null;
     }
 
     if (walletType === "maya") {
@@ -435,7 +442,7 @@ const PreRegister = () => {
     }
 
     return activeQrImages[
-      (walletType || "maya") as keyof typeof activeQrImages
+      (walletType || (examType === "vet" ? "bpi" : "maya")) as keyof typeof activeQrImages
     ];
   };
 
@@ -1613,9 +1620,7 @@ const PreRegister = () => {
                           render={({ field }) => (
                             <FormItem className="space-y-2">
                               <FormLabel className="text-sm font-medium">
-                                {examType === "vet"
-                                  ? "Choose payment channel"
-                                  : "Choose QR wallet"}
+                                Choose QR wallet
                               </FormLabel>
                               <div className="flex flex-wrap gap-3">
                                 {[
@@ -1623,24 +1628,19 @@ const PreRegister = () => {
                                   { id: "bpi", label: "BPI" },
                                   { id: "unionbank", label: "UnionBank" },
                                 ]
-                                  .filter((wallet) => {
-                                    if (examType === "fisheries") {
-                                      return (
-                                        wallet.id === "maya" ||
+                                  .filter((wallet) =>
+                                    examType === "fisheries"
+                                      ? wallet.id === "maya" ||
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
-                                      );
-                                    }
-                                    if (examType === "vet") {
-                                      return (
-                                        wallet.id === "bpi" ||
-                                        wallet.id === "unionbank"
-                                      );
-                                    }
-                                    return true;
-                                  })
+                                      : true
+                                  )
                                   .map((wallet) => {
-                                  const isActive = field.value === wallet.id;
+                                  const mayaUnavailable =
+                                    examType === "vet" && wallet.id === "maya";
+                                  const isActive =
+                                    field.value === wallet.id &&
+                                    !mayaUnavailable;
                                   const walletIcon =
                                     wallet.id === "gcash"
                                       ? gcashIcon
@@ -1653,11 +1653,17 @@ const PreRegister = () => {
                                     <button
                                       key={wallet.id}
                                       type="button"
-                                      onClick={() => field.onChange(wallet.id)}
-                                      className={`group relative min-w-[100px] overflow-hidden rounded-xl px-4 py-3 text-xs font-semibold border-2 transition-all duration-300 flex flex-col items-center gap-2 ${isActive
-                                          ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20 ring-offset-2"
-                                          : "border-border bg-background hover:bg-accent/40 hover:border-border/80"
-                                        } active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
+                                      disabled={mayaUnavailable}
+                                      onClick={() => {
+                                        if (mayaUnavailable) return;
+                                        field.onChange(wallet.id);
+                                      }}
+                                      className={`group relative min-w-[100px] overflow-hidden rounded-xl px-4 py-3 text-xs font-semibold border-2 transition-all duration-300 flex flex-col items-center gap-2 ${mayaUnavailable
+                                          ? "cursor-not-allowed border-border/60 bg-muted/40 text-muted-foreground opacity-70"
+                                          : isActive
+                                            ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20 ring-offset-2"
+                                            : "border-border bg-background hover:bg-accent/40 hover:border-border/80"
+                                        } ${!mayaUnavailable ? "active:scale-95" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
                                     >
                                       {isActive && (
                                         <motion.div
@@ -1670,9 +1676,14 @@ const PreRegister = () => {
                                       <img
                                         src={walletIcon}
                                         alt={`${wallet.label} logo`}
-                                        className="h-7 w-7 object-contain group-hover:scale-110 transition-transform"
+                                        className={`h-7 w-7 object-contain transition-transform ${mayaUnavailable ? "grayscale" : "group-hover:scale-110"}`}
                                       />
                                       <span>{wallet.label}</span>
+                                      {mayaUnavailable && (
+                                        <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                                          Unavailable
+                                        </span>
+                                      )}
                                     </button>
                                   );
                                 })}
@@ -1682,25 +1693,39 @@ const PreRegister = () => {
                           )}
                         />
 
-                        {examType !== "vet" && (
-                          <div className="border rounded-lg px-4 py-4 bg-card">
-                            <p className="font-semibold mb-2">
-                              Scan QR code to pay
-                            </p>
-                            <p className="text-sm text-muted-foreground mb-4">
-                              Open your mobile banking app, scan the QR code, and pay the full amount.
-                              Please include your full name in the reference or
-                              notes section.
-                            </p>
-                            <div className="flex flex-col items-center justify-center">
+                        <div className="border rounded-lg px-4 py-4 bg-card">
+                          <p className="font-semibold mb-2">
+                            Scan QR code to pay
+                          </p>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Open your mobile banking app, scan the QR code, and pay the full amount.
+                            Please include your full name in the reference or
+                            notes section.
+                          </p>
+                          <div className="flex flex-col items-center justify-center">
+                            {examType === "vet" &&
+                            walletType === "maya" ? (
+                              <div
+                                className="flex min-h-[220px] w-full max-w-sm flex-col items-center justify-center gap-2 rounded-md border border-dashed border-muted-foreground/40 bg-muted/30 px-6 py-12 text-center"
+                                role="status"
+                              >
+                                <p className="text-sm font-semibold text-foreground">
+                                  Maya (PayMaya) unavailable
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  Choose BPI or UnionBank to pay by QR for the
+                                  Veterinarian exam.
+                                </p>
+                              </div>
+                            ) : (
                               <img
-                                src={getActiveQrImageForWallet()}
+                                src={getActiveQrImageForWallet()!}
                                 alt="Payment QR Code"
                                 className="w-full max-w-sm h-auto object-contain rounded-md"
                               />
-                            </div>
+                            )}
                           </div>
-                        )}
+                        </div>
                       </div>
                     </div>
 
