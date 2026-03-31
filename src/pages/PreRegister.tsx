@@ -1952,8 +1952,8 @@ const PreRegister = () => {
                     If you have already pre-registered with a{" "}
                     <span className="font-semibold">₱  500</span> reservation fee,
                     your remaining balance during the Early Bird period is{" "}
-                    <span className="font-semibold">₱  9,499</span> (or{" "}
-                    <span className="font-semibold">₱  4,499</span> for qualified
+                    <span className="font-semibold">₱  10,499</span> (or{" "}
+                    <span className="font-semibold">₱ 4,999</span> for qualified
                     Latin honor candidates/graduates).
                   </>
                 )}
@@ -2064,21 +2064,20 @@ const PreRegister = () => {
                       <>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
                           <dt className="font-medium">Regular</dt>
-                          <dd className="font-bold">₱  9,999.00</dd>
+                          <dd className="font-bold">₱  10,999.00</dd>
                         </div>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
                           <dt className="font-medium">Latin Honor</dt>
-                          <dd className="font-bold">₱  4,999.00</dd>
+                          <dd className="font-bold">₱  5,499.00</dd>
                         </div>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
                           <dt className="font-medium">Pre-registered</dt>
-                          <dd className="font-bold">₱  9,499.00</dd>
+                          <dd className="font-bold">₱  10,499.00</dd>
                         </div>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md bg-primary/5 border border-primary/10">
                           <dt className="font-medium">Pre-reg + Latin Honor</dt>
-                          <dd className="flex flex-col font-bold text-primary">
-                            <span>₱ </span>
-                            <span>4,499.00</span>
+                          <dd className="flex flex-col font-bold text-foreground">
+                            <span>₱ 4,999.00</span>
                           </dd>
                         </div>
                       </>
