@@ -292,10 +292,7 @@ const PreRegister = () => {
   }, [examType, walletType, setValue]);
 
   useEffect(() => {
-    if (
-      examType === "vet" &&
-      (walletType === "maya" || walletType === "")
-    ) {
+    if (examType === "vet" && walletType === "") {
       setValue("walletType", "bpi", { shouldValidate: true });
     }
   }, [examType, walletType, setValue]);
@@ -308,8 +305,8 @@ const PreRegister = () => {
 
   const pricing: Record<string, { regular: string; discounted: string }> = {
     vet: {
-      regular: "9,999",
-      discounted: "4,999",
+      regular: "10,999",
+      discounted: "5,499",
     },
     ftle: {
       regular: "4,999",
@@ -405,6 +402,38 @@ const PreRegister = () => {
     4999: unionbankQr4999,
   };
 
+  /** Vet (VLE) UnionBank InstaPay QR — public assets under /assets/images/ */
+  const unionbankQrImagesByAmountVet: Record<number, string> = {
+    4999: "/assets/images/ub-4999.png",
+    5499: "/assets/images/ub-5499.png",
+    10499: "/assets/images/ub-10499.png",
+    10999: "/assets/images/ub-10999.png",
+  };
+
+  /** Vet (VLE) Maya InstaPay QR — public assets under /assets/images/ */
+  const mayaQrImagesByAmountVet: Record<number, string> = {
+    4999: "/assets/images/maya-4999.jpg",
+    5499: "/assets/images/maya-5499.jpg",
+    10499: "/assets/images/maya-10499.jpg",
+    10999: "/assets/images/maya-10999.jpg",
+  };
+
+  /** Vet (VLE) BPI InstaPay QR — public assets under /assets/images/ */
+  const bpiQrImagesByAmountVet: Record<number, string> = {
+    4999: "/assets/images/bpi-4999.jpg",
+    5499: "/assets/images/bpi-5499.jpg",
+    10499: "/assets/images/bpi-10499.jpg",
+    10999: "/assets/images/bpi-10999.jpg",
+  };
+
+  /** Vet (VLE) GCash InstaPay QR — public assets under /assets/images/ */
+  const gcashQrImagesByAmountVet: Record<number, string> = {
+    4999: "/assets/images/gcash-4999.jpg",
+    5499: "/assets/images/gcash-5499.jpg",
+    10499: "/assets/images/gcash-10499.jpg",
+    10999: "/assets/images/gcash-10999.jpg",
+  };
+
   const getActiveQrImageForWallet = (): string | null => {
     if (examType === "fisheries") {
       if (walletType === "bpi") {
@@ -416,26 +445,39 @@ const PreRegister = () => {
       return fisheriesQrMaya;
     }
 
-    if (examType === "vet" && walletType === "maya") {
-      return null;
-    }
-
     if (walletType === "maya") {
-      const mayaImage = mayaQrImagesByAmount[getFinalAmount()];
-      if (mayaImage) {
-        return mayaImage;
-      }
+      const mayaMap =
+        examType === "vet"
+          ? mayaQrImagesByAmountVet
+          : mayaQrImagesByAmount;
+      const mayaImage = mayaMap[getFinalAmount()];
+      if (mayaImage) return mayaImage;
     }
 
     if (walletType === "gcash") {
-      const gcashImage = gcashQrImagesByAmount[getFinalAmount()];
+      const gcashMap =
+        examType === "vet"
+          ? gcashQrImagesByAmountVet
+          : gcashQrImagesByAmount;
+      const gcashImage = gcashMap[getFinalAmount()];
       if (gcashImage) {
         return gcashImage;
       }
     }
 
+    if (walletType === "bpi" && examType === "vet") {
+      const bpiImage = bpiQrImagesByAmountVet[getFinalAmount()];
+      if (bpiImage) {
+        return bpiImage;
+      }
+    }
+
     if (walletType === "unionbank") {
-      const unionbankImage = unionbankQrImagesByAmount[getFinalAmount()];
+      const unionbankMap =
+        examType === "vet"
+          ? unionbankQrImagesByAmountVet
+          : unionbankQrImagesByAmount;
+      const unionbankImage = unionbankMap[getFinalAmount()];
       if (unionbankImage) {
         return unionbankImage;
       }
@@ -1624,6 +1666,7 @@ const PreRegister = () => {
                               </FormLabel>
                               <div className="flex flex-wrap gap-3">
                                 {[
+                                  { id: "gcash", label: "GCash" },
                                   { id: "maya", label: "Maya" },
                                   { id: "bpi", label: "BPI" },
                                   { id: "unionbank", label: "UnionBank" },
@@ -1636,11 +1679,7 @@ const PreRegister = () => {
                                       : true
                                   )
                                   .map((wallet) => {
-                                  const mayaUnavailable =
-                                    examType === "vet" && wallet.id === "maya";
-                                  const isActive =
-                                    field.value === wallet.id &&
-                                    !mayaUnavailable;
+                                  const isActive = field.value === wallet.id;
                                   const walletIcon =
                                     wallet.id === "gcash"
                                       ? gcashIcon
@@ -1653,17 +1692,13 @@ const PreRegister = () => {
                                     <button
                                       key={wallet.id}
                                       type="button"
-                                      disabled={mayaUnavailable}
                                       onClick={() => {
-                                        if (mayaUnavailable) return;
                                         field.onChange(wallet.id);
                                       }}
-                                      className={`group relative min-w-[100px] overflow-hidden rounded-xl px-4 py-3 text-xs font-semibold border-2 transition-all duration-300 flex flex-col items-center gap-2 ${mayaUnavailable
-                                          ? "cursor-not-allowed border-border/60 bg-muted/40 text-muted-foreground opacity-70"
-                                          : isActive
-                                            ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20 ring-offset-2"
-                                            : "border-border bg-background hover:bg-accent/40 hover:border-border/80"
-                                        } ${!mayaUnavailable ? "active:scale-95" : ""} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
+                                      className={`group relative min-w-[100px] overflow-hidden rounded-xl px-4 py-3 text-xs font-semibold border-2 transition-all duration-300 flex flex-col items-center gap-2 ${isActive
+                                          ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20 ring-offset-2"
+                                          : "border-border bg-background hover:bg-accent/40 hover:border-border/80"
+                                        } active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40`}
                                     >
                                       {isActive && (
                                         <motion.div
@@ -1676,14 +1711,9 @@ const PreRegister = () => {
                                       <img
                                         src={walletIcon}
                                         alt={`${wallet.label} logo`}
-                                        className={`h-7 w-7 object-contain transition-transform ${mayaUnavailable ? "grayscale" : "group-hover:scale-110"}`}
+                                        className="h-7 w-7 object-contain transition-transform group-hover:scale-110"
                                       />
                                       <span>{wallet.label}</span>
-                                      {mayaUnavailable && (
-                                        <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                                          Unavailable
-                                        </span>
-                                      )}
                                     </button>
                                   );
                                 })}
@@ -1703,27 +1733,11 @@ const PreRegister = () => {
                             notes section.
                           </p>
                           <div className="flex flex-col items-center justify-center">
-                            {examType === "vet" &&
-                            walletType === "maya" ? (
-                              <div
-                                className="flex min-h-[220px] w-full max-w-sm flex-col items-center justify-center gap-2 rounded-md border border-dashed border-muted-foreground/40 bg-muted/30 px-6 py-12 text-center"
-                                role="status"
-                              >
-                                <p className="text-sm font-semibold text-foreground">
-                                  Maya (PayMaya) unavailable
-                                </p>
-                                <p className="text-xs text-muted-foreground">
-                                  Choose BPI or UnionBank to pay by QR for the
-                                  Veterinarian exam.
-                                </p>
-                              </div>
-                            ) : (
-                              <img
-                                src={getActiveQrImageForWallet()!}
-                                alt="Payment QR Code"
-                                className="w-full max-w-sm h-auto object-contain rounded-md"
-                              />
-                            )}
+                            <img
+                              src={getActiveQrImageForWallet()!}
+                              alt="Payment QR Code"
+                              className="w-full max-w-sm h-auto object-contain rounded-md"
+                            />
                           </div>
                         </div>
                       </div>
