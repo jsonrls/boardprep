@@ -24,6 +24,7 @@ import Press from "./pages/Press";
 import PressArticle from "./pages/PressArticle";
 import ReviewClass from "./pages/ReviewClass";
 import ApiEndpoints from "./pages/ApiEndpoints";
+import Products from "./pages/Products";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/press/:id" element={<PressArticle />} />
             <Route path="/enroll" element={<PreRegister />} />
             <Route path="/review-class" element={<ReviewClass />} />
+            <Route path="/our-products" element={<Products />} />
             <Route path="/api-endpoints" element={<ApiEndpoints />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

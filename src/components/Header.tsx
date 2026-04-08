@@ -130,6 +130,7 @@ const Header = () => {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[350px] gap-1 p-2 bg-popover">
+                        <ListItem href="/our-products" title="All Products" icon={Cpu} />
                         <ListItem
                           href="https://www.myboardprep.com"
                           target="_blank"
@@ -309,6 +310,13 @@ const Header = () => {
                       </AccordionTrigger>
                       <AccordionContent>
                         <div className="flex flex-col space-y-2 pl-4 py-2">
+                          <Link
+                            to="/our-products"
+                            className="text-sm py-2 text-muted-foreground font-sans"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            All Products
+                          </Link>
                           <a
                             href="https://www.myboardprep.com"
                             target="_blank"
