@@ -26,37 +26,63 @@ function isCrawler(userAgent: string): boolean {
     );
 }
 
-// Mirrors src/data/press.ts — keep in sync when adding new articles
-const PRESS_OG_DATA: Record<
-    string,
-    { title: string; description: string; image: string }
-> = {
-    "microcredentials-and-technology": {
-        title:
-            "Microcredentials and Technology: The Urgency for Schools to Shape the Future of Learning",
-        description:
-            "Work is changing faster than traditional curricula can keep up. Microcredentials can complement degrees with shorter, verifiable skill units, especially when powered by the right technology to track competencies and issue trusted credentials.",
-        image:
-            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop",
-    },
-    "next-steps-ph-career-program": {
-        title:
-            "Next Steps PH: A New Career Program for Licensed Teachers and Professionals in the Philippines",
-        description:
-            "Board Prep Solutions introduces Next Steps PH, a career advancement program designed for licensed professionals—especially teachers—who are ready to grow beyond the board exam.",
-        image: "https://www.myboardprep.org/next-step.png",
-    },
-    "boardprep-lite-launch": {
-        title: "Meet BoardPrep Lite: The Smartest Way to Review Anywhere",
-        description:
-            "BoardPrep introduces BoardPrep Lite, a flashcard-style mobile app available on the App Store and Google Play, designed to help students review smarter, faster, and anytime they need it.",
-        image:
-            "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop",
-    },
-};
-
 const SITE_URL = "https://www.myboardprep.org";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG_DESCRIPTION =
+    "Master your licensure exams with BoardPrep. Comprehensive question banks and expert review materials.";
+const PUBLIC_API_BASE_URL =
+    process.env.PUBLIC_API_BASE_URL ||
+    process.env.VITE_API_URL ||
+    process.env.API_BASE_URL ||
+    "https://admin-boardprep.vercel.app/api";
+
+type PublicPressItem = {
+    title?: string | null;
+    content?: string | null;
+    imageUrl?: string | null;
+};
+
+function stripHtml(html: string): string {
+    return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function excerptFromHtml(html: string, maxLength = 180): string {
+    const text = stripHtml(html);
+    if (!text) return DEFAULT_OG_DESCRIPTION;
+    if (text.length <= maxLength) return text;
+    return `${text.slice(0, maxLength).trimEnd()}...`;
+}
+
+function toAbsoluteImageUrl(image: string | null | undefined): string {
+    if (!image) return DEFAULT_OG_IMAGE;
+    if (/^https?:\/\//i.test(image)) return image;
+    if (image.startsWith("/")) return `${SITE_URL}${image}`;
+    return `${SITE_URL}/${image}`;
+}
+
+async function fetchPressMetaById(
+    articleId: string
+): Promise<{ title: string; description: string; image: string } | null> {
+    try {
+        const encodedId = encodeURIComponent(articleId);
+        const endpoint = `${PUBLIC_API_BASE_URL.replace(/\/+$/, "")}/public/press/${encodedId}`;
+        const res = await fetch(endpoint, {
+            headers: { accept: "application/json" },
+        });
+        if (!res.ok) return null;
+        const payload = (await res.json()) as { item?: PublicPressItem | null };
+        const item = payload?.item;
+        if (!item?.title) return null;
+
+        return {
+            title: item.title,
+            description: excerptFromHtml(item.content ?? ""),
+            image: toAbsoluteImageUrl(item.imageUrl),
+        };
+    } catch {
+        return null;
+    }
+}
 
 function buildMetaHtml(
     url: string,
@@ -94,7 +120,9 @@ function buildMetaHtml(
 </html>`;
 }
 
-export default function middleware(request: Request): Response | undefined {
+export default async function middleware(
+    request: Request
+): Promise<Response | undefined> {
     const url = new URL(request.url);
     const userAgent = request.headers.get("user-agent") || "";
 
@@ -122,15 +150,13 @@ export default function middleware(request: Request): Response | undefined {
     if (!pressMatch) return undefined;
 
     const articleId = pressMatch[1];
-    const og = PRESS_OG_DATA[articleId];
-
-    const title = og?.title ?? "BoardPrep | Ace Your Board Exams";
-    const description =
-        og?.description ??
-        "Master your licensure exams with BoardPrep. Comprehensive question banks and expert review materials.";
-    const image = og?.image ?? DEFAULT_OG_IMAGE;
-
-    const html = buildMetaHtml(fullUrl, title, description, image);
+    const meta = await fetchPressMetaById(articleId);
+    const html = buildMetaHtml(
+        fullUrl,
+        meta?.title ?? "BoardPrep | Ace Your Board Exams",
+        meta?.description ?? DEFAULT_OG_DESCRIPTION,
+        meta?.image ?? DEFAULT_OG_IMAGE
+    );
     return new Response(html, {
         status: 200,
         headers: { "Content-Type": "text/html; charset=utf-8" },
