@@ -2,8 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { useEffect } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import CustomCursor from "./components/CustomCursor";
 import Index from "./pages/Index";
@@ -25,8 +26,22 @@ import PressArticle from "./pages/PressArticle";
 import ReviewClass from "./pages/ReviewClass";
 import ApiEndpoints from "./pages/ApiEndpoints";
 import Products from "./pages/Products";
+import { trackVisit } from "./lib/visitTracker";
 
 const queryClient = new QueryClient();
+
+const VisitTracker = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    void trackVisit({
+      path: `${location.pathname}${location.search}`,
+      referrer: document.referrer || undefined,
+    });
+  }, [location.pathname, location.search]);
+
+  return null;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -37,6 +52,7 @@ const App = () => (
         <BrowserRouter>
           <ScrollToTop />
           <CustomCursor />
+          <VisitTracker />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
