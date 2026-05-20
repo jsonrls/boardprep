@@ -20,8 +20,10 @@ import {
   Copy,
   Stethoscope,
   Fish,
+  Sprout,
   Sparkles,
   Award,
+  X,
 } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import qrCode from "@/assets/qr-code.png";
@@ -197,6 +199,11 @@ const PreRegister = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleCloseExamChoiceModal = () => {
+    setShowExamChoiceModal(false);
+    navigate(-1);
+  };
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -2216,19 +2223,27 @@ const PreRegister = () => {
         <DialogContent 
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
-          className="sm:max-w-2xl border-none bg-transparent p-4 shadow-none [&>button]:hidden"
+          className="my-4 max-h-[calc(100vh-2rem)] w-[calc(100vw-1.5rem)] max-w-[420px] overflow-y-auto border-none bg-transparent p-2 shadow-none sm:my-6 sm:max-h-[calc(100vh-3rem)] sm:w-[calc(100vw-3rem)] sm:max-w-3xl sm:p-4 lg:max-w-5xl [&>button]:hidden"
         >
           <motion.div 
             initial={{ opacity: 0, scale: 0.97, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="relative overflow-hidden rounded-3xl border border-border/70 bg-card/95 p-6 shadow-2xl backdrop-blur sm:p-8"
+            className="relative overflow-hidden rounded-[1.75rem] border border-border/70 bg-card/95 p-4 shadow-2xl backdrop-blur sm:rounded-3xl sm:p-6 lg:p-8"
           >
+            <button
+              type="button"
+              onClick={handleCloseExamChoiceModal}
+              className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/90 text-muted-foreground transition-colors hover:border-accent/50 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              aria-label="Close exam selection modal"
+            >
+              <X className="h-5 w-5" />
+            </button>
             <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-primary/10 to-transparent" />
             <div className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
 
-            <div className="mb-8 text-center">
+            <div className="mb-6 text-center sm:mb-8">
               <motion.div 
                 initial={{ y: -4, opacity: 0.8, scale: 0.95 }}
                 animate={{ rotate: 0, scale: 1 }}
@@ -2237,15 +2252,15 @@ const PreRegister = () => {
               >
                 <BookOpen className="h-12 w-12 text-secondary" />
               </motion.div>
-              <h2 className="font-display text-3xl font-bold tracking-tight text-foreground text-wrap: balance">
+              <h2 className="font-display text-2xl font-bold tracking-tight text-foreground text-wrap: balance sm:text-3xl">
                 Choose Board Exam
               </h2>
-              <p className="mx-auto mt-2 max-w-[520px] font-sans text-sm text-muted-foreground text-wrap: balance">
+              <p className="mx-auto mt-2 max-w-[520px] font-sans text-xs text-muted-foreground text-wrap: balance sm:text-sm">
                 Select the licensure exam you are preparing for to tailor your registration experience.
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
@@ -2253,25 +2268,28 @@ const PreRegister = () => {
                   setShowExamChoiceModal(false);
                   setShowFeeModal(true);
                 }}
-                className="group relative flex min-h-[168px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-5 text-left transition-colors hover:border-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/30"
+                className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-secondary/20 group-hover:bg-secondary/10">
-                    <Stethoscope className="h-6 w-6 text-foreground transition-colors group-hover:text-secondary" />
-                  </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors group-hover:border-secondary/30 group-hover:text-secondary">
-                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <div className="flex justify-center">
+                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-accent/40 group-hover:bg-accent/20">
+                    <Stethoscope className="h-6 w-6 text-foreground transition-colors group-hover:text-black" />
                   </div>
                 </div>
-                <div className="mt-5">
-                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-secondary">Veterinary Medicine</h3>
+                <div className="mt-5 text-center">
+                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-black">Veterinary Medicine</h3>
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     For VLE 2026 Review Class
                   </p>
-                  <div>
+                  <div className="flex justify-center">
                     <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
                       Popular Program
                     </p>
+                  </div>
+                </div>
+                <div className="mt-5 flex justify-center">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
+                    <span>Enroll</span>
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
               </motion.button>
@@ -2285,33 +2303,71 @@ const PreRegister = () => {
                   setShowExamChoiceModal(false);
                   setShowFeeModal(true);
                 }}
-                className="group relative flex min-h-[168px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-5 text-left transition-colors hover:border-secondary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/30"
+                className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-secondary/20 group-hover:bg-secondary/10">
-                    <Fish className="h-6 w-6 text-foreground transition-colors group-hover:text-secondary" />
-                  </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors group-hover:border-secondary/30 group-hover:text-secondary">
-                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <div className="flex justify-center">
+                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-accent/40 group-hover:bg-accent/20">
+                    <Fish className="h-6 w-6 text-foreground transition-colors group-hover:text-black" />
                   </div>
                 </div>
-                <div className="mt-5">
-                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-secondary">Fisheries</h3>
+                <div className="mt-5 text-center">
+                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-black">Fisheries</h3>
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     For FPLE 2026 Review Class
                   </p>
-                  <div>
+                  <div className="flex justify-center">
                     <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
                       Asynchronous Track
                     </p>
+                  </div>
+                </div>
+                <div className="mt-5 flex justify-center">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
+                    <span>Enroll</span>
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+              </motion.button>
+
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  window.open(
+                    "https://docs.google.com/forms/d/e/1FAIpQLScRZOGS-3yG96iauIujMKNfCPBVBfwGhcP2PGrykmNWJGNc1w/viewform",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }}
+                className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
+              >
+                <div className="flex justify-center">
+                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-accent/40 group-hover:bg-accent/20">
+                    <Sprout className="h-6 w-6 text-foreground transition-colors group-hover:text-black" />
+                  </div>
+                </div>
+                <div className="mt-5 text-center">
+                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-black">Agriculture</h3>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Opens Agriculture Registration Form
+                  </p>
+                  <div className="flex justify-center">
+                    <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
+                      External Form
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 flex justify-center">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
+                    <span>Pre-register</span>
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
               </motion.button>
 
             </div>
 
-            <div className="mt-7 border-t border-border/80 pt-5 text-center">
-              <p className="mx-auto max-w-[460px] text-xs font-sans text-muted-foreground">
+            <div className="mt-6 border-t border-border/80 pt-4 text-center sm:mt-7 sm:pt-5">
+              <p className="mx-auto max-w-[460px] text-[11px] font-sans text-muted-foreground sm:text-xs">
                 Your choice will customize your review path and scheduling requirements.
               </p>
             </div>

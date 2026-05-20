@@ -4,6 +4,13 @@ import heroImage from "@/assets/hero.png";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
+  const handleScrollToStats = () => {
+    document.getElementById("home-stats")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20">
       {/* Aurora Background Effects */}
@@ -81,14 +88,19 @@ const HeroSection = () => {
       */}
 
       {/* Scroll indicator */}
-      <div className="pointer-events-none absolute bottom-6 left-1/2 z-20 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/70">
-        <span className="text-[11px] uppercase tracking-[0.25em]">
-          Scroll down
+      <button
+        type="button"
+        onClick={handleScrollToStats}
+        className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-2 text-foreground/70 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        aria-label="Scroll to the highlights section"
+      >
+        <span className="text-[11px] font-medium uppercase tracking-[0.25em]">
+          Explore More
         </span>
-        <div className="rounded-full border border-border/40 bg-background/80 p-2 shadow-sm backdrop-blur-sm animate-bounce">
-          <ChevronDown className="h-5 w-5" aria-hidden="true" />
-        </div>
-      </div>
+        <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border/50 bg-background/85 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent/50 hover:bg-accent/10">
+          <ChevronDown className="h-5 w-5 animate-pulse" aria-hidden="true" />
+        </span>
+      </button>
     </section>
   );
 };

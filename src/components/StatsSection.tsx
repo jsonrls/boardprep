@@ -99,7 +99,7 @@ const StatsSection = () => {
   }, []);
 
   return (
-    <section className="py-12 bg-secondary border-b border-border/40">
+    <section id="home-stats" className="py-12 bg-secondary border-b border-border/40">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-2 text-accent lg:grid-cols-4 gap-8 lg:gap-12 text-center">
           {stats.map((stat, index) => (
