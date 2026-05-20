@@ -68,7 +68,7 @@ const About = () => {
               <h2 className="text-3xl font-display font-bold text-foreground mb-8">
                 Our Partners
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-70">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
                 {[
                   {
                     src: new URL("@/assets/pcieerd.jpg", import.meta.url).href,
@@ -86,15 +86,18 @@ const About = () => {
                     src: new URL("@/assets/prevail.png", import.meta.url).href,
                     alt: "Prevail",
                   },
+                  {
+                    src: new URL("/assets/images/ascot.png", import.meta.url).href,
+                  }
                 ].map((partner, index) => (
                   <div
                     key={index}
-                    className="h-24 flex items-center justify-center p-4 overflow-hidden bg-transparent hover:opacity-100 transition-opacity"
+                    className="h-24 flex items-center justify-center p-4 overflow-hidden"
                   >
                     <img
                       src={partner.src}
                       alt={partner.alt}
-                      className="max-w-full max-h-full object-contain bg-transparent"
+                      className="max-w-full max-h-full object-contain"
                     />
                   </div>
                 ))}
