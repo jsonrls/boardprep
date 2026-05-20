@@ -126,7 +126,7 @@ const Products = () => {
         badges: ["Program"],
       },
       {
-        title: "BoardPrep Lite",
+        title: "BoardPrep Lite (FREE!)",
         description:
           "A lighter experience with customizable plans and fast results—designed to keep review simple and focused.",
         category: "Apps",

@@ -3,9 +3,9 @@ import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import logoFull from "@/assets/logo-transparent.png";
-import { ArrowLeft, Twitter, Linkedin, Facebook } from "lucide-react";
+import { ArrowLeft, ArrowUp, Twitter, Linkedin, Facebook } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "@/lib/api";
 
@@ -226,6 +226,9 @@ const buildShareUrls = (url: string, title: string) => ({
 
 const PressArticle = () => {
   const { id } = useParams();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [renderBackToTop, setRenderBackToTop] = useState(false);
+  const [isBackToTopExiting, setIsBackToTopExiting] = useState(false);
 
   type PressItem = {
     id: string;
@@ -295,6 +298,37 @@ const PressArticle = () => {
       restoreUrl();
     };
   }, [post]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (showBackToTop) {
+      setRenderBackToTop(true);
+      setIsBackToTopExiting(false);
+      return;
+    }
+
+    if (!renderBackToTop) return;
+    setIsBackToTopExiting(true);
+    const timer = window.setTimeout(() => {
+      setRenderBackToTop(false);
+      setIsBackToTopExiting(false);
+    }, 260);
+
+    return () => window.clearTimeout(timer);
+  }, [showBackToTop, renderBackToTop]);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (!post) {
     return (
@@ -438,6 +472,21 @@ const PressArticle = () => {
           </div>
         </div>
       </main>
+      {renderBackToTop ? (
+        <Button
+          type="button"
+          onClick={scrollToTop}
+          size="icon"
+          className={`fixed bg-accent bottom-6 right-6 z-50 h-11 w-11 rounded-full shadow-soft transition-all duration-300 ${
+            isBackToTopExiting
+              ? "opacity-0 translate-y-2 scale-95 ease-out pointer-events-none"
+              : "opacity-100 translate-y-0 scale-100 ease-in motion-safe:animate-[bounce_1s_ease-in-out_1]"
+          }`}
+          aria-label="Back to top"
+        >
+          <ArrowUp className="h-4 w-4" />
+        </Button>
+      ) : null}
       <Footer />
     </div>
   );

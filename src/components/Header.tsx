@@ -15,6 +15,7 @@ import {
   Cpu,
   ChevronRight,
   Fish,
+  Wheat,
 } from "lucide-react";
 import { useState, useEffect, forwardRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -154,7 +155,7 @@ const Header = () => {
                         />
 
                         <ListItem
-                          title="BoardPrep Lite"
+                          title="BoardPrep Lite (FREE!)"
                           href="https://apps.apple.com/ca/app/boardprep-lite/id6756837074"
                           target="_blank"
                           rel="noopener noreferrer"
@@ -193,6 +194,13 @@ const Header = () => {
                           href="/review/fisheries"
                           title="Fisheries"
                           icon={Fish}
+                        />
+                        <ListItem
+                          href="https://docs.google.com/forms/d/e/1FAIpQLScRZOGS-3yG96iauIujMKNfCPBVBfwGhcP2PGrykmNWJGNc1w/viewform?usp=send_form"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="Agriculture"
+                          icon={Wheat}
                         />
                       </ul>
                     </NavigationMenuContent>
@@ -312,27 +320,30 @@ const Header = () => {
                         <div className="flex flex-col space-y-2 pl-4 py-2">
                           <Link
                             to="/our-products"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
+                            <Cpu className="h-4 w-4" />
                             All Products
                           </Link>
                           <a
                             href="https://www.myboardprep.com"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
+                            <FileText className="h-4 w-4" />
                             BoardPrep Drills
                           </a>
                           <a
                             href="https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
+                            <Smartphone className="h-4 w-4" />
                             BoardPrep Mobile App
                           </a>
 
@@ -340,27 +351,30 @@ const Header = () => {
                             href="https://apps.apple.com/ca/app/boardprep-lite/id6756837074"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            BoardPrep Lite
+                            <Zap className="h-4 w-4" />
+                            BoardPrep Lite (FREE!)
                           </a>
                           <a
                             href="https://lms2.myboardprep.com/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
+                            <School className="h-4 w-4" />
                             BoardPrep Classroom
                           </a>
                           <a
                             href="https://nextstepsph.com/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
+                            <Rocket className="h-4 w-4" />
                             Next Steps Program
                           </a>
                         </div>
@@ -378,11 +392,30 @@ const Header = () => {
                         <div className="flex flex-col space-y-2 pl-4 py-2">
                           <Link
                             to="/review/vet"
-                            className="text-sm py-2 text-muted-foreground font-sans"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Veterinarian Licensure Exam
+                            <Stethoscope className="h-4 w-4" />
+                            Veterinarian
                           </Link>
+                          <Link
+                            to="/review/fisheries"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <Fish className="h-4 w-4" />
+                            Fisheries
+                          </Link>
+                          <a
+                            href="https://docs.google.com/forms/d/e/1FAIpQLScRZOGS-3yG96iauIujMKNfCPBVBfwGhcP2PGrykmNWJGNc1w/viewform?usp=send_form"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <Wheat className="h-4 w-4" />
+                            Agriculture
+                          </a>
                         </div>
                       </AccordionContent>
                     </AccordionItem>

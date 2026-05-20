@@ -35,7 +35,8 @@ const VisitTracker = () => {
 
   useEffect(() => {
     void trackVisit({
-      path: `${location.pathname}${location.search}`,
+      path: location.pathname,
+      search: location.search,
       referrer: document.referrer || undefined,
     });
   }, [location.pathname, location.search]);
