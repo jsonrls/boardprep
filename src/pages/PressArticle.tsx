@@ -380,7 +380,7 @@ const PressArticle = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10">
                   <Badge className="bg-background/85 backdrop-blur text-foreground hover:bg-background">
-                    Press/News
+                    Press
                   </Badge>
                   <h1 className="font-display text-3xl md:text-5xl lg:text-6xl text-white mt-4 leading-tight tracking-tight">
                     {post.title}
@@ -405,7 +405,7 @@ const PressArticle = () => {
                         />
                         <div className="min-w-0">
                           <p className="font-semibold text-foreground truncate">{post.author}</p>
-                          <p className="text-xs text-muted-foreground">Press • Press/News</p>
+                          <p className="text-xs text-muted-foreground">Press • Press</p>
                         </div>
                       </div>
 

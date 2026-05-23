@@ -135,7 +135,7 @@ const Press = () => {
                   </div>
                   <div className="p-8 md:p-12 flex flex-col justify-center">
                     <div className="flex items-center gap-4 text-xs font-medium text-accent mb-4 uppercase tracking-wider">
-                      <span>Press/News</span>
+                      <span>Press</span>
                       <span className="text-muted-foreground/40">•</span>
                       <span className="text-muted-foreground">
                         {estimateReadTime(featuredPost.content)}
@@ -210,7 +210,7 @@ const Press = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <Badge className="absolute top-3 left-3 bg-background/80 backdrop-blur text-foreground hover:bg-background">
-                        Press/News
+                        Press
                       </Badge>
                     </div>
                     <div className="p-6 flex flex-col flex-1">
