@@ -299,7 +299,12 @@ const PreRegister = () => {
   }, [examType, walletType, setValue]);
 
   useEffect(() => {
-    if (examType === "vet" && walletType === "") {
+    if (
+      examType === "vet" &&
+      walletType !== "maya" &&
+      walletType !== "bpi" &&
+      walletType !== "unionbank"
+    ) {
       setValue("walletType", "bpi", { shouldValidate: true });
     }
   }, [examType, walletType, setValue]);
@@ -1679,7 +1684,7 @@ const PreRegister = () => {
                                   { id: "unionbank", label: "UnionBank" },
                                 ]
                                   .filter((wallet) =>
-                                    examType === "fisheries"
+                                    examType === "fisheries" || examType === "vet"
                                       ? wallet.id === "maya" ||
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
