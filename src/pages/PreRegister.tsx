@@ -290,6 +290,7 @@ const PreRegister = () => {
   useEffect(() => {
     if (
       examType === "fisheries" &&
+      walletType !== "gcash" &&
       walletType !== "maya" &&
       walletType !== "bpi" &&
       walletType !== "unionbank"
@@ -301,6 +302,7 @@ const PreRegister = () => {
   useEffect(() => {
     if (
       examType === "vet" &&
+      walletType !== "gcash" &&
       walletType !== "maya" &&
       walletType !== "bpi" &&
       walletType !== "unionbank"
@@ -357,30 +359,30 @@ const PreRegister = () => {
   };
 
   const qrWalletImages: Record<string, string> = {
-    maya: qrCode,
+    maya: mayaQr9999,
     bpi: qrCode,
-    gcash: qrCode,
+    gcash: gcashQr9999,
     unionbank: qrCode,
   };
 
   const qrWalletImagesPrereg: Record<string, string> = {
-    maya: qrCodePreregister,
+    maya: mayaQr9499,
     bpi: qrCodePreregister,
-    gcash: qrCodePreregister,
+    gcash: gcashQr9499,
     unionbank: qrCodePreregister,
   };
 
   const qrWalletImagesLatinHonor: Record<string, string> = {
-    maya: qrCodeLatinHonor,
+    maya: mayaQr4999,
     bpi: qrCodeLatinHonor,
-    gcash: qrCodeLatinHonor,
+    gcash: gcashQr4999,
     unionbank: qrCodeLatinHonor,
   };
 
   const qrWalletImagesLatinHonorPrereg: Record<string, string> = {
-    maya: qrCodeLatinHonorPrereg,
+    maya: mayaQr4499,
     bpi: qrCodeLatinHonorPrereg,
-    gcash: qrCodeLatinHonorPrereg,
+    gcash: gcashQr4499,
     unionbank: qrCodeLatinHonorPrereg,
   };
 
@@ -1685,7 +1687,8 @@ const PreRegister = () => {
                                 ]
                                   .filter((wallet) =>
                                     examType === "fisheries" || examType === "vet"
-                                      ? wallet.id === "maya" ||
+                                      ? wallet.id === "gcash" ||
+                                        wallet.id === "maya" ||
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
                                       : true
