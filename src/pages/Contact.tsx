@@ -176,7 +176,7 @@ const Contact = () => {
                     </label>
                     <Input
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="juandelacruz@gmail.com"
                       className="h-12 bg-background font-sans"
                     />
                   </div>

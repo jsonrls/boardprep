@@ -1035,7 +1035,7 @@ const PreRegister = () => {
                             <FormControl>
                               <Input
                                 type="email"
-                                placeholder="e.g. john.doe@example.com"
+                                placeholder="e.g. juandelacruz@gmail.com"
                                 {...field}
                                 spellCheck={false}
                               />
@@ -1403,7 +1403,7 @@ const PreRegister = () => {
                                 </FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="email@example.com"
+                                    placeholder="email@gmail.com"
                                     {...field}
                                     spellCheck={false}
                                   />
@@ -1686,12 +1686,16 @@ const PreRegister = () => {
                                   { id: "unionbank", label: "UnionBank" },
                                 ]
                                   .filter((wallet) =>
-                                    examType === "fisheries" || examType === "vet"
+                                    examType === "fisheries"
                                       ? wallet.id === "gcash" ||
                                         wallet.id === "maya" ||
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
-                                      : true
+                                      : examType === "vet"
+                                        ? wallet.id === "maya" ||
+                                          wallet.id === "bpi" ||
+                                          wallet.id === "unionbank"
+                                        : true
                                   )
                                   .map((wallet) => {
                                   const isActive = field.value === wallet.id;
