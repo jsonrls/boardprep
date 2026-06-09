@@ -27,6 +27,7 @@ import ReviewClass from "./pages/ReviewClass";
 import ApiEndpoints from "./pages/ApiEndpoints";
 import Products from "./pages/Products";
 import CheckYourEmail from "./pages/CheckYourEmail";
+import SubscriptionConfirmed from "./pages/SubscriptionConfirmed";
 import { trackVisit } from "./lib/visitTracker";
 
 const queryClient = new QueryClient();
@@ -74,6 +75,7 @@ const App = () => (
             <Route path="/review-class" element={<ReviewClass />} />
             <Route path="/our-products" element={<Products />} />
             <Route path="/check-your-email" element={<CheckYourEmail />} />
+            <Route path="/subscription-confirmed" element={<SubscriptionConfirmed />} />
             <Route path="/api-endpoints" element={<ApiEndpoints />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
