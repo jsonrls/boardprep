@@ -271,13 +271,13 @@ const Press = () => {
           animate={{ opacity: 1, y: 0, x: "-50%" }}
           exit={{ opacity: 0, y: 36, x: "-50%" }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="fixed bottom-4 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-[520px] overflow-hidden rounded-2xl bg-white shadow-2xl md:bottom-8"
+          className="fixed bottom-4 left-1/2 z-50 border-2 w-[calc(100vw-2rem)] max-w-[520px] overflow-hidden rounded-2xl bg-white shadow-2xl md:bottom-8"
           aria-label="BoardPrep newsletter signup"
         >
           <button
             type="button"
             onClick={() => setIsNewsletterVisible(false)}
-            className="absolute right-3 top-3 z-10 rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="absolute right-3 top-3 z-10 rounded-full bg-red-500 text-white p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             aria-label="Close newsletter signup"
           >
             <X className="h-4 w-4" />
