@@ -1,12 +1,13 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import logoFull from "@/assets/logo-transparent.png";
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "@/lib/api";
+import { useEffect, useState } from "react";
 
 type PressItem = {
   id: string;
@@ -18,6 +19,9 @@ type PressItem = {
 };
 
 type PressListResponse = { items: PressItem[] };
+
+const NEWSLETTER_FORM_URL =
+  "https://77371849.sibforms.com/v2/serve/MUIFAG5rcVDwdDztxIS9SxvhReEcDxjXSbCYeAf0mf2Chqr596kholdnlDIn-O7Y6_JoH22-DhA83b7IGPvxo-PG_zA4B66Ejq3tjdYWpC81H42m3GHBSFbsS5tbs30E4OwJvFkh-M4uJuZ2cUAjW_BnknfPWwZov7le8-Ffs0RjQBDZf4Eu2ynusK_7lYhhN6xrL0GLJ3Go6zJ4yg==";
 
 const htmlToText = (html: string) => {
   if (typeof document === "undefined") {
@@ -45,11 +49,20 @@ const buildExcerpt = (text: string) => {
 };
 
 const Press = () => {
+  const [isNewsletterVisible, setIsNewsletterVisible] = useState(false);
   const { data, isLoading } = useQuery({
     queryKey: ["public-press"],
     queryFn: () => apiGet<PressListResponse>("/public/press"),
     staleTime: 60_000,
   });
+
+  useEffect(() => {
+    const popupTimer = window.setTimeout(() => {
+      setIsNewsletterVisible(true);
+    }, 800);
+
+    return () => window.clearTimeout(popupTimer);
+  }, []);
 
   const posts = data?.items ?? [];
   const featuredPost = posts.length > 0 ? posts[0] : null;
@@ -252,6 +265,36 @@ const Press = () => {
           )}
         </div>
       </main>
+      {isNewsletterVisible && (
+        <motion.aside
+          initial={{ opacity: 0, y: 36, x: "-50%" }}
+          animate={{ opacity: 1, y: 0, x: "-50%" }}
+          exit={{ opacity: 0, y: 36, x: "-50%" }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="fixed bottom-4 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-[520px] overflow-hidden rounded-2xl bg-white shadow-2xl md:bottom-8"
+          aria-label="BoardPrep newsletter signup"
+        >
+          <button
+            type="button"
+            onClick={() => setIsNewsletterVisible(false)}
+            className="absolute right-3 top-3 z-10 rounded-full p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            aria-label="Close newsletter signup"
+          >
+            <X className="h-4 w-4" />
+          </button>
+
+          <iframe
+            title="BoardPrep newsletter signup" 
+            width="520"
+            height="360"
+            src={NEWSLETTER_FORM_URL}
+            frameBorder="0"
+            scrolling="no"
+            allowFullScreen
+            className="mx-auto block h-[360px] w-[520px] max-w-full overflow-hidden"
+          />
+        </motion.aside>
+      )}
       <Footer />
     </div>
   );
