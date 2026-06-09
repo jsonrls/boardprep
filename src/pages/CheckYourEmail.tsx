@@ -27,16 +27,11 @@ const CheckYourEmail = () => {
             className="container mx-auto flex min-h-[560px] items-center justify-center"
           >
             <div className="w-full max-w-2xl rounded-2xl border border-border/60 bg-background/90 p-8 text-center shadow-elegant backdrop-blur md:p-12">
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <div className="mx-auto mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-accent/10">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-white">
                   <Check className="h-7 w-7" />
                 </div>
               </div>
-
-              <p className="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-accent">
-                <Mail className="h-4 w-4" />
-                Confirmation page
-              </p>
               <h1 className="font-display text-4xl leading-tight text-foreground md:text-5xl">
                 Check your email
               </h1>
@@ -46,13 +41,21 @@ const CheckYourEmail = () => {
               </p>
 
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Button asChild size="lg">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-secondary text-white hover:bg-hover-secondary rounded-full"
+                >
                   <Link to="/press">
                     Back to Press
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-accent text-white hover:bg-hover-accent rounded-full"
+                >
                   <Link to="/">Go Home</Link>
                 </Button>
               </div>
