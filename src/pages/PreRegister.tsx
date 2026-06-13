@@ -686,7 +686,7 @@ const PreRegister = () => {
   // const GOOGLE_SCRIPT_URL =
   //   "https://script.google.com/macros/s/AKfycbwbjkhkHWuI3no_XMbNi9n65M6ZJPeEYc2kWEnHTQLNSiJfDh5n7R5Njf_rlpYeV96Taw/exec";
 
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVVJJRxHpSlYGUs_2qXV2jP_YZ3NyV4Btvxrqir_cmotQKVo00qc-zgstCfchC1pHzAQ/exec";
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbipd9jcohX3Zq5LfpmofZnj1EYjseTBH7JG900HisihuDWy2whAwPOY_4qxMZjCIBcQ/exec";
 
   const fileToBase64 = (
     file: File,
