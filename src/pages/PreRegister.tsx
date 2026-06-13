@@ -49,6 +49,9 @@ import unionbankQr9999 from "@/assets/qr/9999.png";
 import fisheriesQrMaya from "@/assets/payment/fisheries_qr_maya.png";
 import fisheriesQrBpi from "@/assets/payment/fisheries_qr_bpi.png";
 import fisheriesQrUnionbank from "@/assets/payment/fisheries_qr_unionbank.png";
+import agriQr6999 from "@/assets/agri/agri-qr-6999.jpg";
+import agriQr6499 from "@/assets/agri/agri-qr-6499.jpg";
+import agriQr7999 from "@/assets/agri/agri-qr-7999.jpg";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -148,6 +151,7 @@ const formSchema = z.object({
   .refine(
     (data) =>
       data.examType === "fisheries" ||
+      data.examType === "agri" ||
       data.isEmployed !== "yes" ||
       (data.employmentType && data.employmentType.length > 0),
     { message: "Please select your employment type", path: ["employmentType"] }
@@ -252,6 +256,16 @@ const PreRegister = () => {
   const examType = watch("examType");
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Display names per program (abbreviation + short program label)
+  const examShortName =
+    examType === "fisheries" ? "FPLE" : examType === "agri" ? "AgLE" : "VLE";
+  const examProgramLabel =
+    examType === "fisheries"
+      ? "Fisheries"
+      : examType === "agri"
+        ? "Agriculture"
+        : "Vet";
+
   const filteredSteps = useMemo(() => {
     if (examType === "fisheries") {
       return steps.filter((s) => s.id !== 0);
@@ -262,9 +276,17 @@ const PreRegister = () => {
   // Handle initial URL state
   useEffect(() => {
     const examParam = searchParams.get("exam");
-    if (examParam === "fisheries" || examParam === "vet") {
+    if (
+      examParam === "fisheries" ||
+      examParam === "vet" ||
+      examParam === "agri"
+    ) {
       setValue("examType", examParam);
       setShowExamChoiceModal(false);
+      if (examParam === "agri") {
+        setValue("isLatinHonor", "no");
+        setValue("walletType", "instapay");
+      }
       if (examParam === "fisheries") {
         setValue("hasPreRegistered", "no");
         setValue("isLatinHonor", "no");
@@ -310,6 +332,19 @@ const PreRegister = () => {
       setValue("walletType", "bpi", { shouldValidate: true });
     }
   }, [examType, walletType, setValue]);
+
+  // Agriculture (AgLE) pays via a single universal InstaPay QR, so there is no
+  // per-wallet picker and no Latin Honor discount.
+  useEffect(() => {
+    if (examType === "agri") {
+      if (isLatinHonor !== "no") {
+        setValue("isLatinHonor", "no", { shouldValidate: true });
+      }
+      if (walletType !== "instapay") {
+        setValue("walletType", "instapay", { shouldValidate: true });
+      }
+    }
+  }, [examType, walletType, isLatinHonor, setValue]);
   const email = watch("email");
   const retypeEmail = watch("retypeEmail");
   const emailsMatch =
@@ -334,6 +369,10 @@ const PreRegister = () => {
       regular: "4,999",
       discounted: "2,499",
     },
+    agri: {
+      regular: "7,999",
+      discounted: "6,999",
+    },
   };
 
   const examSchedules: Record<
@@ -355,6 +394,10 @@ const PreRegister = () => {
     abe: {
       value: "abele-nov-19-20-2026",
       label: "November 19–20, 2026",
+    },
+    agri: {
+      value: "agle-2026",
+      label: "2026 (To be announced)",
     },
   };
 
@@ -416,6 +459,13 @@ const PreRegister = () => {
     4999: unionbankQr4999,
   };
 
+  /** Agriculture (AgLE) InstaPay QR — one universal QR per amount */
+  const agriQrImagesByAmount: Record<number, string> = {
+    6999: agriQr6999,
+    6499: agriQr6499,
+    7999: agriQr7999,
+  };
+
   /** Vet (VLE) UnionBank InstaPay QR — public assets under /assets/images/ */
   const unionbankQrImagesByAmountVet: Record<number, string> = {
     4999: "/assets/images/ub-4999.png",
@@ -449,6 +499,9 @@ const PreRegister = () => {
   };
 
   const getActiveQrImageForWallet = (): string | null => {
+    if (examType === "agri") {
+      return agriQrImagesByAmount[getFinalAmount()] ?? agriQr6999;
+    }
     if (examType === "fisheries") {
       if (walletType === "bpi") {
         return fisheriesQrBpi;
@@ -523,6 +576,11 @@ const PreRegister = () => {
       return 999;
     }
 
+    // For Agriculture (AgLE): early bird ₱6,999, or ₱6,499 if pre-registered.
+    if (examType === "agri") {
+      return hasPreRegistered === "yes" ? 6499 : 6999;
+    }
+
     if (hasPreRegistered === "yes" && isLatinHonor === "yes") {
       amount = Math.floor(amount / 2) - 500;
     } else {
@@ -555,7 +613,11 @@ const PreRegister = () => {
         "isEmployed",
         "isExistingSubscriber",
       ];
-      if (examType !== "fisheries" && form.getValues("isEmployed") === "yes") {
+      if (
+        examType !== "fisheries" &&
+        examType !== "agri" &&
+        form.getValues("isEmployed") === "yes"
+      ) {
         fieldsToValidate.push("employmentType");
       }
     } else if (currentStep === 3) {
@@ -671,7 +733,9 @@ const PreRegister = () => {
         "Licensure Exam":
           data.examType === "fisheries"
             ? "Fisheries Professionals Licensure Exam (FPLE)"
-            : "Veterinarian Licensure Exam (VLE)",
+            : data.examType === "agri"
+              ? "Agriculturist Licensure Examination (AgLE)"
+              : "Veterinarian Licensure Exam (VLE)",
         "Email Address": data.email,
         "Name (First Name)": data.firstName,
         "Name (Last Name)": data.lastName,
@@ -901,6 +965,8 @@ const PreRegister = () => {
                       </motion.div>
                     )}
 
+                    {examType !== "agri" && (
+                    <>
                     <FormField
                       control={form.control}
                       name="isLatinHonor"
@@ -967,6 +1033,8 @@ const PreRegister = () => {
                           )}
                         />
                       </motion.div>
+                    )}
+                    </>
                     )}
                   </motion.div>
                 )}
@@ -1187,7 +1255,7 @@ const PreRegister = () => {
                             <FormLabel className="font-sans">
                               University
                             </FormLabel>
-                            {examType === "fisheries" ? (
+                            {examType === "fisheries" || examType === "agri" ? (
                               <FormControl>
                                 <Input
                                   placeholder="Enter your school name"
@@ -1317,7 +1385,7 @@ const PreRegister = () => {
                       />
                     </div>
 
-                    {isEmployed === "yes" && examType !== "fisheries" && (
+                    {isEmployed === "yes" && examType !== "fisheries" && examType !== "agri" && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
@@ -1451,6 +1519,9 @@ const PreRegister = () => {
                               <SelectItem value="fisheries">
                                 Fisheries Professionals Licensure Exam (FPLE)
                               </SelectItem>
+                              <SelectItem value="agri">
+                                Agriculturist Licensure Examination (AgLE)
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -1511,7 +1582,7 @@ const PreRegister = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              Will you take the {examType === "fisheries" ? "FPLE" : "VLE"} this year?
+                              Will you take the {examShortName} this year?
                             </FormLabel>
                             <Select
                               onValueChange={field.onChange}
@@ -1670,6 +1741,17 @@ const PreRegister = () => {
                       </div>
 
                       <div className="space-y-4">
+                        {examType === "agri" ? (
+                          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
+                            <p className="text-sm font-medium text-foreground">
+                              Pay via InstaPay
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Scan the QR below using any GCash, Maya, or online
+                              banking app. Transfer fees may apply.
+                            </p>
+                          </div>
+                        ) : (
                         <FormField
                           control={form.control}
                           name="walletType"
@@ -1741,6 +1823,7 @@ const PreRegister = () => {
                             </FormItem>
                           )}
                         />
+                        )}
 
                         <div className="border rounded-lg px-4 py-4 bg-card">
                           <p className="font-semibold mb-2">
@@ -1956,24 +2039,41 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                How much is the {examType === "fisheries" ? "Fisheries" : "Vet"} Review Class?
+                How much is the {examProgramLabel} Review Class?
               </AccordionTrigger>
                <AccordionContent className="text-muted-foreground">
-                During the Early Bird Promo (March 1–31, 2026), the {examType === "fisheries" ? "Fisheries" : "Vet"} Review
-                Class fee is{" "}
-                <span className="font-semibold">₱  {pricing[examType || 'vet']?.regular}.00</span>
-                {examType !== "fisheries" && (
+                {examType === "agri" ? (
                   <>
-                    {" "}(or{" "}
-                    <span className="font-semibold">₱  {pricing[examType || 'vet']?.discounted}</span> for qualified
-                    Latin honor candidates/graduates).
+                    The Agriculture Review Class fee is{" "}
+                    <span className="font-semibold">₱ 6,999.00</span> (Early Bird).
                     <br /><br />
                     If you have already pre-registered with a{" "}
-                    <span className="font-semibold">₱  500</span> reservation fee,
-                    your remaining balance during the Early Bird period is{" "}
-                    <span className="font-semibold">₱  10,499</span> (or{" "}
-                    <span className="font-semibold">₱ 4,999</span> for qualified
-                    Latin honor candidates/graduates).
+                    <span className="font-semibold">₱ 500</span> reservation fee,
+                    your remaining balance is{" "}
+                    <span className="font-semibold">₱ 6,499.00</span>.
+                    <br /><br />
+                    The regular rate is{" "}
+                    <span className="font-semibold">₱ 7,999.00</span>.
+                  </>
+                ) : (
+                  <>
+                    During the Early Bird Promo (March 1–31, 2026), the {examType === "fisheries" ? "Fisheries" : "Vet"} Review
+                    Class fee is{" "}
+                    <span className="font-semibold">₱  {pricing[examType || 'vet']?.regular}.00</span>
+                    {examType !== "fisheries" && (
+                      <>
+                        {" "}(or{" "}
+                        <span className="font-semibold">₱  {pricing[examType || 'vet']?.discounted}</span> for qualified
+                        Latin honor candidates/graduates).
+                        <br /><br />
+                        If you have already pre-registered with a{" "}
+                        <span className="font-semibold">₱  500</span> reservation fee,
+                        your remaining balance during the Early Bird period is{" "}
+                        <span className="font-semibold">₱  10,499</span> (or{" "}
+                        <span className="font-semibold">₱ 4,999</span> for qualified
+                        Latin honor candidates/graduates).
+                      </>
+                    )}
                   </>
                 )}
               </AccordionContent>
@@ -1984,10 +2084,10 @@ const PreRegister = () => {
               className="border rounded-lg px-6 bg-card"
             >
               <AccordionTrigger className="text-left hover:no-underline">
-                What is the duration of the {examType === "fisheries" ? "Fisheries" : "Vet"} Review Class?
+                What is the duration of the {examProgramLabel} Review Class?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                The {examType === "fisheries" ? "Fisheries" : "Vet"} Review Class will run from {examType === "fisheries" ? "June 25 to August 28, 2026" : "June 22 to August 29, 2026"}.
+                The {examProgramLabel} Review Class will run from {examType === "fisheries" ? "June 25 to August 28, 2026" : examType === "agri" ? "August 3 to October 9, 2026" : "June 22 to August 29, 2026"}.
                 <br /><br />
                 Schedule: Weekdays, 9:00 AM – {examType === "fisheries" ? "4:00 PM" : "12:00 PM"}.
               </AccordionContent>
@@ -2079,6 +2179,21 @@ const PreRegister = () => {
                           <span>999.00</span>
                         </dd>
                       </div>
+                    ) : examType === "agri" ? (
+                      <>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
+                          <dt className="font-medium">Regular</dt>
+                          <dd className="font-bold">₱ 7,999.00</dd>
+                        </div>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
+                          <dt className="font-medium">Early Bird</dt>
+                          <dd className="font-bold">₱ 6,999.00</dd>
+                        </div>
+                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md bg-primary/5 border border-primary/10">
+                          <dt className="font-medium">Pre-registered</dt>
+                          <dd className="font-bold">₱ 6,499.00</dd>
+                        </div>
+                      </>
                     ) : (
                       <>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
@@ -2114,6 +2229,21 @@ const PreRegister = () => {
                         <>
                           <span className="font-bold">Asynchronous review class.</span> You will gain immediate access to all review materials once your payment has been verified.
                         </>
+                      )
+                      : examType === "agri"
+                      ? (
+                        <div>
+                          <div className="font-bold mb-1">Agriculture Review Class (AgLE)</div>
+                          <div className="mb-1">
+                            <span className="font-semibold">Duration:</span> August 3 to October 9, 2026
+                          </div>
+                          <div className="mb-1">
+                            <span className="font-semibold">Schedule:</span> Weekdays, 9:00 AM - 12:00 PM
+                          </div>
+                          <div>
+                            Recorded lectures are available for same-day replay.
+                          </div>
+                        </div>
                       )
                       : (
                         <div>
@@ -2344,11 +2474,11 @@ const PreRegister = () => {
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  window.open(
-                    "https://docs.google.com/forms/d/e/1FAIpQLScRZOGS-3yG96iauIujMKNfCPBVBfwGhcP2PGrykmNWJGNc1w/viewform",
-                    "_blank",
-                    "noopener,noreferrer"
-                  );
+                  form.setValue("examType", "agri");
+                  form.setValue("isLatinHonor", "no");
+                  form.setValue("walletType", "instapay");
+                  setShowExamChoiceModal(false);
+                  setShowFeeModal(true);
                 }}
                 className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
               >
@@ -2360,17 +2490,17 @@ const PreRegister = () => {
                 <div className="mt-5 text-center">
                   <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-black">Agriculture</h3>
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Opens Agriculture Registration Form
+                    For AgLE 2026 Review Class
                   </p>
                   <div className="flex justify-center">
                     <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
-                      External Form
+                      New Program
                     </p>
                   </div>
                 </div>
                 <div className="mt-5 flex justify-center">
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
-                    <span>Pre-register</span>
+                    <span>Enroll</span>
                     <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                   </div>
                 </div>
