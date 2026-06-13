@@ -396,8 +396,8 @@ const PreRegister = () => {
       label: "November 19–20, 2026",
     },
     agri: {
-      value: "agle-2026",
-      label: "2026 (To be announced)",
+      value: "agle-dec-1-3-2026",
+      label: "December 1–3, 2026",
     },
   };
 
