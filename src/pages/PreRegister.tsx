@@ -52,6 +52,12 @@ import fisheriesQrUnionbank from "@/assets/payment/fisheries_qr_unionbank.png";
 import agriQr6999 from "@/assets/agri/agri-qr-6999.jpg";
 import agriQr6499 from "@/assets/agri/agri-qr-6499.jpg";
 import agriQr7999 from "@/assets/agri/agri-qr-7999.jpg";
+import agriGcash6999 from "@/assets/agri/agri-gcash-6999.jpg";
+import agriGcash6499 from "@/assets/agri/agri-gcash-6499.jpg";
+import agriMaya6999 from "@/assets/agri/agri-maya-6999.jpg";
+import agriMaya6499 from "@/assets/agri/agri-maya-6499.jpg";
+import agriBpi6999 from "@/assets/agri/agri-bpi-6999.jpg";
+import agriBpi6499 from "@/assets/agri/agri-bpi-6499.jpg";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -285,7 +291,7 @@ const PreRegister = () => {
       setShowExamChoiceModal(false);
       if (examParam === "agri") {
         setValue("isLatinHonor", "no");
-        setValue("walletType", "instapay");
+        setValue("walletType", "gcash");
       }
       if (examParam === "fisheries") {
         setValue("hasPreRegistered", "no");
@@ -333,15 +339,19 @@ const PreRegister = () => {
     }
   }, [examType, walletType, setValue]);
 
-  // Agriculture (AgLE) pays via a single universal InstaPay QR, so there is no
-  // per-wallet picker and no Latin Honor discount.
+  // Agriculture (AgLE) supports GCash / Maya / BPI InstaPay QRs and has no
+  // Latin Honor discount.
   useEffect(() => {
     if (examType === "agri") {
       if (isLatinHonor !== "no") {
         setValue("isLatinHonor", "no", { shouldValidate: true });
       }
-      if (walletType !== "instapay") {
-        setValue("walletType", "instapay", { shouldValidate: true });
+      if (
+        walletType !== "gcash" &&
+        walletType !== "maya" &&
+        walletType !== "bpi"
+      ) {
+        setValue("walletType", "gcash", { shouldValidate: true });
       }
     }
   }, [examType, walletType, isLatinHonor, setValue]);
@@ -459,11 +469,29 @@ const PreRegister = () => {
     4999: unionbankQr4999,
   };
 
-  /** Agriculture (AgLE) InstaPay QR — one universal QR per amount */
+  /** Agriculture (AgLE) universal InstaPay QR per amount (fallback) */
   const agriQrImagesByAmount: Record<number, string> = {
     6999: agriQr6999,
     6499: agriQr6499,
     7999: agriQr7999,
+  };
+
+  /** Agriculture (AgLE) GCash InstaPay QR per amount */
+  const agriGcashQrImagesByAmount: Record<number, string> = {
+    6999: agriGcash6999,
+    6499: agriGcash6499,
+  };
+
+  /** Agriculture (AgLE) Maya InstaPay QR per amount */
+  const agriMayaQrImagesByAmount: Record<number, string> = {
+    6999: agriMaya6999,
+    6499: agriMaya6499,
+  };
+
+  /** Agriculture (AgLE) BPI InstaPay QR per amount */
+  const agriBpiQrImagesByAmount: Record<number, string> = {
+    6999: agriBpi6999,
+    6499: agriBpi6499,
   };
 
   /** Vet (VLE) UnionBank InstaPay QR — public assets under /assets/images/ */
@@ -500,7 +528,14 @@ const PreRegister = () => {
 
   const getActiveQrImageForWallet = (): string | null => {
     if (examType === "agri") {
-      return agriQrImagesByAmount[getFinalAmount()] ?? agriQr6999;
+      const amount = getFinalAmount();
+      const agriMap =
+        walletType === "maya"
+          ? agriMayaQrImagesByAmount
+          : walletType === "bpi"
+            ? agriBpiQrImagesByAmount
+            : agriGcashQrImagesByAmount;
+      return agriMap[amount] ?? agriQrImagesByAmount[amount] ?? agriQr6999;
     }
     if (examType === "fisheries") {
       if (walletType === "bpi") {
@@ -1741,17 +1776,6 @@ const PreRegister = () => {
                       </div>
 
                       <div className="space-y-4">
-                        {examType === "agri" ? (
-                          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3">
-                            <p className="text-sm font-medium text-foreground">
-                              Pay via InstaPay
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              Scan the QR below using any GCash, Maya, or online
-                              banking app. Transfer fees may apply.
-                            </p>
-                          </div>
-                        ) : (
                         <FormField
                           control={form.control}
                           name="walletType"
@@ -1777,7 +1801,11 @@ const PreRegister = () => {
                                         ? wallet.id === "maya" ||
                                           wallet.id === "bpi" ||
                                           wallet.id === "unionbank"
-                                        : true
+                                        : examType === "agri"
+                                          ? wallet.id === "gcash" ||
+                                            wallet.id === "maya" ||
+                                            wallet.id === "bpi"
+                                          : true
                                   )
                                   .map((wallet) => {
                                   const isActive = field.value === wallet.id;
@@ -1823,7 +1851,6 @@ const PreRegister = () => {
                             </FormItem>
                           )}
                         />
-                        )}
 
                         <div className="border rounded-lg px-4 py-4 bg-card">
                           <p className="font-semibold mb-2">
@@ -2476,7 +2503,7 @@ const PreRegister = () => {
                 onClick={() => {
                   form.setValue("examType", "agri");
                   form.setValue("isLatinHonor", "no");
-                  form.setValue("walletType", "instapay");
+                  form.setValue("walletType", "gcash");
                   setShowExamChoiceModal(false);
                   setShowFeeModal(true);
                 }}
