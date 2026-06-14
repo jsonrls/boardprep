@@ -58,6 +58,8 @@ import agriMaya6999 from "@/assets/agri/agri-maya-6999.jpg";
 import agriMaya6499 from "@/assets/agri/agri-maya-6499.jpg";
 import agriBpi6999 from "@/assets/agri/agri-bpi-6999.jpg";
 import agriBpi6499 from "@/assets/agri/agri-bpi-6499.jpg";
+import agriUnionbank6999 from "@/assets/agri/agri-unionbank-6999.jpg";
+import agriUnionbank6499 from "@/assets/agri/agri-unionbank-6499.jpg";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -339,8 +341,8 @@ const PreRegister = () => {
     }
   }, [examType, walletType, setValue]);
 
-  // Agriculture (AgLE) supports GCash / Maya / BPI InstaPay QRs and has no
-  // Latin Honor discount.
+  // Agriculture (AgLE) supports GCash / Maya / BPI / UnionBank InstaPay QRs and
+  // has no Latin Honor discount.
   useEffect(() => {
     if (examType === "agri") {
       if (isLatinHonor !== "no") {
@@ -349,7 +351,8 @@ const PreRegister = () => {
       if (
         walletType !== "gcash" &&
         walletType !== "maya" &&
-        walletType !== "bpi"
+        walletType !== "bpi" &&
+        walletType !== "unionbank"
       ) {
         setValue("walletType", "gcash", { shouldValidate: true });
       }
@@ -494,6 +497,12 @@ const PreRegister = () => {
     6499: agriBpi6499,
   };
 
+  /** Agriculture (AgLE) UnionBank InstaPay QR per amount */
+  const agriUnionbankQrImagesByAmount: Record<number, string> = {
+    6999: agriUnionbank6999,
+    6499: agriUnionbank6499,
+  };
+
   /** Vet (VLE) UnionBank InstaPay QR — public assets under /assets/images/ */
   const unionbankQrImagesByAmountVet: Record<number, string> = {
     4999: "/assets/images/ub-4999.png",
@@ -534,7 +543,9 @@ const PreRegister = () => {
           ? agriMayaQrImagesByAmount
           : walletType === "bpi"
             ? agriBpiQrImagesByAmount
-            : agriGcashQrImagesByAmount;
+            : walletType === "unionbank"
+              ? agriUnionbankQrImagesByAmount
+              : agriGcashQrImagesByAmount;
       return agriMap[amount] ?? agriQrImagesByAmount[amount] ?? agriQr6999;
     }
     if (examType === "fisheries") {
@@ -1804,7 +1815,8 @@ const PreRegister = () => {
                                         : examType === "agri"
                                           ? wallet.id === "gcash" ||
                                             wallet.id === "maya" ||
-                                            wallet.id === "bpi"
+                                            wallet.id === "bpi" ||
+                                            wallet.id === "unionbank"
                                           : true
                                   )
                                   .map((wallet) => {
