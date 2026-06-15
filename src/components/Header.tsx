@@ -196,9 +196,7 @@ const Header = () => {
                           icon={Fish}
                         />
                         <ListItem
-                          href="https://docs.google.com/forms/d/e/1FAIpQLScRZOGS-3yG96iauIujMKNfCPBVBfwGhcP2PGrykmNWJGNc1w/viewform?usp=send_form"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          href="/review/agriculture"
                           title="Agriculture"
                           icon={Wheat}
                         />
@@ -406,16 +404,14 @@ const Header = () => {
                             <Fish className="h-4 w-4" />
                             Fisheries
                           </Link>
-                          <a
-                            href="https://docs.google.com/forms/d/e/1FAIpQLScRZOGS-3yG96iauIujMKNfCPBVBfwGhcP2PGrykmNWJGNc1w/viewform?usp=send_form"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <Link
+                            to="/review/agriculture"
                             className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                           >
                             <Wheat className="h-4 w-4" />
                             Agriculture
-                          </a>
+                          </Link>
                         </div>
                       </AccordionContent>
                     </AccordionItem>

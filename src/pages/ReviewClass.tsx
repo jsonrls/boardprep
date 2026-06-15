@@ -12,6 +12,7 @@ import {
   GraduationCap,
   ArrowRight,
   CheckCircle2,
+  Wheat,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero.png";
@@ -52,10 +53,17 @@ const programs = [
   },
   {
     code: "FTLE",
-    name: "Fisheries Technologist Licensure Exam",
+    name: "Food Technology Licensure Exam",
     path: "/review/ftle",
     highlight:
-      "Ideal for BS Fisheries graduates who want a focused, concept-driven review.",
+      "Ideal for BS Food Technology graduates who want a focused, concept-driven review.",
+  },
+  {
+    code: "AGRI",
+    name: "Agriculturists Licensure Exam",
+    path: "/review/agriculture",
+    highlight:
+      "For agriculture graduates reviewing crop, soil, animal, economics, and extension topics.",
   },
   {
     code: "AB",
@@ -188,7 +196,7 @@ const ReviewClass = () => {
         </section>
 
         {/* Programs grid */}
-        {/* <section className="py-24 lg:py-32 bg-background">
+        <section className="py-24 lg:py-32 bg-background">
           <div className="container mx-auto px-6 lg:px-12">
             <div className="max-w-3xl mb-16">
               <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
@@ -215,7 +223,11 @@ const ReviewClass = () => {
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                          <Layers className="w-5 h-5 text-accent" />
+                          {program.code === "AGRI" ? (
+                            <Wheat className="w-5 h-5 text-accent" />
+                          ) : (
+                            <Layers className="w-5 h-5 text-accent" />
+                          )}
                         </div>
                         <div>
                           <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -249,7 +261,7 @@ const ReviewClass = () => {
               ))}
             </div>
           </div>
-        </section> */}
+        </section>
 
         {/* Guarantee / CTA */}
         <section className="py-24 lg:py-32 bg-muted/40">
@@ -352,4 +364,3 @@ const ReviewClass = () => {
 };
 
 export default ReviewClass;
-

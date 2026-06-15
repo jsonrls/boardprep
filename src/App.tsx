@@ -12,6 +12,7 @@ import VetDetails from "./pages/VetDetails";
 import FtleDetails from "./pages/FtleDetails";
 import FisheriesDetails from "./pages/FisheriesDetails";
 import AbeDetails from "./pages/AbeDetails";
+import AgricultureDetails from "./pages/AgricultureDetails";
 import QuestionDrills from "./pages/QuestionDrills";
 import MobileApp from "./pages/MobileApp";
 import Classroom from "./pages/Classroom";
@@ -69,6 +70,7 @@ const App = () => (
             <Route path="/review/ftle" element={<FtleDetails />} />
             <Route path="/review/fisheries" element={<FisheriesDetails />} />
             <Route path="/review/abe" element={<AbeDetails />} />
+            <Route path="/review/agriculture" element={<AgricultureDetails />} />
             <Route path="/press" element={<Press />} />
             <Route path="/press/:id" element={<PressArticle />} />
             <Route path="/enroll" element={<PreRegister />} />
