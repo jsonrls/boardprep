@@ -2068,7 +2068,11 @@ const PreRegister = () => {
                 Until when is the Early Bird Promo?
               </AccordionTrigger>
               <AccordionContent className="text-muted-foreground">
-                The Early Bird Promo runs from March 1–31, 2026.
+                {examType === "agri" ? (
+                  "The Early Bird Promo for Agriculture runs from June 15–June 30, 2026."
+                ) : (
+                  "The Early Bird Promo runs from March 1–31, 2026."
+                )}
               </AccordionContent>
             </AccordionItem>
 
