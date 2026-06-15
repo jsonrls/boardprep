@@ -117,7 +117,7 @@ const formSchema = z.object({
   school: z.string().min(1, "Please enter your school"),
   gradYear: z.string().min(4, "Please enter a valid year"),
   description: z.string().min(1, "Please select an option"),
-  isEmployed: z.string().optional(),
+  isEmployed: z.string().min(1, "Please select an option"),
   employmentType: z.string().optional(),
   latinHonorProof: z.any().optional(), // File inputs are tricky with Zod, keeping lenient for now
   isExistingSubscriber: z.string().min(1, "Please select an option"),
@@ -139,7 +139,7 @@ const formSchema = z.object({
     .any()
     .refine((val) => val != null && val instanceof File, "Please upload proof of payment"),
   preRegProof: z.any().optional(),
-  remarks: z.string().min(1, "Remarks is required"),
+  remarks: z.string().optional(),
   agreedToTerms: z
     .boolean()
     .refine((val) => val === true, "You must agree to the terms"),
@@ -190,13 +190,6 @@ const formSchema = z.object({
       data.isLatinHonor !== "yes" ||
       (data.latinHonorProof != null && data.latinHonorProof instanceof File),
     { message: "Please upload your Latin honor proof", path: ["latinHonorProof"] }
-  )
-  .refine(
-    (data) => {
-      if (data.examType === "agri") return true;
-      return !!(data.isEmployed && data.isEmployed.trim().length > 0);
-    },
-    { message: "Please select an option", path: ["isEmployed"] }
   );
 
 type FormValues = z.infer<typeof formSchema>;
@@ -663,11 +656,9 @@ const PreRegister = () => {
         "school",
         "gradYear",
         "description",
+        "isEmployed",
         "isExistingSubscriber",
       ];
-      if (examType !== "agri") {
-        fieldsToValidate.push("isEmployed");
-      }
       if (
         examType !== "fisheries" &&
         examType !== "agri" &&
@@ -1378,7 +1369,7 @@ const PreRegister = () => {
                       />
                     </div>
 
-                    <div className={examType === "agri" ? "grid grid-cols-1 gap-6" : "grid grid-cols-1 md:grid-cols-2 gap-6"}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormField
                         control={form.control}
                         name="description"
@@ -1410,36 +1401,34 @@ const PreRegister = () => {
                         )}
                       />
 
-                      {examType !== "agri" && (
-                        <FormField
-                          control={form.control}
-                          name="isEmployed"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Are you currently employed?</FormLabel>
-                              <Select
-                                onValueChange={(val) => {
-                                  field.onChange(val);
-                                  if (val === "no")
-                                    form.setValue("employmentType", "");
-                                }}
-                                value={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select option…" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="yes">Yes</SelectItem>
-                                  <SelectItem value="no">No</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      )}
+                      <FormField
+                        control={form.control}
+                        name="isEmployed"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Are you currently employed?</FormLabel>
+                            <Select
+                              onValueChange={(val) => {
+                                field.onChange(val);
+                                if (val === "no")
+                                  form.setValue("employmentType", "");
+                              }}
+                              value={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select option…" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="yes">Yes</SelectItem>
+                                <SelectItem value="no">No</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
 
                     {isEmployed === "yes" && examType !== "fisheries" && examType !== "agri" && (
