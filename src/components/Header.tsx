@@ -15,6 +15,7 @@ import {
   Cpu,
   ChevronRight,
   Fish,
+  Wheat,
 } from "lucide-react";
 import { useState, useEffect, forwardRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -193,6 +194,11 @@ const Header = () => {
                           href="/review/fisheries"
                           title="Fisheries"
                           icon={Fish}
+                        />
+                        <ListItem
+                          href="/review/agriculture"
+                          title="Agriculture"
+                          icon={Wheat}
                         />
                       </ul>
                     </NavigationMenuContent>
@@ -397,6 +403,14 @@ const Header = () => {
                           >
                             <Fish className="h-4 w-4" />
                             Fisheries
+                          </Link>
+                          <Link
+                            to="/review/agriculture"
+                            className="text-sm py-2 text-muted-foreground font-sans inline-flex items-center gap-2"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <Wheat className="h-4 w-4" />
+                            Agriculture
                           </Link>
                         </div>
                       </AccordionContent>

@@ -19,7 +19,6 @@ import {
   Wheat,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import SpeakersGrid from "@/components/SpeakersGrid";
 
 const heroImage = "/modules/agri.jpg";
 
@@ -313,26 +312,7 @@ const AgricultureDetails = () => {
           </div>
         </section>
 
-        <section className="py-28 lg:py-36 bg-background">
-          <div className="container mx-auto px-6 lg:px-12">
-            <div className="max-w-3xl mx-auto text-center mb-20">
-              <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
-                Expert Instructors
-              </p>
-              <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-                Learn from mentors who know the{" "}
-                <em className="not-italic text-accent">exam terrain</em>
-              </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
-                BoardPrep pairs agriculture fundamentals with practical
-                coaching so you know what to review, how to review it, and when
-                to test yourself.
-              </p>
-            </div>
 
-            <SpeakersGrid />
-          </div>
-        </section>
 
         <section className="py-28 lg:py-36 bg-muted/30">
           <div className="container mx-auto px-6 lg:px-12">
