@@ -104,16 +104,12 @@ const curriculumTopics = [
   {
     title: "Crop Protection",
     lessons: [
-      "F. Pest Management (F1, F2, & F4)",
-      "C. Arthropods and Vertebrate Pests (C1)",
-      "A. Nature and Importance of Crop Protection & D. Weeds (D1 & D2)",
-      "B. Plant Pathogens (B3)",
-      "B. Plant Pathogens (B2.6. Analyze the symptoms caused by Bacteria)",
-      "B. Plant Pathogens (B2.4. Identify the symptoms caused by Fungi)",
-      "F3-Pesticide Calculation & D. Weeds (D3-D5)",
-      "C. Arthropods and Vertebrate Pests (C2-C3) & E. Invasive Species",
-      "B. Plant Pathogens (Identify the groups of plant parasitic nematodes)",
-      "B. Plant Pathogens (B1 & B2.1-2.3)"
+      "Pest Management",
+      "Arthropods and Vertebrate Pests",
+      "Nature and Importance of Crop Protection Weeds",
+      "Plant Pathogens",
+      "Pesticide Calculation",
+      "Invasive Species"
     ]
   },
   {
