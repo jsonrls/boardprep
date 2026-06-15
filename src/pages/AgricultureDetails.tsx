@@ -3,6 +3,12 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   ArrowRight,
   Award,
   BookOpen,
@@ -50,12 +56,93 @@ const courseFeatures = [
 ];
 
 const curriculumTopics = [
-  { title: "Crop Science and Production", lessons: "Core module" },
-  { title: "Soil Science and Fertility", lessons: "Core module" },
-  { title: "Animal Science", lessons: "Core module" },
-  { title: "Crop Protection", lessons: "Core module" },
-  { title: "Agricultural Economics and Extension", lessons: "Core module" },
-  { title: "Agricultural Systems and Technology", lessons: "Core module" },
+  {
+    title: "Crop Science",
+    lessons: [
+      "Nature and Importance of Agriculture",
+      "Classification of Crops. Botanical and Agricultural System of Classification",
+      "Nature and Composition of Crop Plants",
+      "Plant Growth and Development",
+      "Factors Affecting Crop Production",
+      "Crop Improvement, Seed Selection and Biotechnology",
+      "Sustainable Crop Production",
+      "Crop Production Practices",
+      "Site Selection Characterization",
+      "Introduction to Crop Biotechnology"
+    ]
+  },
+  {
+    title: "Soil Science",
+    lessons: [
+      "Soil Concept, Definition, and Functions",
+      "Soil Formation and Development",
+      "Physical Properties of Soils",
+      "Chemical Properties of Soils",
+      "Soil Biological Processes",
+      "Soil Fertility and Management with Fertilizer Computation",
+      "Soil Survey and Soil Classification",
+      "Soil Biotechnology",
+      "Soil Conservation and Management"
+    ]
+  },
+  {
+    title: "Animal Science",
+    lessons: [
+      "Anatomy and Physiology of Farm Animals",
+      "Genetics and Animal Breeding",
+      "Animal Nutrition",
+      "Slaughtering, Processing, and Marketing of Animals and their Products",
+      "Swine Production and Management",
+      "Poultry Production and Management",
+      "Dairy Production and Management",
+      "Goat Production and Management",
+      "Beef Cattle Production and Management",
+      "Animal Diseases",
+      "Introduction to Animal Biotechnology"
+    ]
+  },
+  {
+    title: "Crop Protection",
+    lessons: [
+      "F. Pest Management (F1, F2, & F4)",
+      "C. Arthropods and Vertebrate Pests (C1)",
+      "A. Nature and Importance of Crop Protection & D. Weeds (D1 & D2)",
+      "B. Plant Pathogens (B3)",
+      "B. Plant Pathogens (B2.6. Analyze the symptoms caused by Bacteria)",
+      "B. Plant Pathogens (B2.4. Identify the symptoms caused by Fungi)",
+      "F3-Pesticide Calculation & D. Weeds (D3-D5)",
+      "C. Arthropods and Vertebrate Pests (C2-C3) & E. Invasive Species",
+      "B. Plant Pathogens (Identify the groups of plant parasitic nematodes)",
+      "B. Plant Pathogens (B1 & B2.1-2.3)"
+    ]
+  },
+  {
+    title: "Agricultural Marketing and Economics",
+    lessons: [
+      "Introduction: Nature and Method, Economizing Problem, Market System",
+      "D&S, Equilibrium Elasticity",
+      "Microeconomics 1: Market Models, Theory of Consumer Demand, Theory of Production",
+      "Microeconomics 2: Cost of Production, Price and Output Determination, Pricing and Employment of Resources",
+      "Macroeconomics (Measuring Economy's Performance up to Money and Banking)",
+      "Agricultural Policy and Development with International Economics",
+      "Agricultural Marketing",
+      "Agriculture and Economic Growth with Agribusiness and Entrepreneurship"
+    ]
+  },
+  {
+    title: "Agricultural Extension",
+    lessons: [
+      "Overview of Agricultural Extension",
+      "Theoretical and Practical Frameworks of Agricultural Extension",
+      "Practice of Agricultural Extension",
+      "Attributes of Technology",
+      "Communication in Extension",
+      "Technology Diffusion and Adoption",
+      "Program Planning, Monitoring and Evaluation",
+      "Adult Teaching and Learning",
+      "Community Organizing"
+    ]
+  }
 ];
 
 const stats = [
@@ -225,32 +312,62 @@ const AgricultureDetails = () => {
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-4">
-                {curriculumTopics.map((topic, index) => (
-                  <div
-                    key={topic.title}
-                    className="animate-fade-up bg-card border border-border rounded-sm p-6 hover-lift group"
-                    style={{ animationDelay: `${(index + 3) * 100}ms` }}
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                          <CheckCircle2 className="w-5 h-5 text-accent" />
-                        </div>
-                        <div>
-                          <h3 className="font-display text-lg text-foreground mb-1">
-                            {topic.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {topic.lessons}
-                          </p>
-                        </div>
-                      </div>
-                      <ArrowRight className="w-5 h-5 shrink-0 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
+              <Accordion type="single" collapsible className="w-full">
+                <div className="flex flex-col gap-4">
+                  {curriculumTopics.map((topic, index) => (
+                    <div
+                      key={topic.title}
+                      className="animate-fade-up bg-card border border-border rounded-sm hover-lift group"
+                      style={{ animationDelay: `${(index + 3) * 100}ms` }}
+                    >
+                      <AccordionItem value={`topic-${index}`} className="border-none">
+                        <AccordionTrigger className="hover:no-underline p-6 text-left [&[data-state=open]>svg]:rotate-180">
+                          <div className="flex items-center gap-4 text-left">
+                            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                              <CheckCircle2 className="w-5 h-5 text-accent" />
+                            </div>
+                            <div>
+                              <h3 className="font-display text-lg text-foreground mb-1">
+                                {topic.title}
+                              </h3>
+                              <p className="text-sm text-muted-foreground font-normal">
+                                {topic.lessons.length} core topics
+                              </p>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="px-6 pb-6 pt-0 border-t border-border/50 bg-muted/10">
+                          {(() => {
+                            const mid = Math.ceil(topic.lessons.length / 2);
+                            const leftCol = topic.lessons.slice(0, mid);
+                            const rightCol = topic.lessons.slice(mid);
+                            return (
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 mt-4">
+                                <ul className="space-y-3">
+                                  {leftCol.map((lesson, idx) => (
+                                    <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground font-sans">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+                                      <span>{lesson}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <ul className="space-y-3">
+                                  {rightCol.map((lesson, idx) => (
+                                    <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground font-sans">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
+                                      <span>{lesson}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            );
+                          })()}
+                        </AccordionContent>
+                      </AccordionItem>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </Accordion>
             </div>
           </div>
         </section>

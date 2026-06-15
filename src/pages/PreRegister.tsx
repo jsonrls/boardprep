@@ -728,11 +728,9 @@ const PreRegister = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
-  // Google Apps Script URL
-  // const GOOGLE_SCRIPT_URL =
-  //   "https://script.google.com/macros/s/AKfycbwbjkhkHWuI3no_XMbNi9n65M6ZJPeEYc2kWEnHTQLNSiJfDh5n7R5Njf_rlpYeV96Taw/exec";
-
+  // Google Apps Script URLs
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwojsQkMn4_eaLxofx0N7MM-8mIZiaWjTX9uLptoYP_DX0DY-UBTjRwvdsFTLodHtoIZw/exec";
+  const AGRI_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTRyAuGlu7Hl1k43UkGZsDaiUUzD4kJm_CSngYMY4a-ryCY7wNPDg8I12J2d69uCoi/exec"
 
   const fileToBase64 = (
     file: File,
@@ -822,7 +820,8 @@ const PreRegister = () => {
 
       console.log("Submitting to Google Sheets with files...");
 
-      await fetch(GOOGLE_SCRIPT_URL, {
+      const targetUrl = data.examType === "agri" ? AGRI_GOOGLE_SCRIPT_URL : GOOGLE_SCRIPT_URL;
+      await fetch(targetUrl, {
         method: "POST",
         mode: "no-cors",
         headers: {
