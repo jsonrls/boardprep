@@ -730,7 +730,7 @@ const PreRegister = () => {
 
   // Google Apps Script URLs
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwojsQkMn4_eaLxofx0N7MM-8mIZiaWjTX9uLptoYP_DX0DY-UBTjRwvdsFTLodHtoIZw/exec";
-  const AGRI_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbywaqSgjg9bD-HxXJ62a0bfUXQsyEiNO_YaNSU20Bz9_Qbp4cHNBUkCjxWMUg71coSc/exec"
+  const AGRI_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQFak-y5l6zkWDFiJYkECgGmvoDaoTzL24pswmeQnAgwo5SpFkE7xESDYKxfUh3WASbg/exec"
 
   const fileToBase64 = (
     file: File,
