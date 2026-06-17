@@ -13,6 +13,7 @@ const SubscriptionConfirmed = () => {
         title="Subscription Confirmed"
         description="Thank you for subscribing to the BoardPrep newsletter."
         url="https://www.myboardprep.org/subscription-confirmed"
+        noindex
       />
       <Header />
       <main className="relative overflow-hidden pt-24">

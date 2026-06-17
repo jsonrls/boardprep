@@ -13,6 +13,7 @@ const CheckYourEmail = () => {
         title="Check Your Email"
         description="Confirmation page after submitting the BoardPrep newsletter form."
         url="https://www.myboardprep.org/check-your-email"
+        noindex
       />
       <Header />
       <main className="relative overflow-hidden pt-24">

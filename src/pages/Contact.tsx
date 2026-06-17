@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +10,11 @@ import logoFull from "@/assets/logo-full.png";
 const Contact = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEO
+        title="Contact Us"
+        description="Get in touch with the BoardPrep team. We're here to help with your licensure exam review questions and enrollment inquiries."
+        url="https://www.myboardprep.org/contact"
+      />
       <Header />
       <main className="flex-1">
         {/* Header Section */}

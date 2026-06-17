@@ -147,8 +147,29 @@ const VetDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Online Vet Review Class"
-        description="Comprehensive review for the Veterinarian Licensure Examination. Expert instructors, complete materials, and proven results."
+        title="VLE Review Class 2026 — Veterinarian Licensure Exam"
+        description="Prepare for the Veterinarian Licensure Examination (VLE) with BoardPrep. Expert instructors, complete study materials, practice drills, and proven results."
+        url="https://www.myboardprep.org/review/vet"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "VLE Review Class — Veterinarian Licensure Examination",
+          "description": "Comprehensive review program for the Veterinarian Licensure Examination (VLE) in the Philippines. Includes guided video lessons, practice drills, and mock exams.",
+          "url": "https://www.myboardprep.org/review/vet",
+          "provider": {
+            "@type": "Organization",
+            "name": "BoardPrep",
+            "url": "https://www.myboardprep.org"
+          },
+          "courseMode": "online",
+          "inLanguage": "en-PH",
+          "offers": {
+            "@type": "Offer",
+            "price": "10999",
+            "priceCurrency": "PHP",
+            "url": "https://www.myboardprep.org/enroll?exam=vet"
+          }
+        }}
       />
       <Header />
 

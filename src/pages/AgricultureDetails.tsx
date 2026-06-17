@@ -153,8 +153,29 @@ const AgricultureDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Agriculture Review Class"
-        description="BoardPrep Agriculture review class for the Agriculturists Licensure Exam with expert mentors, guided lessons, practice quizzes, and mock exams."
+        title="AgLE Review Class 2026 — Agriculturists Licensure Exam"
+        description="Prepare for the Agriculturists Licensure Examination (AgLE) with BoardPrep. Expert mentors, guided lessons, practice quizzes, and mock exams."
+        url="https://www.myboardprep.org/review/agriculture"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Agriculture Review Class — Agriculturists Licensure Examination (AgLE)",
+          "description": "Comprehensive review program for the Agriculturists Licensure Examination (AgLE) in the Philippines. Expert mentors, guided lessons, practice quizzes, and mock exams.",
+          "url": "https://www.myboardprep.org/review/agriculture",
+          "provider": {
+            "@type": "Organization",
+            "name": "BoardPrep",
+            "url": "https://www.myboardprep.org"
+          },
+          "courseMode": "online",
+          "inLanguage": "en-PH",
+          "offers": {
+            "@type": "Offer",
+            "price": "7999",
+            "priceCurrency": "PHP",
+            "url": "https://www.myboardprep.org/enroll?exam=agri"
+          }
+        }}
       />
       <Header />
 

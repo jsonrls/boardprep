@@ -67,8 +67,29 @@ const AbeDetails = () => {
   return (
     <>
       <SEO
-        title="Agricultural and Biosystems Engineering Review | BoardPrep"
-        description="Comprehensive review program for Agricultural and Biosystems Engineering Licensure Exam. Expert instructors, practice materials, and proven success strategies."
+        title="ABELE Review Class 2026 — Agricultural and Biosystems Engineering Licensure Exam"
+        description="Prepare for the Agricultural and Biosystems Engineering Licensure Examination (ABELE) with BoardPrep. Expert instructors, practice materials, and proven success strategies."
+        url="https://www.myboardprep.org/review/abe"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Agricultural and Biosystems Engineering Review Class — ABELE",
+          "description": "Comprehensive review program for the Agricultural and Biosystems Engineering Licensure Examination (ABELE) in the Philippines. Expert instructors, practice materials, and proven success strategies.",
+          "url": "https://www.myboardprep.org/review/abe",
+          "provider": {
+            "@type": "Organization",
+            "name": "BoardPrep",
+            "url": "https://www.myboardprep.org"
+          },
+          "courseMode": "online",
+          "inLanguage": "en-PH",
+          "offers": {
+            "@type": "Offer",
+            "price": "4999",
+            "priceCurrency": "PHP",
+            "url": "https://www.myboardprep.org/enroll?exam=abe"
+          }
+        }}
       />
       <div className="min-h-screen bg-background">
         <Header />

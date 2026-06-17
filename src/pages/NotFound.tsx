@@ -19,6 +19,7 @@ const NotFound = () => {
       <SEO
         title="Page Not Found"
         description="The page you’re looking for doesn’t exist. Return to BoardPrep’s homepage to continue exploring review tools and resources."
+        noindex
       />
       <Header />
       <main className="flex-1 flex items-center justify-center px-6">

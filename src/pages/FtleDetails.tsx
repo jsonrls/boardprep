@@ -69,8 +69,29 @@ const FtleDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Food Technology Review Class"
-        description="Comprehensive review for the Food Technology Licensure Examination. Expert instructors, complete materials, and proven results."
+        title="FTLE Review Class 2026 — Food Technology Licensure Exam"
+        description="Prepare for the Food Technology Licensure Examination (FTLE) with BoardPrep. Expert instructors, complete study materials, practice drills, and proven results."
+        url="https://www.myboardprep.org/review/ftle"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Food Technology Review Class — FTLE",
+          "description": "Comprehensive review program for the Food Technology Licensure Examination (FTLE) in the Philippines. Includes guided video lessons, practice drills, and mock exams.",
+          "url": "https://www.myboardprep.org/review/ftle",
+          "provider": {
+            "@type": "Organization",
+            "name": "BoardPrep",
+            "url": "https://www.myboardprep.org"
+          },
+          "courseMode": "online",
+          "inLanguage": "en-PH",
+          "offers": {
+            "@type": "Offer",
+            "price": "4999",
+            "priceCurrency": "PHP",
+            "url": "https://www.myboardprep.org/enroll?exam=ftle"
+          }
+        }}
       />
       <Header />
 

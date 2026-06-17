@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, X } from "lucide-react";
 import { motion } from "framer-motion";
@@ -70,6 +71,11 @@ const Press = () => {
 
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20">
+      <SEO
+        title="News & Updates"
+        description="Stay up to date with the latest news, announcements, and updates from BoardPrep — the Philippines' trusted board exam review platform."
+        url="https://www.myboardprep.org/press"
+      />
       <Header />
       <main className="pt-24 pb-20">
         {/* Header Section */}

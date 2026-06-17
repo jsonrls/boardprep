@@ -101,6 +101,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Label } from "@/components/ui/label";
 
+const maribankIcon = "/assets/images/maribank.png";
+
 // Schema Definitions
 const formSchema = z.object({
   // Step 1: Personal Details
@@ -335,7 +337,8 @@ const PreRegister = () => {
       walletType !== "gcash" &&
       walletType !== "maya" &&
       walletType !== "bpi" &&
-      walletType !== "unionbank"
+      walletType !== "unionbank" &&
+      walletType !== "maribank"
     ) {
       setValue("walletType", "bpi", { shouldValidate: true });
     }
@@ -535,6 +538,13 @@ const PreRegister = () => {
     10999: "/assets/images/gcash-10999.jpg",
   };
 
+  /** Vet (VLE) Maribank InstaPay QR — public assets under /assets/images/ */
+  const maribankQrImagesByAmountVet: Record<number, string> = {
+    5499: "/assets/images/maribank-5499.png",
+    10499: "/assets/images/maribank-10499.png",
+    10999: "/assets/images/maribank-10999.png",
+  };
+
   const getActiveQrImageForWallet = (): string | null => {
     if (examType === "agri") {
       const amount = getFinalAmount();
@@ -582,6 +592,13 @@ const PreRegister = () => {
       const bpiImage = bpiQrImagesByAmountVet[getFinalAmount()];
       if (bpiImage) {
         return bpiImage;
+      }
+    }
+
+    if (walletType === "maribank" && examType === "vet") {
+      const maribankImage = maribankQrImagesByAmountVet[getFinalAmount()];
+      if (maribankImage) {
+        return maribankImage;
       }
     }
 
@@ -1800,6 +1817,7 @@ const PreRegister = () => {
                                   { id: "maya", label: "Maya" },
                                   { id: "bpi", label: "BPI" },
                                   { id: "unionbank", label: "UnionBank" },
+                                  { id: "maribank", label: "Maribank" },
                                 ]
                                   .filter((wallet) =>
                                     examType === "fisheries"
@@ -1810,7 +1828,8 @@ const PreRegister = () => {
                                       : examType === "vet"
                                         ? wallet.id === "maya" ||
                                           wallet.id === "bpi" ||
-                                          wallet.id === "unionbank"
+                                          wallet.id === "unionbank" ||
+                                          wallet.id === "maribank"
                                         : examType === "agri"
                                           ? wallet.id === "gcash" ||
                                             wallet.id === "maya" ||
@@ -1827,7 +1846,9 @@ const PreRegister = () => {
                                         ? mayaIcon
                                         : wallet.id === "bpi"
                                           ? bpiIcon
-                                          : ubIcon;
+                                          : wallet.id === "maribank"
+                                            ? maribankIcon
+                                            : ubIcon;
                                   return (
                                     <button
                                       key={wallet.id}

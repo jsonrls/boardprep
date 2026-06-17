@@ -91,8 +91,9 @@ const ReviewClass = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Review Classes"
-        description="Join BoardPrep Review Classes for structured, exam-focused preparation across multiple licensure programs, guided by board topnotchers."
+        title="Online Review Classes Philippines — Licensure Exam Preparation"
+        description="Join BoardPrep Online Review Classes for structured, exam-focused preparation across Vet, Fisheries, Agriculture, FTLE, and ABE licensure programs, guided by board topnotchers."
+        url="https://www.myboardprep.org/review-class"
       />
       <Header />
 

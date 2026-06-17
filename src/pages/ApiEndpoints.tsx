@@ -49,6 +49,7 @@ const ApiEndpoints = () => {
       <SEO
         title="API Endpoints"
         description="Live list of admin-backend API endpoints."
+        noindex
       />
       <Header />
       <main className="flex-1 px-6 pt-28 pb-16">

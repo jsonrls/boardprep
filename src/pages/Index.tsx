@@ -19,9 +19,24 @@ import Footer from "@/components/Footer";
 const Index = () => {
   return (
       <div className="min-h-screen bg-background">
-        <SEO 
-          title="Home"
-          description="Master your board exam with top-notch drills. Affordable but high-quality question drills curated by board topnotchers."
+        <SEO
+          title="Board Exam Review Philippines 2026"
+          description="Master your licensure exam with BoardPrep. Affordable, high-quality question drills and expert review classes for Vet, Fisheries, Agriculture, FTLE, and ABE board exams."
+          url="https://www.myboardprep.org/"
+          jsonLd={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "BoardPrep",
+            "url": "https://www.myboardprep.org",
+            "logo": "https://www.myboardprep.org/favicon.png",
+            "description": "BoardPrep provides affordable, high-quality licensure exam review classes and question drills for Philippines board exam takers.",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://www.myboardprep.org/contact"
+            },
+            "sameAs": []
+          }}
         />
         <Header />
         <main>

@@ -1,9 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 const About = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEO
+        title="About Us — BoardPrep"
+        description="Learn about BoardPrep, the team behind the Philippines' most trusted licensure exam review platform for Vet, Fisheries, Agriculture, and more."
+        url="https://www.myboardprep.org/about"
+      />
       <Header />
       <main className="flex-1">
         {/* Hero Section */}

@@ -65,8 +65,29 @@ const FisheriesDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Fisheries Review Class"
-        description="Specialized review materials for Fisheries professionals. Expert instructors, complete materials, and proven results."
+        title="Fisheries Licensure Exam Review 2026 — FPLE"
+        description="Prepare for the Fisheries Licensure Examination (FPLE) with BoardPrep. Expert instructors, complete study materials, practice drills, and proven results."
+        url="https://www.myboardprep.org/review/fisheries"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Fisheries Licensure Exam Review Class — FPLE",
+          "description": "Comprehensive review program for the Fisheries Licensure Examination (FPLE) in the Philippines. Includes guided video lessons, practice drills, and mock exams.",
+          "url": "https://www.myboardprep.org/review/fisheries",
+          "provider": {
+            "@type": "Organization",
+            "name": "BoardPrep",
+            "url": "https://www.myboardprep.org"
+          },
+          "courseMode": "online",
+          "inLanguage": "en-PH",
+          "offers": {
+            "@type": "Offer",
+            "price": "999",
+            "priceCurrency": "PHP",
+            "url": "https://www.myboardprep.org/enroll?exam=fisheries"
+          }
+        }}
       />
       <Header />
 

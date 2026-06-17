@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import logoFull from "@/assets/logo-transparent.png";
@@ -201,15 +202,6 @@ const renderRichHtml = (html: string): React.ReactNode[] => {
   return blocks as React.ReactNode[];
 };
 
-/** Updates a <meta> tag by property or name, then returns a restore function. */
-function swapMetaContent(selector: string, newContent: string) {
-  const el = document.querySelector<HTMLMetaElement>(selector);
-  if (!el) return () => { };
-  const prev = el.getAttribute("content") ?? "";
-  el.setAttribute("content", newContent);
-  return () => el.setAttribute("content", prev);
-}
-
 // Threads SVG icon (no lucide equivalent)
 const ThreadsIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 192 192" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -268,37 +260,6 @@ const PressArticle = () => {
     return renderRichHtml(html);
   }, [post?.content]);
 
-  // Dynamically update og:image for this article page; restore on unmount
-  useEffect(() => {
-    if (!post) return;
-    const imageUrl =
-      post.imageUrl && post.imageUrl.startsWith("http")
-        ? post.imageUrl
-        : post.imageUrl
-          ? `https://www.myboardprep.org${post.imageUrl}`
-          : BASE_OG_IMAGE;
-
-    const restoreOg = swapMetaContent('meta[property="og:image"]', imageUrl);
-    const restoreTwitter = swapMetaContent('meta[name="twitter:image"]', imageUrl);
-    const restoreTitle = swapMetaContent('meta[property="og:title"]', post.title);
-    const restoreDesc = swapMetaContent(
-      'meta[property="og:description"]',
-      htmlToText(post.content ?? "").slice(0, 160)
-    );
-    const restoreUrl = swapMetaContent(
-      'meta[property="og:url"]',
-      window.location.href
-    );
-
-    return () => {
-      restoreOg();
-      restoreTwitter();
-      restoreTitle();
-      restoreDesc();
-      restoreUrl();
-    };
-  }, [post]);
-
   useEffect(() => {
     const onScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -356,8 +317,23 @@ const PressArticle = () => {
     );
   }
 
+  const articleUrl = `https://www.myboardprep.org/press/${post.id}`;
+  const articleImage =
+    post.imageUrl && post.imageUrl.startsWith("http")
+      ? post.imageUrl
+      : post.imageUrl
+        ? `https://www.myboardprep.org${post.imageUrl}`
+        : BASE_OG_IMAGE;
+  const articleDescription = htmlToText(post.content ?? "").slice(0, 160);
+
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20 text-[#121212]">
+      <SEO
+        title={post.title}
+        description={articleDescription}
+        url={articleUrl}
+        image={articleImage}
+      />
       <Header />
       <main className="pt-24 pb-20">
         <div className="container mx-auto px-6 lg:px-12">
