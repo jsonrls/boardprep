@@ -25,6 +25,7 @@ import {
   Wheat,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import SpeakersGrid from "@/components/SpeakersGrid";
 
 const heroImage = "/modules/agri.jpg";
 
@@ -426,6 +427,12 @@ const AgricultureDetails = () => {
         </section>
 
 
+
+        {/* Speakers Section */}
+        <SpeakersGrid
+          profession="agriculture"
+          description="Our instructors are licensed agriculturists and board topnotchers dedicated to your success."
+        />
 
         <section className="py-28 lg:py-36 bg-muted/30">
           <div className="container mx-auto px-6 lg:px-12">

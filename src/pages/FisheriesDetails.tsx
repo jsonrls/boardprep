@@ -18,6 +18,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import SpeakersGrid from "@/components/SpeakersGrid";
 
 const courseFeatures = [
   {
@@ -250,6 +251,12 @@ const FisheriesDetails = () => {
             </div>
           </div>
         </section>
+
+        {/* Speakers Section */}
+        <SpeakersGrid
+          profession="fisheries"
+          description="Our instructors are licensed fisheries professionals and board topnotchers dedicated to your success."
+        />
 
         {/* CTA Section */}
         <section className="py-28 lg:py-36 bg-muted/30">

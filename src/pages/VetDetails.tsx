@@ -365,26 +365,11 @@ const VetDetails = () => {
         </section>
 
         {/* Speakers Section */}
-        <section className="py-28 lg:py-36 bg-muted/30">
-          <div className="container mx-auto px-6 lg:px-12">
-            <div className="max-w-3xl mx-auto text-center mb-20">
-              <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
-                Expert Instructors
-              </p>
-              <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-                Learn from the <em className="not-italic text-accent">best!</em>
-              </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
-                Our instructors are board topnotchers and experienced
-                veterinarians dedicated to your success.
-              </p>
-            </div>
-          </div>
-
-          <div className="container mx-auto px-6 lg:px-12">
-            <SpeakersGrid />
-          </div>
-        </section>
+        <SpeakersGrid
+          profession="veterinarian"
+          description="Our instructors are board topnotchers and experienced veterinarians dedicated to your success."
+          sectionClassName="py-28 lg:py-36 bg-muted/30"
+        />
 
         {/* CTA Section */}
         <section className="py-28 lg:py-36 bg-muted/30">

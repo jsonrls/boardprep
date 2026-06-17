@@ -6,11 +6,18 @@ type SpeakerItem = {
   id: string;
   name: string;
   title: string;
+  profession?: string | null;
   bio?: string | null;
   imageUrl?: string | null;
 };
 
 type SpeakersResponse = { items: SpeakerItem[] };
+
+type Props = {
+  profession?: string;
+  description?: string;
+  sectionClassName?: string;
+};
 
 const initialsFromName = (name: string) =>
   name
@@ -20,16 +27,23 @@ const initialsFromName = (name: string) =>
     .map((p) => p[0]?.toUpperCase())
     .join("") || "BP";
 
-export default function SpeakersGrid() {
+export default function SpeakersGrid({ profession, description, sectionClassName }: Props) {
   const { data } = useQuery({
     queryKey: ["public-speakers"],
     queryFn: () => apiGet<SpeakersResponse>("/public/speakers"),
     staleTime: 60_000,
   });
 
-  const speakers = data?.items ?? [];
+  const allSpeakers = data?.items ?? [];
+  const speakers = profession
+    ? allSpeakers.filter(
+        (s) => s.profession?.toLowerCase() === profession.toLowerCase()
+      )
+    : allSpeakers;
 
-  return (
+  if (speakers.length === 0) return null;
+
+  const grid = (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
       {speakers.map((speaker, index) => (
         <div
@@ -66,12 +80,30 @@ export default function SpeakersGrid() {
           </div>
         </div>
       ))}
-      {speakers.length === 0 && (
-        <div className="col-span-full text-center text-muted-foreground">
-          No speakers yet.
-        </div>
-      )}
     </div>
   );
+
+  if (description) {
+    return (
+      <section className={sectionClassName ?? "py-28 lg:py-36 bg-background"}>
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="max-w-3xl mx-auto text-center mb-20">
+            <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
+              Expert Instructors
+            </p>
+            <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
+              Learn from the <em className="not-italic text-accent">best!</em>
+            </h2>
+            <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
+              {description}
+            </p>
+          </div>
+          {grid}
+        </div>
+      </section>
+    );
+  }
+
+  return grid;
 }
 
