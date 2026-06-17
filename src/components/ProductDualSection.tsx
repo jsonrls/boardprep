@@ -62,6 +62,7 @@ interface ProductCardData {
   textColor: string;
   imageClass?: string;
   link?: string;
+  linkLabel?: string;
   customVisual?: React.ReactNode;
 }
 
@@ -125,6 +126,7 @@ const cards: ProductCardData[] = [
     textColor: "text-slate-900",
     imageClass: "w-[60%]",
     link: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
+    linkLabel: "Download BoardPrep Mobile App",
   },
   {
     title: "BoardPrep® Classroom",
@@ -190,6 +192,7 @@ const cards: ProductCardData[] = [
       </div>
     ),
     link: "https://lms2.myboardprep.com/",
+    linkLabel: "Open BoardPrep Classroom",
   },
   {
     title: "Online Review Class",
@@ -246,6 +249,7 @@ const cards: ProductCardData[] = [
       </div>
     ),
     link: "/review-class",
+    linkLabel: "View Review Class Programs",
   },
   {
     title: "BoardPrep® Lite",
@@ -302,6 +306,7 @@ const cards: ProductCardData[] = [
       </div>
     ),
     link: "https://apps.apple.com/au/app/boardprep-lite/id6756837074",
+    linkLabel: "Download BoardPrep Lite",
   },
 ];
 
@@ -318,6 +323,7 @@ const Card = ({
   targetScale,
   imageClass,
   link,
+  linkLabel,
   customVisual,
 }: {
   i: number;
@@ -332,6 +338,7 @@ const Card = ({
   targetScale: number;
   imageClass?: string;
   link?: string;
+  linkLabel?: string;
   customVisual?: React.ReactNode;
 }) => {
   const container = useRef(null);
@@ -393,7 +400,7 @@ const Card = ({
                   asChild
                 >
                   <a href={link} target="_blank" rel="noopener noreferrer">
-                    Learn More{" "}
+                    {linkLabel ?? title}{" "}
                     <ArrowRight
                       size={20}
                       className="transition-transform group-hover:translate-x-1"
