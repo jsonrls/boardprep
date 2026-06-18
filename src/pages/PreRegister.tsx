@@ -295,7 +295,7 @@ const PreRegister = () => {
       setShowExamChoiceModal(false);
       if (examParam === "agri") {
         setValue("isLatinHonor", "no");
-        setValue("walletType", "gcash");
+        setValue("walletType", "bpi");
       }
       if (examParam === "fisheries") {
         setValue("hasPreRegistered", "no");
@@ -343,7 +343,7 @@ const PreRegister = () => {
     }
   }, [examType, walletType, setValue]);
 
-  // Agriculture (AgLE) supports GCash / BPI / UnionBank InstaPay QRs and
+  // Agriculture (AgLE) supports BPI / UnionBank InstaPay QRs and
   // has no Latin Honor discount.
   useEffect(() => {
     if (examType === "agri") {
@@ -351,11 +351,10 @@ const PreRegister = () => {
         setValue("isLatinHonor", "no", { shouldValidate: true });
       }
       if (
-        walletType !== "gcash" &&
         walletType !== "bpi" &&
         walletType !== "unionbank"
       ) {
-        setValue("walletType", "gcash", { shouldValidate: true });
+        setValue("walletType", "bpi", { shouldValidate: true });
       }
     }
   }, [examType, walletType, isLatinHonor, setValue]);
@@ -1828,8 +1827,7 @@ const PreRegister = () => {
                                           wallet.id === "unionbank" ||
                                           wallet.id === "maribank"
                                         : examType === "agri"
-                                          ? wallet.id === "gcash" ||
-                                            wallet.id === "bpi" ||
+                                          ? wallet.id === "bpi" ||
                                             wallet.id === "unionbank"
                                           : true
                                   )
@@ -2535,7 +2533,7 @@ const PreRegister = () => {
                 onClick={() => {
                   form.setValue("examType", "agri");
                   form.setValue("isLatinHonor", "no");
-                  form.setValue("walletType", "gcash");
+                  form.setValue("walletType", "bpi");
                   setShowExamChoiceModal(false);
                   setShowFeeModal(true);
                 }}
