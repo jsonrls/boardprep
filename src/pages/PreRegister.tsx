@@ -335,7 +335,6 @@ const PreRegister = () => {
     if (
       examType === "vet" &&
       walletType !== "gcash" &&
-      walletType !== "maya" &&
       walletType !== "bpi" &&
       walletType !== "unionbank" &&
       walletType !== "maribank"
@@ -1826,8 +1825,7 @@ const PreRegister = () => {
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
                                       : examType === "vet"
-                                        ? wallet.id === "maya" ||
-                                          wallet.id === "bpi" ||
+                                        ? wallet.id === "bpi" ||
                                           wallet.id === "unionbank" ||
                                           wallet.id === "maribank"
                                         : examType === "agri"
