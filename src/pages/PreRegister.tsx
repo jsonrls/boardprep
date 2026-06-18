@@ -343,7 +343,7 @@ const PreRegister = () => {
     }
   }, [examType, walletType, setValue]);
 
-  // Agriculture (AgLE) supports GCash / Maya / BPI / UnionBank InstaPay QRs and
+  // Agriculture (AgLE) supports GCash / BPI / UnionBank InstaPay QRs and
   // has no Latin Honor discount.
   useEffect(() => {
     if (examType === "agri") {
@@ -352,7 +352,6 @@ const PreRegister = () => {
       }
       if (
         walletType !== "gcash" &&
-        walletType !== "maya" &&
         walletType !== "bpi" &&
         walletType !== "unionbank"
       ) {
@@ -1830,7 +1829,6 @@ const PreRegister = () => {
                                           wallet.id === "maribank"
                                         : examType === "agri"
                                           ? wallet.id === "gcash" ||
-                                            wallet.id === "maya" ||
                                             wallet.id === "bpi" ||
                                             wallet.id === "unionbank"
                                           : true
