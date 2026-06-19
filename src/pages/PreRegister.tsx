@@ -343,7 +343,7 @@ const PreRegister = () => {
     }
   }, [examType, walletType, setValue]);
 
-  // Agriculture (AgLE) supports BPI / UnionBank InstaPay QRs and
+  // Agriculture (AgLE) supports BPI / UnionBank / Maribank InstaPay QRs and
   // has no Latin Honor discount.
   useEffect(() => {
     if (examType === "agri") {
@@ -352,7 +352,8 @@ const PreRegister = () => {
       }
       if (
         walletType !== "bpi" &&
-        walletType !== "unionbank"
+        walletType !== "unionbank" &&
+        walletType !== "maribank"
       ) {
         setValue("walletType", "bpi", { shouldValidate: true });
       }
@@ -503,6 +504,12 @@ const PreRegister = () => {
     6499: agriUnionbank6499,
   };
 
+  /** Agriculture (AgLE) Maribank InstaPay QR — public assets under /assets/images/ */
+  const agriMaribankQrImagesByAmount: Record<number, string> = {
+    6999: "/assets/images/agri-maribank-6999.png",
+    6499: "/assets/images/agri-maribank-6499.png",
+  };
+
   /** Vet (VLE) UnionBank InstaPay QR — public assets under /assets/images/ */
   const unionbankQrImagesByAmountVet: Record<number, string> = {
     4999: "/assets/images/ub-4999.png",
@@ -552,7 +559,9 @@ const PreRegister = () => {
             ? agriBpiQrImagesByAmount
             : walletType === "unionbank"
               ? agriUnionbankQrImagesByAmount
-              : agriGcashQrImagesByAmount;
+              : walletType === "maribank"
+                ? agriMaribankQrImagesByAmount
+                : agriGcashQrImagesByAmount;
       return agriMap[amount] ?? agriQrImagesByAmount[amount] ?? agriQr6999;
     }
     if (examType === "fisheries") {
@@ -1828,7 +1837,8 @@ const PreRegister = () => {
                                           wallet.id === "maribank"
                                         : examType === "agri"
                                           ? wallet.id === "bpi" ||
-                                            wallet.id === "unionbank"
+                                            wallet.id === "unionbank" ||
+                                            wallet.id === "maribank"
                                           : true
                                   )
                                   .map((wallet) => {
