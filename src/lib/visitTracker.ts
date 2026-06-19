@@ -13,6 +13,11 @@ type TrackVisitPayload = {
   referrer?: string;
 };
 
+type TrackConversionPayload = {
+  examType?: string;
+  referrer?: string;
+};
+
 type VisitEventPayload = {
   visitorId: string;
   path: string;
@@ -118,6 +123,33 @@ export async function trackVisit(payload: TrackVisitPayload): Promise<void> {
         host,
       });
     }
+    // Best effort only. Analytics failures should never affect UX.
+  }
+}
+
+export async function trackConversion(payload: TrackConversionPayload): Promise<void> {
+  const host = window.location.hostname.toLowerCase();
+  const allowDevTracking = isDevTrackingEnabled();
+  const isLocalDevHost = localHosts.has(host);
+  const isAllowedProdHost = allowedHosts.has(host);
+
+  if (!import.meta.env.PROD && !(allowDevTracking && isLocalDevHost)) {
+    return;
+  }
+
+  if (!isAllowedProdHost && !(allowDevTracking && isLocalDevHost)) {
+    return;
+  }
+
+  const body = {
+    visitorId: getOrCreateVisitorId(),
+    examType: payload.examType,
+    referrer: payload.referrer,
+  };
+
+  try {
+    await apiPost("/public/conversion", body);
+  } catch {
     // Best effort only. Analytics failures should never affect UX.
   }
 }

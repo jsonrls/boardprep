@@ -100,6 +100,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Label } from "@/components/ui/label";
+import { trackConversion } from "@/lib/visitTracker";
 
 const maribankIcon = "/assets/images/maribank.png";
 
@@ -859,6 +860,10 @@ const PreRegister = () => {
 
       // Since mode is no-cors, we assume success if no network error thrown
       console.log("Form submitted successfully to Google Sheets");
+      void trackConversion({
+        examType: data.examType,
+        referrer: document.referrer || undefined,
+      });
       setShowSuccessModal(true);
       form.reset();
       setCurrentStep(0);
