@@ -2502,9 +2502,9 @@ const PreRegister = () => {
                   </div>
                 </div>
                 <div className="mt-5 flex justify-center">
-                  <div className="inline-flex items-center cursor-not-allowed gap-2 rounded-full border border-red-300 bg-red-200 px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
+                  <div className="inline-flex items-center cursor-not-allowed gap-2 rounded-full border border-red-300 bg-red-300 px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
                     <span>Registration Closed</span>
-                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    <ChevronRight className="h-4 w-4 transition-transform" />
                   </div>
                 </div>
               </motion.button>
