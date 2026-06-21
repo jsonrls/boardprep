@@ -2482,7 +2482,7 @@ const PreRegister = () => {
                   setShowExamChoiceModal(false);
                   setShowFeeModal(true);
                 }}
-                className="group relative cursor-not-allowed flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
+                className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
               >
                 <div className="flex justify-center">
                   <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-accent/40 group-hover:bg-accent/20">
@@ -2501,7 +2501,7 @@ const PreRegister = () => {
                   </div>
                 </div>
                 <div className="mt-5 flex justify-center">
-                  <div className="inline-flex items-center cursor-not-allowed gap-2 rounded-full border border-accent/300 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/300 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
                     <span>Enroll</span>
                     <ChevronRight className="h-4 w-4 transition-transform" />
                   </div>
