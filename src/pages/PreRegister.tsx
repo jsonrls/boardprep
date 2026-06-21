@@ -26,6 +26,7 @@ import {
   X,
 } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { CountdownTimer } from "@/components/CountdownTimer";
 import qrCode from "@/assets/qr-code.png";
 import qrCodePreregister from "@/assets/qr-code-preregister.png";
 import qrCodeLatinHonor from "@/assets/qr-code-latin-honor.png";
@@ -2494,17 +2495,13 @@ const PreRegister = () => {
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     For VLE 2026 Review Class
                   </p>
-                  <div className="flex justify-center">
-                    <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
-                      Popular Program
-                    </p>
-                  </div>
                 </div>
-                <div className="mt-5 flex justify-center">
+                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/300 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
                     <span>Enroll</span>
                     <ChevronRight className="h-4 w-4 transition-transform" />
                   </div>
+                  <CountdownTimer />
                 </div>
               </motion.button>
 
@@ -2529,11 +2526,6 @@ const PreRegister = () => {
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     For FPLE 2026 Review Class
                   </p>
-                  <div className="flex justify-center">
-                    <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
-                      Asynchronous Track
-                    </p>
-                  </div>
                 </div>
                 <div className="mt-5 flex justify-center">
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
@@ -2564,11 +2556,6 @@ const PreRegister = () => {
                   <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     For AgLE 2026 Review Class
                   </p>
-                  <div className="flex justify-center">
-                    <p className="mt-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
-                      New Program
-                    </p>
-                  </div>
                 </div>
                 <div className="mt-5 flex justify-center">
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
