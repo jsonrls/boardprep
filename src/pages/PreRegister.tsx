@@ -290,7 +290,8 @@ const PreRegister = () => {
     const examParam = searchParams.get("exam");
     if (
       examParam === "fisheries" ||
-      examParam === "agri"
+      examParam === "agri" ||
+      examParam === "vet"
     ) {
       setValue("examType", examParam);
       setShowExamChoiceModal(false);
@@ -305,17 +306,6 @@ const PreRegister = () => {
           setCurrentStep(1);
         }
       }
-    } else if (examParam === "vet") {
-      toast({
-        title: "Registration Closed",
-        description: "Veterinarian Licensure Exam (VLE) registration is currently closed/disabled.",
-        variant: "destructive",
-      });
-      setSearchParams((prev) => {
-        const next = new URLSearchParams(prev);
-        next.delete("exam");
-        return next;
-      }, { replace: true });
     }
   }, [searchParams, setValue, setSearchParams, toast]);
 
@@ -1597,8 +1587,8 @@ const PreRegister = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="vet" disabled>
-                                Veterinarian Licensure Exam (VLE) (Closed)
+                              <SelectItem value="vet">
+                                Veterinarian Licensure Exam (VLE)
                               </SelectItem>
                               <SelectItem value="fisheries">
                                 Fisheries Professionals Licensure Exam (FPLE)
@@ -2489,6 +2479,34 @@ const PreRegister = () => {
               <motion.button
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
+                  form.setValue("examType", "vet");
+                  setShowExamChoiceModal(false);
+                  setShowFeeModal(true);
+                }}
+                className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/70 p-4 text-left transition-colors hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:min-h-[168px] sm:p-5"
+              >
+                <div className="flex justify-center">
+                  <div className="rounded-xl border border-border bg-muted/60 p-3 transition-colors group-hover:border-accent/40 group-hover:bg-accent/20">
+                    <Stethoscope className="h-6 w-6 text-foreground transition-colors group-hover:text-black" />
+                  </div>
+                </div>
+                <div className="mt-5 text-center">
+                  <h3 className="text-xl font-bold text-foreground transition-colors group-hover:text-black">Veterinary Medicine</h3>
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    For VLE 2026 Review Class
+                  </p>
+                </div>
+                <div className="mt-5 flex justify-center">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
+                    <span>Enroll</span>
+                    <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </div>
+              </motion.button>
+
+              <motion.button
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
                   form.setValue("examType", "fisheries");
                   form.setValue("hasPreRegistered", "no");
                   form.setValue("isLatinHonor", "no");
@@ -2542,28 +2560,6 @@ const PreRegister = () => {
                   <div className="inline-flex items-center gap-2 rounded-full border border-accent/70 bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors group-hover:border-accent group-hover:text-black group-hover:brightness-95">
                     <span>Enroll</span>
                     <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                  </div>
-                </div>
-              </motion.button>
-
-              <motion.button
-                disabled={true}
-                className="group relative flex min-h-[152px] flex-col justify-between rounded-2xl border border-border bg-background/40 p-4 text-left opacity-60 cursor-not-allowed focus-visible:outline-none sm:min-h-[168px] sm:p-5"
-              >
-                <div className="flex justify-center">
-                  <div className="rounded-xl border border-border bg-muted/60 p-3">
-                    <Stethoscope className="h-6 w-6 text-muted-foreground" />
-                  </div>
-                </div>
-                <div className="mt-5 text-center">
-                  <h3 className="text-xl font-bold text-muted-foreground">Veterinary Medicine</h3>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    For VLE 2026 Review Class
-                  </p>
-                </div>
-                <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-muted bg-muted px-4 py-2 text-sm font-semibold text-muted-foreground">
-                    <span>Registration Closed</span>
                   </div>
                 </div>
               </motion.button>
