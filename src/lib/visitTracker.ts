@@ -82,6 +82,7 @@ function getCampaignFields(search: string) {
 
 const isDevTrackingEnabled = () => {
   const raw = import.meta.env.VITE_ENABLE_VISIT_TRACKING_DEV;
+  if (raw === true || raw === 1) return true;
   if (typeof raw !== "string") return false;
   const normalized = raw.trim().toLowerCase();
   return normalized === "true" || normalized === "1" || normalized === "yes";
@@ -131,7 +132,7 @@ export async function trackConversion(payload: TrackConversionPayload): Promise<
   const host = window.location.hostname.toLowerCase();
   const allowDevTracking = isDevTrackingEnabled();
   const isLocalDevHost = localHosts.has(host);
-  const isAllowedProdHost = allowedHosts.has(host);
+  const isAllowedProdHost = allowedHosts.has(host) || host.endsWith(".vercel.app");
 
   if (!import.meta.env.PROD && !(allowDevTracking && isLocalDevHost)) {
     return;
@@ -141,15 +142,24 @@ export async function trackConversion(payload: TrackConversionPayload): Promise<
     return;
   }
 
+  const search = window.location.search || "";
   const body = {
     visitorId: getOrCreateVisitorId(),
     examType: payload.examType,
     referrer: payload.referrer,
+    ...getCampaignFields(search),
   };
 
   try {
-    await apiPost("/public/conversion", body);
-  } catch {
+    await apiPost("/public/conversion", body, { keepalive: true });
+  } catch (error) {
+    if (!import.meta.env.PROD) {
+      console.warn("[visit-tracker] failed to submit conversion", {
+        error,
+        examType: payload.examType,
+        host,
+      });
+    }
     // Best effort only. Analytics failures should never affect UX.
   }
 }

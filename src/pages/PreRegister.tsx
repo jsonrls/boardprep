@@ -861,10 +861,18 @@ const PreRegister = () => {
 
       // Since mode is no-cors, we assume success if no network error thrown
       console.log("Form submitted successfully to Google Sheets");
-      void trackConversion({
-        examType: data.examType,
-        referrer: document.referrer || undefined,
-      });
+
+      // Track successful enrollment in our own analytics system.
+      // Await so the request has a chance to complete before the user navigates away.
+      try {
+        await trackConversion({
+          examType: data.examType,
+          referrer: document.referrer || undefined,
+        });
+      } catch (trackError) {
+        console.error("Failed to track conversion:", trackError);
+      }
+
       setShowSuccessModal(true);
       form.reset();
       setCurrentStep(0);
