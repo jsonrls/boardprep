@@ -47,7 +47,7 @@ import unionbankQr4499 from "@/assets/qr/4499.png";
 import unionbankQr4999 from "@/assets/qr/4999.png";
 import unionbankQr9499 from "@/assets/qr/9499.png";
 import unionbankQr9999 from "@/assets/qr/9999.png";
-import fisheriesQrMaya from "@/assets/payment/fisheries_qr_maya.png";
+import fisheriesQrMaribank from "@/assets/payment/fisheries_qr_maribank.png";
 import fisheriesQrBpi from "@/assets/payment/fisheries_qr_bpi.png";
 import fisheriesQrUnionbank from "@/assets/payment/fisheries_qr_unionbank.png";
 import agriQr6999 from "@/assets/agri/agri-qr-6999.jpg";
@@ -573,7 +573,10 @@ const PreRegister = () => {
       if (walletType === "unionbank") {
         return fisheriesQrUnionbank;
       }
-      return fisheriesQrMaya;
+      if (walletType === "maribank") {
+        return fisheriesQrMaribank;
+      }
+      return fisheriesQrMaribank;
     }
 
     if (walletType === "maya") {
@@ -1842,7 +1845,7 @@ const PreRegister = () => {
                                   .filter((wallet) =>
                                     examType === "fisheries"
                                       ? wallet.id === "gcash" ||
-                                        wallet.id === "maya" ||
+                                        wallet.id === "maribank" ||
                                         wallet.id === "bpi" ||
                                         wallet.id === "unionbank"
                                       : examType === "vet"
