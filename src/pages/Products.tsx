@@ -99,9 +99,8 @@ const Products = () => {
           },
           {
             platform: "appstore",
-            label: "Coming Soon",
-            href: "#",
-            comingSoon: true,
+            label: "Get on the App Store",
+            href: "https://apps.apple.com/ph/app/boardprep/id6741724168",
           },
         ],
       },
