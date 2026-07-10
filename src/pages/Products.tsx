@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { trackConversion, withSocialAttribution } from "@/lib/visitTracker";
 import {
   BookOpen,
   GraduationCap,
@@ -275,6 +276,7 @@ const Products = () => {
                                 variant="secondary"
                                 asChild
                                 className="h-11 flex-1 min-w-[170px] rounded-full rounded-full"
+                                onClick={() => trackConversion({ type: 'app_download_click' })}
                               >
                                 <a
                                   href={storeLink.href}
@@ -290,15 +292,25 @@ const Products = () => {
                           ))}
                         </div>
                       ) : p.link.kind === "internal" ? (
-                        <Button variant="secondary" asChild className="h-11 rounded-full">
+                        <Button 
+                          variant="secondary" 
+                          asChild 
+                          className="h-11 rounded-full"
+                          onClick={() => trackConversion({ type: 'drills_click' })}
+                        >
                           <Link to={p.link.to} aria-label={`${p.cta}: ${p.title}`}>
                             {p.cta}
                           </Link>
                         </Button>
                       ) : (
-                        <Button variant="secondary" asChild className="h-11 rounded-full">
+                        <Button 
+                          variant="secondary" 
+                          asChild 
+                          className="h-11 rounded-full"
+                          onClick={() => trackConversion({ type: 'drills_click' })}
+                        >
                           <a
-                            href={p.link.href}
+                            href={withSocialAttribution(p.link.href)}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${p.cta}: ${p.title} (opens in a new tab)`}

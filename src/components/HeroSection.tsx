@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero.png";
 import { Link } from "react-router-dom";
+import { trackConversion, withSocialAttribution } from "@/lib/visitTracker";
 
 const HeroSection = () => {
   const handleScrollToStats = () => {
@@ -68,7 +69,14 @@ const HeroSection = () => {
                 className="text-foreground w-full sm:w-auto font-display"
                 asChild
               >
-                <Link to="https://www.myboardprep.com">Start Practice Drills</Link>
+                <a
+                  href={withSocialAttribution("https://www.myboardprep.com")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackConversion({ type: "drills_click" })}
+                >
+                  Start Practice Drills
+                </a>
               </Button>
             </div>
           </div>
