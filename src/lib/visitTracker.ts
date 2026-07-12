@@ -4,8 +4,10 @@ const VISITOR_ID_STORAGE_KEY = "bp_visitor_id";
 const UTM_ATTRIBUTION_STORAGE_KEY = "bp_utm_attribution";
 /** Last non-direct social attribution window (Phase 2). */
 const ATTRIBUTION_WINDOW_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
-const SUPPORTED_UTM_SOURCES = new Set(["instagram", "facebook"]);
+/** Single-network + Meta cross-post marker (resolved to IG/FB at track time). */
+const SUPPORTED_UTM_SOURCES = new Set(["instagram", "facebook", "meta"]);
 const SUPPORTED_UTM_MEDIUMS = new Set(["social"]);
+const CROSS_POST_UTM_SOURCES = new Set(["meta", "both"]);
 /** Client-side guard against double-fires from React re-renders / double clicks. */
 const CLIENT_CONVERSION_DEDUPE_MS = 2_000;
 
@@ -113,6 +115,76 @@ function getCampaignFields(search: string) {
   return { utmSource, utmMedium, utmCampaign };
 }
 
+function resolveNetworkFromReferrer(referrer: string | undefined): "instagram" | "facebook" | null {
+  if (!referrer) return null;
+  const raw = referrer.trim().toLowerCase();
+  if (!raw) return null;
+
+  let host = raw;
+  try {
+    if (raw.includes("://")) {
+      host = new URL(raw).hostname.toLowerCase();
+    }
+  } catch {
+    // treat as free-form
+  }
+  host = host.replace(/^www\./, "");
+
+  if (host.includes("instagram") || host === "l.instagram.com") return "instagram";
+  if (
+    host.includes("facebook") ||
+    host.includes("fb.com") ||
+    host.includes("fb.me") ||
+    host.includes("messenger.com")
+  ) {
+    return "facebook";
+  }
+  if (raw.includes("instagram")) return "instagram";
+  if (raw.includes("facebook") || raw.includes("fb.com")) return "facebook";
+  return null;
+}
+
+function resolveNetworkFromUserAgent(userAgent: string | undefined): "instagram" | "facebook" | null {
+  if (!userAgent) return null;
+  const ua = userAgent.toLowerCase();
+  if (ua.includes("instagram")) return "instagram";
+  if (
+    ua.includes("fban") ||
+    ua.includes("fbav") ||
+    ua.includes("fb_iab") ||
+    ua.includes("fbios") ||
+    ua.includes("fb4a")
+  ) {
+    return "facebook";
+  }
+  return null;
+}
+
+/**
+ * One shared Meta cross-post URL uses utm_source=meta.
+ * Attribute to instagram or facebook from referrer / in-app user-agent.
+ */
+function resolveUtmSourceForTracking(
+  utmSource: string | undefined,
+  referrer: string | undefined
+): string | undefined {
+  if (!utmSource) return undefined;
+  const source = utmSource.toLowerCase();
+  if (!CROSS_POST_UTM_SOURCES.has(source)) return source;
+
+  const fromReferrer = resolveNetworkFromReferrer(referrer);
+  if (fromReferrer) return fromReferrer;
+
+  const fromUa =
+    typeof navigator !== "undefined"
+      ? resolveNetworkFromUserAgent(navigator.userAgent)
+      : null;
+  if (fromUa) return fromUa;
+
+  // Keep meta when the network cannot be determined.
+  return "meta";
+}
+
 function isSupportedSocialAttribution(
   utmSource: string | undefined,
   utmMedium: string | undefined,
@@ -188,11 +260,13 @@ export function getActiveSocialAttribution(): SocialUtmAttribution | null {
   if (typeof window === "undefined") return null;
 
   const fromUrl = getCampaignFields(window.location.search || "");
+  const referrer = typeof document !== "undefined" ? document.referrer : undefined;
+  const resolvedSource = resolveUtmSourceForTracking(fromUrl.utmSource, referrer);
   if (
-    isSupportedSocialAttribution(fromUrl.utmSource, fromUrl.utmMedium, fromUrl.utmCampaign)
+    isSupportedSocialAttribution(resolvedSource, fromUrl.utmMedium, fromUrl.utmCampaign)
   ) {
     return {
-      utmSource: fromUrl.utmSource!,
+      utmSource: resolvedSource!,
       utmMedium: fromUrl.utmMedium!,
       utmCampaign: fromUrl.utmCampaign!,
     };
@@ -264,19 +338,22 @@ export async function trackVisit(payload: TrackVisitPayload): Promise<void> {
 
   const search = payload.search?.trim() || "";
   const campaignFields = getCampaignFields(search);
+  const referrer = payload.referrer;
+  const resolvedSource = resolveUtmSourceForTracking(campaignFields.utmSource, referrer);
 
   // Persist last non-direct social UTM attribution across navigation (30-day window).
+  // Store the resolved network (instagram/facebook) when cross-post meta is split.
   if (
     isSupportedSocialAttribution(
-      campaignFields.utmSource,
+      resolvedSource,
       campaignFields.utmMedium,
       campaignFields.utmCampaign
     )
   ) {
     saveUtmAttribution(
-      campaignFields.utmSource,
-      campaignFields.utmMedium,
-      campaignFields.utmCampaign
+      resolvedSource,
+      campaignFields.utmMedium!,
+      campaignFields.utmCampaign!
     );
   }
 
@@ -284,8 +361,10 @@ export async function trackVisit(payload: TrackVisitPayload): Promise<void> {
     visitorId: getOrCreateVisitorId(),
     path,
     search,
-    referrer: payload.referrer,
-    ...campaignFields,
+    referrer,
+    utmSource: resolvedSource,
+    utmMedium: campaignFields.utmMedium,
+    utmCampaign: campaignFields.utmCampaign,
   };
 
   try {
@@ -325,10 +404,12 @@ export async function trackConversion(payload: TrackConversionPayload): Promise<
 
   const search = window.location.search || "";
   const campaignFields = getCampaignFields(search);
+  const referrer = payload.referrer ?? (typeof document !== "undefined" ? document.referrer : undefined);
 
   // Prefer current URL UTMs when present; otherwise fall back to stored social attribution.
   const storedAttribution = getStoredUtmAttribution();
-  const finalUtmSource = campaignFields.utmSource || storedAttribution?.utmSource;
+  const rawSource = campaignFields.utmSource || storedAttribution?.utmSource;
+  const finalUtmSource = resolveUtmSourceForTracking(rawSource, referrer) || rawSource;
   const finalUtmMedium = campaignFields.utmMedium || storedAttribution?.utmMedium;
   const finalUtmCampaign = campaignFields.utmCampaign || storedAttribution?.utmCampaign;
 
@@ -336,7 +417,7 @@ export async function trackConversion(payload: TrackConversionPayload): Promise<
     visitorId: getOrCreateVisitorId(),
     type,
     examType: payload.examType,
-    referrer: payload.referrer,
+    referrer,
     utmSource: finalUtmSource,
     utmMedium: finalUtmMedium,
     utmCampaign: finalUtmCampaign,
