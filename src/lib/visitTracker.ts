@@ -4,8 +4,14 @@ const VISITOR_ID_STORAGE_KEY = "bp_visitor_id";
 const UTM_ATTRIBUTION_STORAGE_KEY = "bp_utm_attribution";
 /** Last non-direct social attribution window (Phase 2). */
 const ATTRIBUTION_WINDOW_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
-/** Single-network + Meta cross-post marker (resolved to IG/FB at track time). */
-const SUPPORTED_UTM_SOURCES = new Set(["instagram", "facebook", "meta"]);
+/** Direct social sources plus the shared Meta cross-post marker. */
+const SUPPORTED_UTM_SOURCES = new Set([
+  "instagram",
+  "facebook",
+  "youtube",
+  "tiktok",
+  "meta",
+]);
 const SUPPORTED_UTM_MEDIUMS = new Set(["social"]);
 const CROSS_POST_UTM_SOURCES = new Set(["meta", "both"]);
 /** Client-side guard against double-fires from React re-renders / double clicks. */
@@ -342,7 +348,7 @@ export async function trackVisit(payload: TrackVisitPayload): Promise<void> {
   const resolvedSource = resolveUtmSourceForTracking(campaignFields.utmSource, referrer);
 
   // Persist last non-direct social UTM attribution across navigation (30-day window).
-  // Store the resolved network (instagram/facebook) when cross-post meta is split.
+  // Store the resolved Meta network (instagram/facebook) for cross-posts.
   if (
     isSupportedSocialAttribution(
       resolvedSource,
