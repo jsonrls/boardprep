@@ -14,7 +14,7 @@ BoardPrep's website is a Vite/React application. The Atom Eve SEO Improver runs 
 From the BoardPrep repository root:
 
 ```bash
-./scripts/setup-seo-improver.sh
+bash scripts/setup-seo-improver.sh
 cd agents/seo-improver
 pnpm install
 ```
