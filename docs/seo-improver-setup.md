@@ -16,10 +16,11 @@ From the BoardPrep repository root:
 ```bash
 bash scripts/setup-seo-improver.sh
 cd agents/seo-improver
-pnpm install
+npm run typecheck
+npm run build
 ```
 
-This installs the source supplied by Atom Eve. Do not move the generated `agent/` folder into the BoardPrep frontend root.
+The bootstrap script uses a tested, pinned Eve version and Atom Eve source revision. It creates an independent Eve project, installs its dependencies, and copies the SEO Improver source into it. Do not move the generated `agent/` folder into the BoardPrep frontend root.
 
 ## 2. Configure BoardPrep
 
@@ -55,8 +56,8 @@ The service account needs no Google Cloud role. It only needs Restricted access 
 ```bash
 vercel link
 vercel env pull
-pnpm typecheck
-pnpm build
+npm run typecheck
+npm run build
 npx eve dev
 vercel --prod
 ```
