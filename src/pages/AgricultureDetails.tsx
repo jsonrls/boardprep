@@ -171,7 +171,7 @@ const AgricultureDetails = () => {
           "inLanguage": "en-PH",
           "offers": {
             "@type": "Offer",
-            "price": "7999",
+            "price": "6999",
             "priceCurrency": "PHP",
             "url": "https://www.myboardprep.org/enroll?exam=agri"
           }

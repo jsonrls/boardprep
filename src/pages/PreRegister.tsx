@@ -52,7 +52,7 @@ import fisheriesQrBpi from "@/assets/payment/fisheries_qr_bpi.png";
 import fisheriesQrUnionbank from "@/assets/payment/fisheries_qr_unionbank.png";
 import agriQr6999 from "@/assets/agri/agri-qr-6999.jpg";
 import agriQr6499 from "@/assets/agri/agri-qr-6499.jpg";
-import agriQr7999 from "@/assets/agri/agri-qr-7999.jpg";
+import agriQr500 from "@/assets/agri/agri-qr-500.png";
 import agriGcash6999 from "@/assets/agri/agri-gcash-6999.jpg";
 import agriGcash6499 from "@/assets/agri/agri-gcash-6499.jpg";
 import agriMaya6999 from "@/assets/agri/agri-maya-6999.jpg";
@@ -208,7 +208,7 @@ const steps = [
 
 const PreRegister = () => {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0); 
+  const [currentStep, setCurrentStep] = useState(0);
   const [showFeeModal, setShowFeeModal] = useState(false);
   const [showExamChoiceModal, setShowExamChoiceModal] = useState(true);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -296,7 +296,6 @@ const PreRegister = () => {
       setValue("examType", examParam);
       setShowExamChoiceModal(false);
       if (examParam === "agri") {
-        setValue("isLatinHonor", "no");
         setValue("walletType", "bpi");
       }
       if (examParam === "fisheries") {
@@ -345,22 +344,21 @@ const PreRegister = () => {
     }
   }, [examType, walletType, setValue]);
 
-  // Agriculture (AgLE) supports BPI / UnionBank / Maribank InstaPay QRs and
-  // has no Latin Honor discount.
+  // Agriculture (AgLE) uses Maya for the Latin Honor fee; otherwise it supports
+  // BPI / UnionBank / Maribank InstaPay QRs.
   useEffect(() => {
     if (examType === "agri") {
-      if (isLatinHonor !== "no") {
-        setValue("isLatinHonor", "no", { shouldValidate: true });
-      }
+      const allowedWallets =
+        isLatinHonor === "yes"
+          ? ["maya"]
+          : ["bpi", "unionbank", "maribank"];
       if (
-        walletType !== "bpi" &&
-        walletType !== "unionbank" &&
-        walletType !== "maribank"
+        !allowedWallets.includes(walletType)
       ) {
-        setValue("walletType", "bpi", { shouldValidate: true });
+        setValue("walletType", allowedWallets[0], { shouldValidate: true });
       }
     }
-  }, [examType, walletType, isLatinHonor, setValue]);
+  }, [examType, isLatinHonor, walletType, setValue]);
   const email = watch("email");
   const retypeEmail = watch("retypeEmail");
   const emailsMatch =
@@ -386,8 +384,8 @@ const PreRegister = () => {
       discounted: "2,499",
     },
     agri: {
-      regular: "7,999",
-      discounted: "6,999",
+      regular: "6,999",
+      discounted: "500",
     },
   };
 
@@ -479,7 +477,7 @@ const PreRegister = () => {
   const agriQrImagesByAmount: Record<number, string> = {
     6999: agriQr6999,
     6499: agriQr6499,
-    7999: agriQr7999,
+    500: agriQr500,
   };
 
   /** Agriculture (AgLE) GCash InstaPay QR per amount */
@@ -564,7 +562,7 @@ const PreRegister = () => {
               : walletType === "maribank"
                 ? agriMaribankQrImagesByAmount
                 : agriGcashQrImagesByAmount;
-      return agriMap[amount] ?? agriQrImagesByAmount[amount] ?? agriQr6999;
+      return agriMap[amount] ?? agriQrImagesByAmount[amount] ?? null;
     }
     if (examType === "fisheries") {
       if (walletType === "bpi") {
@@ -650,8 +648,9 @@ const PreRegister = () => {
       return 999;
     }
 
-    // For Agriculture (AgLE): early bird ₱6,999, or ₱6,499 if pre-registered.
+    // For Agriculture (AgLE), Latin Honor candidates pay a flat ₱500 fee.
     if (examType === "agri") {
+      if (isLatinHonor === "yes") return 500;
       return hasPreRegistered === "yes" ? 6499 : 6999;
     }
 
@@ -663,6 +662,8 @@ const PreRegister = () => {
     }
     return amount;
   };
+
+  const activeQrImage = getActiveQrImageForWallet();
 
   const nextStep = async () => {
     let fieldsToValidate: (keyof FormValues)[] = [];
@@ -1050,7 +1051,6 @@ const PreRegister = () => {
                       </motion.div>
                     )}
 
-                    {examType !== "agri" && (
                     <>
                     <FormField
                       control={form.control}
@@ -1120,7 +1120,6 @@ const PreRegister = () => {
                       </motion.div>
                     )}
                     </>
-                    )}
                   </motion.div>
                 )}
 
@@ -1795,7 +1794,7 @@ const PreRegister = () => {
                         <div className="inline-flex items-center gap-2">
                           <p className="inline-flex items-baseline gap-1 text-base font-semibold text-foreground font-variant-numeric: tabular-nums">
                             <span className="text-sm font-medium text-muted-foreground">
-                              ₱ 
+                              ₱
                             </span>
                             <span className="text-2xl font-extrabold tabular-nums">
                               {getFinalAmount().toLocaleString()}
@@ -1853,9 +1852,11 @@ const PreRegister = () => {
                                           wallet.id === "unionbank" ||
                                           wallet.id === "maribank"
                                         : examType === "agri"
-                                          ? wallet.id === "bpi" ||
-                                            wallet.id === "unionbank" ||
-                                            wallet.id === "maribank"
+                                          ? isLatinHonor === "yes"
+                                            ? wallet.id === "maya"
+                                            : wallet.id === "bpi" ||
+                                              wallet.id === "unionbank" ||
+                                              wallet.id === "maribank"
                                           : true
                                   )
                                   .map((wallet) => {
@@ -1915,11 +1916,19 @@ const PreRegister = () => {
                             notes section.
                           </p>
                           <div className="flex flex-col items-center justify-center">
-                            <img
-                              src={getActiveQrImageForWallet()!}
-                              alt="Payment QR Code"
-                              className="w-full max-w-sm h-auto object-contain rounded-md"
-                            />
+                            {activeQrImage ? (
+                              <img
+                                src={activeQrImage}
+                                alt="Payment QR Code"
+                                className="w-full max-w-sm h-auto object-contain rounded-md"
+                              />
+                            ) : (
+                              <p className="max-w-sm rounded-md border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
+                                A payment QR for the ₱500 Latin Honor fee has not
+                                been added yet. Please contact BoardPrep for
+                                payment instructions.
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -2129,15 +2138,15 @@ const PreRegister = () => {
                 {examType === "agri" ? (
                   <>
                     The Agriculture Review Class fee is{" "}
-                    <span className="font-semibold">₱ 6,999.00</span> (Early Bird).
+                    <span className="font-semibold">₱ 6,999.00</span>.
                     <br /><br />
                     If you have already pre-registered with a{" "}
                     <span className="font-semibold">₱ 500</span> reservation fee,
                     your remaining balance is{" "}
                     <span className="font-semibold">₱ 6,499.00</span>.
                     <br /><br />
-                    The regular rate is{" "}
-                    <span className="font-semibold">₱ 7,999.00</span>.
+                    Qualified Latin Honor candidates/graduates pay{" "}
+                    <span className="font-semibold">₱ 500.00</span>.
                   </>
                 ) : (
                   <>
@@ -2219,7 +2228,7 @@ const PreRegister = () => {
       </main>
 
       <Dialog open={showFeeModal}>
-        <DialogContent 
+        <DialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
           className="sm:max-w-2xl border-none bg-transparent p-4 shadow-none [&>button]:hidden text-foreground"
@@ -2266,17 +2275,17 @@ const PreRegister = () => {
                     ) : examType === "agri" ? (
                       <>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
-                          <dt className="font-medium">Regular</dt>
-                          <dd className="font-bold">₱ 7,999.00</dd>
-                        </div>
-                        <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
-                          <dt className="font-medium">Early Bird</dt>
+                          <dt className="font-medium">Registration Fee</dt>
                           <dd className="font-bold">₱ 6,999.00</dd>
                         </div>
                         <div className="flex items-start justify-between gap-3 py-1.5 rounded-md bg-primary/5 border border-primary/10">
                           <dt className="font-medium">Pre-registered</dt>
                           <dd className="font-bold">₱ 6,499.00</dd>
-                        </div>
+                          </div>
+                          <div className="flex items-start justify-between gap-3 py-1.5 rounded-md">
+                            <dt className="font-medium">Latin Honor</dt>
+                            <dd className="font-bold">₱ 500.00</dd>
+                          </div>
                       </>
                     ) : (
                       <>
@@ -2308,7 +2317,7 @@ const PreRegister = () => {
                 <p className="text-lg font-semibold text-foreground">Review Details</p>
                 <div className="space-y-2 text-sm mt-2">
                   <p className="text-muted-foreground ">
-                    {examType === "fisheries" 
+                    {examType === "fisheries"
                       ? (
                         <>
                           <span className="font-bold">Asynchronous review class.</span> You will gain immediate access to all review materials once your payment has been verified.
@@ -2319,10 +2328,10 @@ const PreRegister = () => {
                         <div>
                           <div className="font-bold mb-1">Agriculture Review Class (AgLE)</div>
                           <div className="mb-1">
-                            <span className="font-semibold">Duration:</span> August 3 to October 9, 2026
+                            <span className="font-semibold">Duration:</span> August 3 to October 23, 2026
                           </div>
                           <div className="mb-1">
-                            <span className="font-semibold">Schedule:</span> Weekdays, 9:00 AM - 12:00 PM
+                            <span className="font-semibold">Schedule:</span> Weekdays, 4:00 PM - 8:00 PM
                           </div>
                           <div>
                             Recorded lectures are available for same-day replay.
@@ -2376,7 +2385,7 @@ const PreRegister = () => {
               Registration Successful!
             </DialogTitle>
             <DialogDescription className="text-center text-base font-sans text-wrap: balance">
-              
+
               Thank you for registering with BoardPrep.
             </DialogDescription>
           </DialogHeader>
@@ -2446,12 +2455,12 @@ const PreRegister = () => {
       </Dialog>
 
       <Dialog open={showExamChoiceModal}>
-        <DialogContent 
+        <DialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(e) => e.preventDefault()}
           className="my-4 max-h-[calc(100vh-2rem)] w-[calc(100vw-1.5rem)] max-w-[420px] overflow-y-auto border-none bg-transparent p-2 shadow-none sm:my-6 sm:max-h-[calc(100vh-3rem)] sm:w-[calc(100vw-3rem)] sm:max-w-3xl sm:p-4 lg:max-w-5xl [&>button]:hidden"
         >
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.97, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
@@ -2470,7 +2479,7 @@ const PreRegister = () => {
             <div className="pointer-events-none absolute -bottom-24 -left-20 h-56 w-56 rounded-full bg-secondary/10 blur-3xl" />
 
             <div className="mb-6 text-center sm:mb-8">
-              <motion.div 
+              <motion.div
                 initial={{ y: -4, opacity: 0.8, scale: 0.95 }}
                 animate={{ rotate: 0, scale: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
@@ -2549,7 +2558,6 @@ const PreRegister = () => {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
                   form.setValue("examType", "agri");
-                  form.setValue("isLatinHonor", "no");
                   form.setValue("walletType", "bpi");
                   setShowExamChoiceModal(false);
                   setShowFeeModal(true);
