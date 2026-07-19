@@ -84,6 +84,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 import {
   Accordion,
   AccordionContent,
@@ -100,6 +101,7 @@ import {
 } from "@/components/ui/dialog";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Label } from "@/components/ui/label";
 import { trackConversion } from "@/lib/visitTracker";
 
@@ -664,6 +666,22 @@ const PreRegister = () => {
   };
 
   const activeQrImage = getActiveQrImageForWallet();
+  const activeWalletLabel =
+    walletType === "gcash"
+      ? "GCash"
+      : walletType === "maya"
+        ? "Maya"
+        : walletType === "bpi"
+          ? "BPI"
+          : walletType === "unionbank"
+            ? "UnionBank"
+            : walletType === "maribank"
+              ? "Maribank"
+              : examType === "vet"
+                ? "BPI"
+                : examType === "fisheries"
+                  ? "Maribank"
+                  : "Maya";
 
   const nextStep = async () => {
     let fieldsToValidate: (keyof FormValues)[] = [];
@@ -759,7 +777,7 @@ const PreRegister = () => {
 
   // Google Apps Script URLs
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwojsQkMn4_eaLxofx0N7MM-8mIZiaWjTX9uLptoYP_DX0DY-UBTjRwvdsFTLodHtoIZw/exec";
-  const AGRI_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQFak-y5l6zkWDFiJYkECgGmvoDaoTzL24pswmeQnAgwo5SpFkE7xESDYKxfUh3WASbg/exec"
+  const AGRI_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8sXCoAIfSuB8V_5k-rC0pnrVrW6-CxZknCpNI6LhGlaYXTqHV-viKILI1_AhHPS0A_w/exec"
 
   const fileToBase64 = (
     file: File,
@@ -833,6 +851,7 @@ const PreRegister = () => {
           ? "Yes"
           : "No",
         "Category / Description of Applicant": data.description,
+        "Latin Honor": data.isLatinHonor === "yes" ? "Yes" : "No",
         "Proof of Latin Honor":
           latinHonorFile ||
           (data.isLatinHonor === "yes" ? "File Missing" : "N/A"),
@@ -899,6 +918,12 @@ const PreRegister = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEO
+        title="Review Class Registration"
+        description="Complete your BoardPrep review class registration and payment details."
+        url="https://www.myboardprep.org/enroll"
+        noindex
+      />
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-8 md:py-12 max-w-4xl mt-24">
@@ -1893,8 +1918,12 @@ const PreRegister = () => {
                                       )}
                                       <img
                                         src={walletIcon}
-                                        alt={`${wallet.label} logo`}
+                                        alt=""
+                                        aria-hidden="true"
                                         className="h-7 w-7 object-contain transition-transform group-hover:scale-110"
+                                        width={28}
+                                        height={28}
+                                        decoding="async"
                                       />
                                       <span>{wallet.label}</span>
                                     </button>
@@ -1919,8 +1948,10 @@ const PreRegister = () => {
                             {activeQrImage ? (
                               <img
                                 src={activeQrImage}
-                                alt="Payment QR Code"
+                                alt={`${activeWalletLabel} QR code for the ₱${getFinalAmount().toLocaleString()} ${examProgramLabel} review program payment`}
                                 className="w-full max-w-sm h-auto object-contain rounded-md"
+                                loading="lazy"
+                                decoding="async"
                               />
                             ) : (
                               <p className="max-w-sm rounded-md border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
@@ -2593,6 +2624,7 @@ const PreRegister = () => {
         </DialogContent>
       </Dialog>
 
+      <Toaster />
       <Footer />
     </div>
   );
