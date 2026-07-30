@@ -72,6 +72,12 @@ const practiceFormSchema = z
 
 type PracticeFormValues = z.infer<typeof practiceFormSchema>;
 
+type PracticeSubmissionResponse = {
+  ok?: boolean;
+  invitationEmailSent?: boolean;
+  error?: string;
+};
+
 const budgetOptions = [
   { value: "below-3000", label: "Below ₱3,000" },
   { value: "3000-5000", label: "₱3,000 – ₱5,000" },
@@ -141,9 +147,8 @@ const Practice = () => {
           "VITE_PRACTICE_GOOGLE_SCRIPT_URL is not configured. The response was saved locally only.",
         );
       } else {
-        await fetch(googleScriptUrl, {
+        const submissionResponse = await fetch(googleScriptUrl, {
           method: "POST",
-          mode: "no-cors",
           headers: {
             "Content-Type": "text/plain;charset=UTF-8",
           },
@@ -164,13 +169,28 @@ const Practice = () => {
             source: "BoardPrep Practice Page",
           }),
         });
+
+        if (!submissionResponse.ok) {
+          throw new Error(
+            `The response endpoint returned HTTP ${submissionResponse.status}.`,
+          );
+        }
+
+        const result =
+          (await submissionResponse.json()) as PracticeSubmissionResponse;
+
+        if (!result.ok || !result.invitationEmailSent) {
+          throw new Error(
+            result.error || "The invitation email could not be sent.",
+          );
+        }
       }
 
       setIsComplete(true);
     } catch (error) {
       console.error("Unable to save the practice response:", error);
       setSubmissionError(
-        "We couldn't save your response. Please check your connection and try again.",
+        "We couldn't save your response or send your invitation email. Please try again. If the problem continues, contact acewithboardprep@gmail.com.",
       );
     } finally {
       setIsSubmitting(false);
