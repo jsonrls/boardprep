@@ -34,7 +34,7 @@ export const BRAND = {
 } as const;
 
 export const PRODUCT_LINKS = {
-  drills: "https://myboardprep.com/",
+  drills: "https://class.myboardprep.com/",
   mobileApp:
     "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
   mobileAppIos: "https://apps.apple.com/ph/app/boardprep/id6741724168",
