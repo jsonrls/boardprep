@@ -14,6 +14,7 @@ import FisheriesDetails from "./pages/FisheriesDetails";
 import AbeDetails from "./pages/AbeDetails";
 import AgricultureDetails from "./pages/AgricultureDetails";
 import QuestionDrills from "./pages/QuestionDrills";
+import Practice from "./pages/Practice";
 import MobileApp from "./pages/MobileApp";
 import Classroom from "./pages/Classroom";
 import IOS from "./pages/IOS";
@@ -62,6 +63,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/question-drills" element={<QuestionDrills />} />
+            <Route path="/practice" element={<Practice />} />
             {/* <Route path="/mobile-app" element={<MobileApp />} /> */}
             <Route path="/classroom" element={<Classroom />} />
             <Route path="/ios" element={<IOS />} />
