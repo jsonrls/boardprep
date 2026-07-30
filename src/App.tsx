@@ -26,7 +26,6 @@ import Press from "./pages/Press";
 import PressArticle from "./pages/PressArticle";
 import ReviewClass from "./pages/ReviewClass";
 import ApiEndpoints from "./pages/ApiEndpoints";
-import Practice from "./pages/Practice";
 import Products from "./pages/Products";
 import CheckYourEmail from "./pages/CheckYourEmail";
 import SubscriptionConfirmed from "./pages/SubscriptionConfirmed";
@@ -77,7 +76,6 @@ const App = () => (
             <Route path="/enroll" element={<PreRegister />} />
             <Route path="/review-class" element={<ReviewClass />} />
             <Route path="/our-products" element={<Products />} />
-            <Route path="/practice" element={<Practice />} />
             <Route path="/check-your-email" element={<CheckYourEmail />} />
             <Route path="/subscription-confirmed" element={<SubscriptionConfirmed />} />
             <Route path="/api-endpoints" element={<ApiEndpoints />} />
