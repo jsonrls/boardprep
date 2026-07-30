@@ -27,7 +27,8 @@ import {
 import { Link } from "react-router-dom";
 import SpeakersGrid from "@/components/SpeakersGrid";
 
-const heroImage = "/modules/agri.jpg";
+const heroImage = "/modules/agri-1600.avif";
+const heroImageSmall = "/modules/agri-800.avif";
 
 const courseFeatures = [
   {
@@ -156,6 +157,9 @@ const AgricultureDetails = () => {
         title="AgLE Review Class 2026 — Agriculturists Licensure Exam"
         description="Prepare for the Agriculturists Licensure Examination (AgLE) with BoardPrep. Expert mentors, guided lessons, practice quizzes, and mock exams."
         url="https://www.myboardprep.org/review/agriculture"
+        preloadImageHref={heroImage}
+        preloadImageSrcSet={`${heroImageSmall} 800w, ${heroImage} 1600w`}
+        preloadImageSizes="100vw"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Course",
@@ -180,10 +184,21 @@ const AgricultureDetails = () => {
       <Header />
 
       <main className="flex-grow">
-        <section className="relative pt-32 pb-20 overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${heroImage})` }}
+        <section
+          data-beasties-container
+          className="critical-render relative overflow-hidden pb-20 pt-32"
+        >
+          <img
+            src={heroImage}
+            srcSet={`${heroImageSmall} 800w, ${heroImage} 1600w`}
+            sizes="100vw"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            width={1600}
+            height={1066}
+            {...{ fetchpriority: "high" }}
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/55 via-secondary/70 to-secondary/70" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,190,86,0.28),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.18),transparent_28%)]" />
@@ -208,9 +223,23 @@ const AgricultureDetails = () => {
               </p>
 
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/enroll" className="w-full sm:w-auto">
+                <Link to="/practice" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
+                    size="lg"
+                    className="w-full sm:w-auto group"
+                  >
+                    <BookOpen size={16} />
+                    Free Quiz
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </Button>
+                </Link>
+                <Link to="/enroll" className="w-full sm:w-auto">
+                  <Button
+                    variant="heroOutline"
                     size="lg"
                     className="w-full sm:w-auto group"
                   >
@@ -222,20 +251,6 @@ const AgricultureDetails = () => {
                     />
                   </Button>
                 </Link>
-                <a
-                  href="https://lms2.myboardprep.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto"
-                >
-                  <Button
-                    variant="heroOutline"
-                    size="lg"
-                    className="w-full sm:w-auto"
-                  >
-                    Access Learning Platform
-                  </Button>
-                </a>
               </div>
             </div>
           </div>
