@@ -74,6 +74,9 @@ type PracticeFormValues = z.infer<typeof practiceFormSchema>;
 
 type PracticeSubmissionResponse = {
   ok?: boolean;
+  success?: boolean;
+  responseSaved?: boolean;
+  emailSent?: boolean;
   invitationEmailSent?: boolean;
   error?: string;
 };
@@ -89,6 +92,7 @@ const Practice = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
+  const [invitationEmailSent, setInvitationEmailSent] = useState(false);
 
   const form = useForm<PracticeFormValues>({
     resolver: zodResolver(practiceFormSchema),
@@ -178,19 +182,38 @@ const Practice = () => {
 
         const result =
           (await submissionResponse.json()) as PracticeSubmissionResponse;
+        const isLegacyEmailDeliveryWarning =
+          result.responseSaved === true &&
+          result.error?.includes("course enrollment succeeded") === true &&
+          result.error.includes("did not confirm") === true;
+        const enrollmentSucceeded =
+          result.ok === true || result.success === true;
+        const emailWasSent =
+          result.invitationEmailSent === true || result.emailSent === true;
 
-        if (!result.ok || !result.invitationEmailSent) {
+        if (!enrollmentSucceeded && !isLegacyEmailDeliveryWarning) {
+          if (result.responseSaved) {
+            console.error("BoardPrep account setup failed:", result.error);
+            throw new Error(
+              "Your response was saved, but we couldn't send your BoardPrep account email. Please contact acewithboardprep@gmail.com.",
+            );
+          }
+
           throw new Error(
-            result.error || "The invitation email could not be sent.",
+            result.error || "The response could not be saved.",
           );
         }
+
+        setInvitationEmailSent(emailWasSent);
       }
 
       setIsComplete(true);
     } catch (error) {
       console.error("Unable to save the practice response:", error);
       setSubmissionError(
-        "We couldn't save your response or send your invitation email. Please try again. If the problem continues, contact acewithboardprep@gmail.com.",
+        error instanceof Error
+          ? error.message
+          : "We couldn't save your response or send your BoardPrep account email. Please try again. If the problem continues, contact acewithboardprep@gmail.com.",
       );
     } finally {
       setIsSubmitting(false);
@@ -316,8 +339,9 @@ const Practice = () => {
                         You&apos;re ready to practice.
                       </h2>
                       <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-                        Your learner profile is set. Head to BoardPrep Drills and
-                        start building your board-exam confidence.
+                        {invitationEmailSent
+                          ? "Your learner profile is saved and your BoardPrep account email is on its way. Check your inbox and spam folder, then start building your board-exam confidence."
+                          : "Your learner profile is saved and your free course access is ready. BoardPrep could not confirm email delivery, so contact acewithboardprep@gmail.com if you need help signing in."}
                       </p>
                       <Button variant="hero" size="lg" className="mt-6" asChild>
                         <a
