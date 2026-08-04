@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["BVMVR599WL.com.myboardprep.bpsmobile"],
+        "components": [
+          {
+            "/": "/register*",
+            "comment": "Registration and affiliate referral links"
+          },
+          {
+            "/": "/ref=*",
+            "comment": "Legacy affiliate link format returned by affiliate-info"
+          }
+        ]
+      }
+    ]
+  }
+}

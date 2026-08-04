@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.myboardprep.bpsmobile",
+      "sha256_cert_fingerprints":
+        ["4C:5F:B4:17:77:03:B2:F5:74:CB:0A:B9:CB:36:A9:54:ED:58:21:7A:67:29:2F:E9:FD:DD:B7:C2:88:AB:53:24"]
+    }
+  }
+]
