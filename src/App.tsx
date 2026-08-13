@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { useEffect, type ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { trackVisit } from "./lib/visitTracker";
 import { ClientAppRoutes } from "./routes/ClientAppRoutes";
 
@@ -52,6 +53,7 @@ const App = () => (
     <BrowserRouter>
       <VisitTracker />
       <ClientAppRoutes />
+      <Analytics />
     </BrowserRouter>
   </AppProviders>
 );
