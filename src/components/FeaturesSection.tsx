@@ -1,5 +1,4 @@
 import { GraduationCap, PlayCircle, Wallet, ShieldCheck } from "lucide-react";
-import { motion } from "framer-motion";
 
 const features = [
   {
@@ -28,25 +27,6 @@ const features = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
 const FeaturesSection = () => {
   return (
     <section id="products" className="py-28 lg:py-12 bg-background">
@@ -67,17 +47,10 @@ const FeaturesSection = () => {
         </div>
 
         {/* Features Grid */}
-        <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          {features.map((feature, index) => (
-            <motion.div
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+          {features.map((feature) => (
+            <div
               key={feature.title}
-              variants={cardVariants}
               className="group"
             >
               <div className="bg-card rounded-sm p-8 lg:p-10 shadow-soft hover-lift border border-border/50 h-full">
@@ -95,9 +68,9 @@ const FeaturesSection = () => {
                   {feature.description}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

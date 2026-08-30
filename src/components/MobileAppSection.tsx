@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { Play, Smartphone } from "lucide-react";
-import phoneMockup from "@/assets/mobile-app.png";
-import googlePlayLogo from "@/assets/google-play.png";
-import appleLogo from "@/assets/apple-logo.png";
+import { Smartphone } from "lucide-react";
+import phoneMockup from "@/assets/mobile-app.avif";
+import phoneMockupSmall from "@/assets/mobile-app-600.avif";
+import googlePlayLogo from "@/assets/google-play-64.webp";
+import appleLogo from "@/assets/apple-logo-64.webp";
 
 const MobileAppSection = () => {
   return (
@@ -66,8 +67,13 @@ const MobileAppSection = () => {
                 <div className="w-8 h-8 flex items-center justify-center transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]">
                   <img
                     src={googlePlayLogo}
-                    alt="Google Play"
+                    alt=""
+                    aria-hidden="true"
                     className="w-full h-full object-contain"
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="text-left">
@@ -88,8 +94,13 @@ const MobileAppSection = () => {
                 <div className="w-8 h-8 flex items-center justify-center">
                   <img
                     src={appleLogo}
-                    alt="App Store"
+                    alt=""
+                    aria-hidden="true"
                     className="w-full h-full object-contain brightness-0 invert"
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="text-left">
@@ -109,8 +120,14 @@ const MobileAppSection = () => {
             <div className="relative w-[280px] sm:w-[320px] md:w-[350px] transform -rotate-[5deg] transition-all duration-700 hover:rotate-[0deg] hover:scale-105">
               <img
                 src={phoneMockup}
-                alt="BoardPrep App Interface"
+                srcSet={`${phoneMockupSmall} 600w, ${phoneMockup} 896w`}
+                sizes="(min-width: 1024px) 350px, (min-width: 640px) 320px, 280px"
+                alt="BoardPrep mobile board-exam review app welcome screen"
                 className="relative z-10 w-full h-auto scale-125 drop-shadow-2xl"
+                width={896}
+                height={1400}
+                loading="lazy"
+                decoding="async"
               />
 
               {/* Floating Elements on top/around phone */}
@@ -121,10 +138,10 @@ const MobileAppSection = () => {
                 <div className="w-3 h-3 rounded-full bg-green-500 shadow-glow" />
                 <div>
                   <span className="block text-xs font-bold text-foreground font-display">
-                    98% Passing Rate
+                    Progress Tracking
                   </span>
                   <span className="block text-[10px] text-muted-foreground font-sans">
-                    Average user score
+                    Review subject trends
                   </span>
                 </div>
               </div>

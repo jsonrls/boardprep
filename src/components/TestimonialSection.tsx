@@ -1,6 +1,5 @@
 "use client";
-import React, { useRef } from "react";
-import Blocks from "@/components/ui/blocks";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "@/lib/api";
 
@@ -64,10 +63,34 @@ const uniqueBy = <T,>(items: T[], key: (item: T) => string): T[] => {
 
 const TestimonialSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const section = containerRef.current;
+    if (!section || !("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   const { data } = useQuery({
     queryKey: ["public-testimonials"],
     queryFn: () => apiGet<TestimonialsResponse>("/public/testimonials"),
     staleTime: 60_000,
+    enabled: shouldLoad,
   });
 
   const testimonials = (data?.items ?? []).map((t) => ({
@@ -100,31 +123,10 @@ const TestimonialSection = () => {
 
   return (
     <section
-      className="py-20 bg-background overflow-hidden border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
+      className="content-auto py-20 bg-background overflow-hidden border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
       ref={containerRef}
     >
-      <Blocks
-        activeDivsClass="dark:bg-[#131212]  bg-[#9ba1a131]  "
-        divClass="dark:border-[#131212] border-[#9ba1a131] "
-        classname="w-full opacity-25"
-        containerRef={containerRef}
-        activeDivs={{
-          0: new Set([2, 4, 6]),
-          1: new Set([0, 8]),
-          2: new Set([1, 3, 5]),
-          4: new Set([0, 5, 8]),
-          5: new Set([2, 4]),
-          7: new Set([2, 6, 9]),
-          8: new Set([0, 4]),
-          9: new Set([5]),
-          10: new Set([3, 6]),
-          11: new Set([1, 5]),
-          12: new Set([7]),
-          13: new Set([2, 4]),
-          14: new Set([5]),
-          15: new Set([1, 6]),
-        }}
-      />
+      <div aria-hidden="true" className="decorative-grid absolute inset-0 opacity-25" />
       <div className="container mx-auto px-6 mb-12 text-center">
         <h2 className="font-display text-3xl md:text-3xl font-bold text-foreground">
           Trusted by Topnotchers & Professionals

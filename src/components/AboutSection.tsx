@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import logoShort from "@/assets/logo-full.png";
+import logoShort from "@/assets/logo-full.webp";
+import logoShortSmall from "@/assets/logo-full-400.webp";
+import logoShortMedium from "@/assets/logo-full-600.webp";
 
 import { AuroraBackground } from "./ui/aurora-background";
 
@@ -41,27 +43,27 @@ const AboutSection = () => {
               {/* Key Points */}
               <div className="animate-fade-up delay-400 grid sm:grid-cols-2 gap-6 mt-10">
                 <div className="border-l-2 border-primary pl-6">
-                  <h4 className="font-display text-xl text-foreground mb-2">
+                  <h3 className="font-display text-xl text-foreground mb-2">
                     Gamified Learning
-                  </h4>
+                  </h3>
                   <p className="text-muted-foreground text-sm font-sans">
                     Engaging question banks and drills designed to keep students
                     motivated and retention high.
                   </p>
                 </div>
                 <div className="border-l-2 border-primary pl-6">
-                  <h4 className="font-display text-xl text-foreground mb-2">
+                  <h3 className="font-display text-xl text-foreground mb-2">
                     Predictive Analytics
-                  </h4>
+                  </h3>
                   <p className="text-muted-foreground text-sm font-sans">
                     Data-driven insights that help universities identify
                     strengths and weaknesses to improve board passing rates.
                   </p>
                 </div>
                 <div className="border-l-2 border-primary pl-6">
-                  <h4 className="font-display text-xl text-foreground mb-2">
+                  <h3 className="font-display text-xl text-foreground mb-2">
                     Study-on-the-go
-                  </h4>
+                  </h3>
                   <p className="text-muted-foreground text-sm font-sans">
                     Access BoardPrep wherever you are. We got offline and online
                     options for you.
@@ -76,8 +78,14 @@ const AboutSection = () => {
                 <div className="absolute inset-0 bg-primary/5 rounded-full blur-3xl scale-150" />
                 <img
                   src={logoShort}
-                  alt="BoardPrep Logo"
+                  srcSet={`${logoShortSmall} 400w, ${logoShortMedium} 600w, ${logoShort} 800w`}
+                  sizes="(min-width: 1024px) 384px, (min-width: 768px) 320px, 256px"
+                  alt="BoardPrep Solutions"
                   className="relative w-64 md:w-80 lg:w-96 animate-float"
+                  width={800}
+                  height={246}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

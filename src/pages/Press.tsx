@@ -9,6 +9,8 @@ import logoFull from "@/assets/logo-transparent.png";
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "@/lib/api";
 import { useEffect, useState } from "react";
+import { buildBasicPageSchema } from "@/seo/schema";
+import { PAGE_METADATA } from "@/seo/routes";
 
 type PressItem = {
   id: string;
@@ -16,6 +18,7 @@ type PressItem = {
   content: string;
   author: string;
   imageUrl?: string | null;
+  imageAlt?: string | null;
   date: string;
 };
 
@@ -72,14 +75,28 @@ const Press = () => {
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20">
       <SEO
-        title="News & Updates"
-        description="Stay up to date with the latest news, announcements, and updates from BoardPrep — the Philippines' trusted board exam review platform."
-        url="https://www.myboardprep.org/press"
+        title={PAGE_METADATA["/press"].title}
+        description={PAGE_METADATA["/press"].description}
+        url="/press"
+        jsonLd={buildBasicPageSchema({
+          path: "/press",
+          name: "BoardPrep News and Updates",
+          description:
+            PAGE_METADATA["/press"].description,
+          type: "CollectionPage",
+          breadcrumbs: [
+            { name: "Home", path: "/" },
+            { name: "Press", path: "/press" },
+          ],
+        })}
       />
       <Header />
       <main className="pt-24 pb-20">
         {/* Header Section */}
-        <section className="relative py-16 md:py-24 mb-12 overflow-hidden">
+        <section
+          data-beasties-container
+          className="critical-render relative py-16 md:py-24 mb-12 overflow-hidden"
+        >
           <div className="absolute inset-0 bg-secondary/30 -z-10" />
           <div className="absolute top-0 right-0 p-12 opacity-10">
             <Sparkles size={300} strokeWidth={0.5} />
@@ -99,9 +116,9 @@ const Press = () => {
                   BoardPrep Press
                 </Badge>
                 <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 leading-tight">
-                  Insights for a <br />
+                  BoardPrep News & <br />
                   <span className="text-accent relative">
-                    Future-Ready Education
+                    Education Insights
                     <svg
                       className="absolute w-full h-3 -bottom-1 left-0 text-accent/30"
                       viewBox="0 0 100 10"
@@ -127,6 +144,42 @@ const Press = () => {
         </section>
 
         <div className="container mx-auto px-6 lg:px-12">
+          <section
+            aria-labelledby="press-study-resources"
+            className="mb-16 rounded-2xl border border-border/50 bg-card p-6 shadow-soft md:p-8"
+          >
+            <h2
+              id="press-study-resources"
+              className="font-display text-2xl text-foreground md:text-3xl"
+            >
+              Put licensure insights into practice
+            </h2>
+            <p className="mt-3 max-w-3xl text-muted-foreground">
+              Use BoardPrep Press to understand licensure exam updates and learning
+              trends, then continue with the study option that fits your preparation
+              plan.
+            </p>
+            <nav
+              aria-label="BoardPrep study resources"
+              className="mt-6 flex flex-wrap gap-3"
+            >
+              {[
+                { label: "Compare Review Classes", href: "/review-class" },
+                { label: "Practice Question Drills", href: "/question-drills" },
+                { label: "Explore All Products", href: "/our-products" },
+              ].map((resource) => (
+                <Link
+                  key={resource.href}
+                  to={resource.href}
+                  className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                >
+                  {resource.label}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </Link>
+              ))}
+            </nav>
+          </section>
+
           {/* Featured Post */}
           {featuredPost && (
             <motion.section
@@ -143,8 +196,15 @@ const Press = () => {
                         featuredPost.imageUrl ||
                         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2670&auto=format&fit=crop"
                       }
-                      alt={featuredPost.title}
+                      alt={
+                        featuredPost.imageAlt ||
+                        (featuredPost.imageUrl
+                          ? featuredPost.title
+                          : "Students collaborating during an online learning session")
+                      }
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute top-4 left-4">
                       <Badge className="bg-background/80 backdrop-blur text-foreground hover:bg-background">
@@ -177,6 +237,10 @@ const Press = () => {
                           src={logoFull}
                           alt="BoardPrep Solutions logo"
                           className="w-10 h-10 rounded-full bg-primary/10 object-cover"
+                          width={40}
+                          height={40}
+                          loading="lazy"
+                          decoding="async"
                         />
                         <div className="text-sm">
                           <p className="font-semibold text-foreground">
@@ -224,8 +288,15 @@ const Press = () => {
                           post.imageUrl ||
                           "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2670&auto=format&fit=crop"
                         }
-                        alt={post.title}
+                        alt={
+                          post.imageAlt ||
+                          (post.imageUrl
+                            ? post.title
+                            : "Students collaborating during an online learning session")
+                        }
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                       <Badge className="absolute top-3 left-3 bg-background/80 backdrop-blur text-foreground hover:bg-background">

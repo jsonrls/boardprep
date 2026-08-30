@@ -6,19 +6,24 @@ import {
   BookOpen,
   Video,
   Award,
-  Users,
   Clock,
   CheckCircle2,
-  Star,
   ArrowRight,
   Fish,
   Target,
-  TrendingUp,
   Waves,
   UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import SpeakersGrid from "@/components/SpeakersGrid";
+import fisheriesHeroBg from "@/assets/fisheries-hero-bg.avif";
+import fisheriesHeroBg640 from "@/assets/fisheries-hero-bg-640.avif";
+import ProgramPrice from "@/components/ProgramPrice";
+import ReviewProgramGuide from "@/components/ReviewProgramGuide";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { fisheriesReviewGuide } from "@/content/reviewGuides";
+import { buildReviewProgramPageSchema } from "@/seo/schema";
+import { PAGE_METADATA } from "@/seo/routes";
 
 const courseFeatures = [
   {
@@ -55,56 +60,54 @@ const curriculumTopics = [
 ];
 
 const stats = [
-  { icon: Users, value: "300+", label: "Students Enrolled" },
-  { icon: Clock, value: "100+", label: "Hours of Content" },
-  { icon: TrendingUp, value: "92%", label: "Pass Rate" },
-  { icon: Star, value: "4.8/5", label: "Student Rating" },
+  { icon: BookOpen, value: "4", label: "Official Exam Fields" },
+  { icon: Clock, value: "10 weeks", label: "Suggested Review Plan" },
+  { icon: Target, value: "₱999", label: "Listed Program Fee" },
+  { icon: Fish, value: "Oct 1–2", label: "2026 PRC Exam Dates" },
 ];
 
 const FisheriesDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Fisheries Licensure Exam Review 2026 — FPLE"
-        description="Prepare for the Fisheries Licensure Examination (FPLE) with BoardPrep. Expert instructors, complete study materials, practice drills, and proven results."
-        url="https://www.myboardprep.org/review/fisheries"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Course",
-          "name": "Fisheries Licensure Exam Review Class — FPLE",
-          "description": "Comprehensive review program for the Fisheries Licensure Examination (FPLE) in the Philippines. Includes guided video lessons, practice drills, and mock exams.",
-          "url": "https://www.myboardprep.org/review/fisheries",
-          "provider": {
-            "@type": "Organization",
-            "name": "BoardPrep",
-            "url": "https://www.myboardprep.org"
-          },
-          "courseMode": "online",
-          "inLanguage": "en-PH",
-          "offers": {
-            "@type": "Offer",
-            "price": "999",
-            "priceCurrency": "PHP",
-            "url": "https://www.myboardprep.org/enroll?exam=fisheries"
-          }
-        }}
+        title={PAGE_METADATA["/review/fisheries"].title}
+        description={PAGE_METADATA["/review/fisheries"].description}
+        url="/review/fisheries"
+        preloadImageHref={fisheriesHeroBg}
+        preloadImageSrcSet={`${fisheriesHeroBg640} 640w, ${fisheriesHeroBg} 1400w`}
+        preloadImageSizes="100vw"
+        jsonLd={buildReviewProgramPageSchema("fisheries", fisheriesHeroBg, fisheriesReviewGuide.faqs)}
       />
       <Header />
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section data-beasties-container className="critical-render relative pt-32 pb-20 overflow-hidden">
           {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: "url('/src/assets/fisheries-hero-bg.png')",
-            }}
+          <img
+            src={fisheriesHeroBg}
+            srcSet={`${fisheriesHeroBg640} 640w, ${fisheriesHeroBg} 1400w`}
+            sizes="100vw"
+            alt="Fisheries scientist inspecting a fish sample in an aquaculture laboratory"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            width={1400}
+            height={1400}
+            {...{ fetchpriority: "high" }}
+            decoding="async"
           />
           {/* Gradient Overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/40 via-secondary/60 to-secondary/60" />
 
           <div className="container mx-auto px-6 lg:px-12 relative z-10">
+            <Breadcrumbs
+              variant="inverse"
+              className="mx-auto mb-6 max-w-4xl text-left"
+              items={[
+                { label: "Home", to: "/" },
+                { label: "Review Classes", to: "/review-class" },
+                { label: "Fisheries" },
+              ]}
+            />
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6 animate-fade-up">
                 <Fish className="w-4 h-4 text-accent" />
@@ -114,7 +117,7 @@ const FisheriesDetails = () => {
               </div>
 
               <h1 className="animate-fade-up delay-100 text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
-                Fisheries Review Class
+                Online Fisheries Board Exam Review
               </h1>
 
               <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed font-sans">
@@ -123,8 +126,10 @@ const FisheriesDetails = () => {
                 curriculum designed by industry professionals.
               </p>
 
+              <ProgramPrice program="fisheries" className="mb-8" />
+
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/enroll" className="w-full sm:w-auto">
+                <Link to="/enroll?exam=fisheries" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
                     size="lg"
@@ -272,6 +277,8 @@ const FisheriesDetails = () => {
             </div>
           </div>
         </section>
+
+        <ReviewProgramGuide content={fisheriesReviewGuide} />
 
         {/* Speakers Section */}
         <SpeakersGrid

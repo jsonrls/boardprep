@@ -1,4 +1,4 @@
-import { BRAND } from "../config/brand";
+import { BRAND } from "../config/brand.js";
 
 export const SITE_URL = BRAND.siteUrl;
 

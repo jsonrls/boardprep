@@ -6,19 +6,21 @@ import {
   BookOpen,
   Video,
   Award,
-  Users,
-  Clock,
   CheckCircle2,
-  Star,
   ArrowRight,
   Beaker,
   Target,
-  TrendingUp,
   FlaskConical,
   UserPlus,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import SpeakersGrid from "@/components/SpeakersGrid";
+import foodTechHeroBg from "@/assets/food-tech-hero-bg.avif";
+import foodTechHeroBg640 from "@/assets/food-tech-hero-bg-640.avif";
+import ProgramPrice from "@/components/ProgramPrice";
+import { buildReviewProgramPageSchema } from "@/seo/schema";
+import ReviewProgramGuide from "@/components/ReviewProgramGuide";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { foodTechnologyReviewGuide } from "@/content/engineeringReviewGuides";
 
 const courseFeatures = [
   {
@@ -37,7 +39,7 @@ const courseFeatures = [
     icon: Award,
     title: "Expert Instructors",
     description:
-      "Learn from board topnotchers and licensed food technologists with proven teaching methods.",
+      "Follow guided explanations that make scientific, regulatory, and processing decisions easier to understand.",
   },
   {
     icon: Target,
@@ -48,21 +50,21 @@ const courseFeatures = [
 ];
 
 const curriculumTopics = [
-  { title: "Food Chemistry", lessons: 24 },
-  { title: "Food Microbiology", lessons: 22 },
-  { title: "Food Processing Technology", lessons: 28 },
-  { title: "Food Safety & Quality Assurance", lessons: 26 },
-  { title: "Food Engineering", lessons: 20 },
-  { title: "Nutrition & Dietetics", lessons: 18 },
-  { title: "Food Product Development", lessons: 16 },
-  { title: "Food Laws & Regulations", lessons: 14 },
+  { title: "Food Chemistry", focus: "Components, reactions, properties, and applied calculations" },
+  { title: "Food Microbiology", focus: "Microbial behavior, control, spoilage, and food safety" },
+  { title: "Food Processing Technology", focus: "Preservation systems, unit operations, and process decisions" },
+  { title: "Food Safety & Quality Assurance", focus: "Hazards, quality systems, sanitation, and corrective action" },
+  { title: "Food Engineering", focus: "Material and energy balances, equipment, and process principles" },
+  { title: "Nutrition & Research", focus: "Nutrition concepts, analysis, experimental design, and interpretation" },
+  { title: "Sensory & Product Development", focus: "Sensory methods, product design, and manufacturing context" },
+  { title: "Food Laws & Regulations", focus: "Philippine requirements, compliance, ethics, and professional practice" },
 ];
 
 const stats = [
-  { icon: Users, value: "400+", label: "Students Enrolled" },
-  { icon: Clock, value: "110+", label: "Hours of Content" },
-  { icon: TrendingUp, value: "94%", label: "Pass Rate" },
-  { icon: Star, value: "4.9/5", label: "Student Rating" },
+  { icon: Beaker, value: "4", label: "Official Subject Groups" },
+  { icon: Target, value: "25%", label: "Weight per Subject" },
+  { icon: CheckCircle2, value: "75%", label: "Passing Rating per Subject" },
+  { icon: FlaskConical, value: "₱4,999", label: "Listed Program Fee" },
 ];
 
 const FtleDetails = () => {
@@ -70,45 +72,47 @@ const FtleDetails = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
         title="FTLE Review Class 2026 — Food Technology Licensure Exam"
-        description="Prepare for the Food Technology Licensure Examination (FTLE) with BoardPrep. Expert instructors, complete study materials, practice drills, and proven results."
+        description="Prepare for the Food Technology Licensure Examination with PRC-aligned subject coverage, guided lessons, question drills, mock exams, and transparent ₱4,999 pricing."
         url="https://www.myboardprep.org/review/ftle"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Course",
-          "name": "Food Technology Review Class — FTLE",
-          "description": "Comprehensive review program for the Food Technology Licensure Examination (FTLE) in the Philippines. Includes guided video lessons, practice drills, and mock exams.",
-          "url": "https://www.myboardprep.org/review/ftle",
-          "provider": {
-            "@type": "Organization",
-            "name": "BoardPrep",
-            "url": "https://www.myboardprep.org"
-          },
-          "courseMode": "online",
-          "inLanguage": "en-PH",
-          "offers": {
-            "@type": "Offer",
-            "price": "4999",
-            "priceCurrency": "PHP",
-            "url": "https://www.myboardprep.org/enroll?exam=ftle"
-          }
-        }}
+        preloadImageHref={foodTechHeroBg}
+        preloadImageSrcSet={`${foodTechHeroBg640} 640w, ${foodTechHeroBg} 1400w`}
+        preloadImageSizes="100vw"
+        jsonLd={buildReviewProgramPageSchema(
+          "ftle",
+          foodTechHeroBg,
+          foodTechnologyReviewGuide.faqs,
+        )}
       />
       <Header />
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section data-beasties-container className="critical-render relative pt-32 pb-20 overflow-hidden">
           {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: "url('/src/assets/food-tech-hero-bg.png')",
-            }}
+          <img
+            src={foodTechHeroBg}
+            srcSet={`${foodTechHeroBg640} 640w, ${foodTechHeroBg} 1400w`}
+            sizes="100vw"
+            alt="Food technologist analyzing a sample in a food processing laboratory"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            width={1400}
+            height={1400}
+            {...{ fetchpriority: "high" }}
+            decoding="async"
           />
           {/* Gradient Overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/40 via-secondary/60 to-secondary/60" />
 
           <div className="container mx-auto px-6 lg:px-12 relative z-10">
+            <Breadcrumbs
+              variant="inverse"
+              className="mx-auto mb-6 max-w-4xl text-left"
+              items={[
+                { label: "Home", to: "/" },
+                { label: "Review Classes", to: "/review-class" },
+                { label: "Food Technology" },
+              ]}
+            />
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6 animate-fade-up">
                 <Beaker className="w-4 h-4 text-accent" />
@@ -118,17 +122,19 @@ const FtleDetails = () => {
               </div>
 
               <h1 className="animate-fade-up delay-100 text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
-                FTLE Review Class
+                Online Food Technology Board Exam Review
               </h1>
 
               <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed font-sans">
-                Master the Food Technology Licensure Examination with
-                comprehensive review materials, expert instructors, and a proven
-                curriculum designed by board topnotchers.
+                Prepare for the Food Technologists Licensure Examination with
+                guided lessons, computations, question drills, and mock exams
+                organized around the official PRC subject groups.
               </p>
 
+              <ProgramPrice program="ftle" className="mb-8" />
+
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/enroll" className="w-full sm:w-auto">
+                <Link to="/enroll?exam=ftle" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
                     size="lg"
@@ -263,9 +269,7 @@ const FtleDetails = () => {
                           <h3 className="font-display text-lg text-foreground mb-1">
                             {topic.title}
                           </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {topic.lessons} lessons
-                          </p>
+                          <p className="text-sm text-muted-foreground">{topic.focus}</p>
                         </div>
                       </div>
                       <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
@@ -277,23 +281,34 @@ const FtleDetails = () => {
           </div>
         </section>
 
-        {/* Speakers Section */}
-        <section className="py-28 lg:py-36 bg-muted/30">
-          <div className="container mx-auto px-6 lg:px-12">
-            <div className="max-w-3xl mx-auto text-center mb-20">
-              <p className="animate-fade-up text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4">
-                Expert Instructors
-              </p>
-              <h2 className="animate-fade-up delay-100 font-display text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight mb-6">
-                Learn from the <em className="not-italic text-accent">best</em>
-              </h2>
-              <p className="animate-fade-up delay-200 text-muted-foreground text-lg leading-relaxed font-sans">
-                Our instructors are board topnotchers and experienced food
-                technologists dedicated to your success.
-              </p>
-            </div>
+        <ReviewProgramGuide content={foodTechnologyReviewGuide} />
 
-            <SpeakersGrid />
+        <section className="bg-muted/30 py-12">
+          <div className="container mx-auto max-w-5xl px-6 lg:px-12">
+            <h2 className="font-display text-2xl text-foreground">Official FTLE references</h2>
+            <p className="mt-3 leading-7 text-muted-foreground">
+              Eligibility and professional scope are based on the Philippine Food Technology Act.
+              Examination subjects and competency emphasis are based on the PRC materials linked
+              below. Always verify the current filing period and examination program directly with
+              PRC because administrative dates and instructions may change.
+            </p>
+            <ul className="mt-5 list-disc space-y-2 pl-6 text-sm leading-6 text-secondary">
+              <li>
+                <a href="https://lawphil.net/statutes/repacts/ra2018/ra_11052_2018.html" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  Republic Act No. 11052 — Philippine Food Technology Act
+                </a>
+              </li>
+              <li>
+                <a href="https://www.prc.gov.ph/Pages/PRBv4/FoodTechnologyv8.htm" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  PRC Professional Regulatory Board of Food Technology
+                </a>
+              </li>
+              <li>
+                <a href="https://www.prc.gov.ph/2026-schedule-examination" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  PRC schedule of licensure examinations
+                </a>
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -316,9 +331,9 @@ const FtleDetails = () => {
                   <em className="not-italic text-primary">FTLE exam</em>?
                 </h2>
                 <p className="animate-fade-up delay-200 text-lg text-secondary-foreground/70 mb-10 max-w-2xl mx-auto leading-relaxed font-sans">
-                  Join hundreds of successful students who have passed the Food
-                  Technology Licensure Examination with our comprehensive review
-                  program.
+                  Build a balanced plan across all four official subject groups,
+                  measure your progress with fresh questions, and verify every
+                  examination requirement directly with PRC.
                 </p>
                 <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
                   <a

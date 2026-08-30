@@ -15,7 +15,6 @@ export const FALLBACK_PRESS_IMAGE =
 export function sanitizePressHtml(html: string) {
   return DOMPurify.sanitize(html, {
     ALLOWED_TAGS: [
-      "h1",
       "h2",
       "h3",
       "h4",

@@ -1,27 +1,44 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone, Facebook, Instagram, Linkedin } from "lucide-react";
-import logoFull from "@/assets/logo-full.png";
+import logoFull from "@/assets/logo-full.webp";
+import logoFullSmall from "@/assets/logo-full-400.webp";
+import logoFullMedium from "@/assets/logo-full-600.webp";
+import { buildBasicPageSchema } from "@/seo/schema";
+import { BRAND } from "@/config/brand";
+import { PAGE_METADATA } from "@/seo/routes";
 
 const Contact = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Contact Us"
-        description="Get in touch with the BoardPrep team. We're here to help with your licensure exam review questions and enrollment inquiries."
-        url="https://www.myboardprep.org/contact"
+        title={PAGE_METADATA["/contact"].title}
+        description={PAGE_METADATA["/contact"].description}
+        url="/contact"
+        jsonLd={buildBasicPageSchema({
+          path: "/contact",
+          name: "Contact BoardPrep",
+          description:
+            PAGE_METADATA["/contact"].description,
+          type: "ContactPage",
+          aboutOrganization: true,
+          breadcrumbs: [
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ],
+        })}
       />
       <Header />
       <main className="flex-1">
         {/* Header Section */}
-        <section className="pt-32 pb-12 lg:pt-40 lg:pb-20 bg-secondary/5">
+        <section
+          data-beasties-container
+          className="critical-render pt-32 pb-12 lg:pt-40 lg:pb-20 bg-secondary/5"
+        >
           <div className="container mx-auto px-6 lg:px-12 text-center">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground font-bold mb-6">
-              Get in <span className="text-secondary">Touch</span>
+              Contact <span className="text-secondary">BoardPrep</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
               Have questions about our review programs or need technical
@@ -37,9 +54,9 @@ const Contact = () => {
               {/* Contact Info */}
               <div className="space-y-12">
                 <div>
-                  <h3 className="text-2xl font-display font-bold text-foreground mb-6">
+                  <h2 className="text-2xl font-display font-bold text-foreground mb-6">
                     Contact Information
-                  </h3>
+                  </h2>
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-primary/10 p-3 rounded-lg text-primary mt-1">
@@ -50,10 +67,10 @@ const Contact = () => {
                           Email
                         </p>
                         <a
-                          href="mailto:acewithboardprep@gmail.com"
+                          href={`mailto:${BRAND.email}`}
                           className="text-muted-foreground hover:text-primary transition-colors font-sans"
                         >
-                          acewithboardprep@gmail.com
+                          {BRAND.email}
                         </a>
                       </div>
                     </div>
@@ -63,10 +80,28 @@ const Contact = () => {
                       </div>
                       <div>
                         <p className="font-medium text-foreground font-sans">
+                          Phone
+                        </p>
+                        <a
+                          href={`tel:${BRAND.phone.e164}`}
+                          className="text-muted-foreground hover:text-primary transition-colors font-sans"
+                        >
+                          {BRAND.phone.display}
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="bg-primary/10 p-3 rounded-lg text-primary mt-1">
+                        <Facebook size={24} />
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground font-sans">
                          Facebook Messenger
                         </p>
                         <a
-                          href="mailto:acewithboardprep@gmail.com"
+                          href={BRAND.social.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-muted-foreground hover:text-primary transition-colors font-sans"
                         >
                           @myboardprep
@@ -75,51 +110,57 @@ const Contact = () => {
                     </div>
                     <div className="flex items-start gap-4">
                       <div className="bg-primary/10 p-3 rounded-lg text-primary mt-1">
-                        <Phone size={24} />
+                        <MapPin size={24} />
                       </div>
                       <div>
                         <p className="font-medium text-foreground font-sans">
                          Address
                         </p>
-                        <p className="text-muted-foreground font-sans">Level 10-1 Fort Legend Tower, 31st Street & 3rd Avenue, Bonifacio Global City, Taguig City, 1634, Philippines</p>
+                        <p className="text-muted-foreground font-sans">
+                          {BRAND.address.full}
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-2xl font-display font-bold text-foreground mb-6">
+                  <h2 className="text-2xl font-display font-bold text-foreground mb-6">
                     Follow Us
-                  </h3>
+                  </h2>
                   <div className="flex gap-4">
                     <a
-                      href="https://web.facebook.com/myboardprep"
+                      href={BRAND.social.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${BRAND.name} on Facebook`}
                       className="bg-secondary/5 hover:bg-[#1877F2] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <Facebook size={24} />
                     </a>
                     <a
-                      href="https://www.instagram.com/myboardprep"
+                      href={BRAND.social.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${BRAND.name} on Instagram`}
                       className="bg-secondary/5 hover:bg-[#E4405F] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <Instagram size={24} />
                     </a>
                     <a
-                      href="https://ph.linkedin.com/company/board-prep"
+                      href={BRAND.social.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${BRAND.name} on LinkedIn`}
                       className="bg-secondary/5 hover:bg-[#0A66C2] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <Linkedin size={24} />
                     </a>
                     <a
-                      href="https://www.tiktok.com/@myboardprep"
+                      href={BRAND.social.tiktok}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${BRAND.name} on TikTok`}
                       className="bg-secondary/5 hover:bg-[#000000] hover:text-white transition-colors duration-300 p-4 text-foreground transition-colors"
                     >
                       <svg
@@ -144,8 +185,14 @@ const Contact = () => {
               <div className="flex items-center justify-center lg:justify-end">
                 <img
                   src={logoFull}
+                  srcSet={`${logoFullSmall} 400w, ${logoFullMedium} 600w, ${logoFull} 800w`}
+                  sizes="(min-width: 1024px) 384px, 80vw"
                   alt="Board Prep Solutions Incorporated"
                   className="max-w-full h-auto max-h-48 object-contain"
+                  width={800}
+                  height={246}
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

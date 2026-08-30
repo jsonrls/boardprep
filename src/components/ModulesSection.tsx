@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, BicepsFlexed, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +11,10 @@ const modules = [
     description:
       "Advanced animal care and medical training for aspiring veterinarians.",
     tags: ["6 Years", "Doctorate"],
-    image: moduleImage("Veterinary Medicine.png"),
+    image: moduleImage("Veterinary Medicine-640.avif"),
+    imageMedium: moduleImage("Veterinary Medicine-480.avif"),
+    imageSmall: moduleImage("Veterinary Medicine-320.avif"),
+    imageAlt: "Illustration of a veterinary medicine student examining a cat",
     highlight: false,
   },
   {
@@ -20,7 +23,10 @@ const modules = [
     description:
       "For aspiring professionals. Focus on fundamentals and practical skills.",
     tags: ["2-4 Years", "Undergrad"],
-    image: moduleImage("Fisheries.png"),
+    image: moduleImage("Fisheries-640.avif"),
+    imageMedium: moduleImage("Fisheries-480.avif"),
+    imageSmall: moduleImage("Fisheries-320.avif"),
+    imageAlt: "Illustration of a fisheries professional holding a basket of fish",
     highlight: false,
   },
   {
@@ -29,7 +35,10 @@ const modules = [
     description:
       "For future practitioners. From beginner concepts to advanced methodologies.",
     tags: ["4 Years", "All levels"],
-    image: moduleImage("Psychology.png"),
+    image: moduleImage("Psychology-640.avif"),
+    imageMedium: moduleImage("Psychology-480.avif"),
+    imageSmall: moduleImage("Psychology-320.avif"),
+    imageAlt: "Illustration representing psychology licensure exam preparation",
     highlight: false,
   },
   {
@@ -38,7 +47,10 @@ const modules = [
     description:
       "Comprehensive coaching and concepts to take your knowledge to the next level.",
     tags: ["4 Years", "Licensure"],
-    image: moduleImage("Agriculture.png"),
+    image: moduleImage("Agriculture-640.avif"),
+    imageMedium: moduleImage("Agriculture-480.avif"),
+    imageSmall: moduleImage("Agriculture-320.avif"),
+    imageAlt: "Illustration of an agriculturist holding harvested produce",
     highlight: false,
   },
   {
@@ -47,7 +59,10 @@ const modules = [
     description:
       "Extensive training and preparation for criminal justice careers.",
     tags: ["4 Years", "Core"],
-    image: moduleImage("Criminology.png"),
+    image: moduleImage("Criminology-640.avif"),
+    imageMedium: moduleImage("Criminology-480.avif"),
+    imageSmall: moduleImage("Criminology-320.avif"),
+    imageAlt: "Illustration of an aspiring criminology professional in uniform",
     highlight: false,
   },
   {
@@ -56,7 +71,10 @@ const modules = [
     description:
       "Advanced techniques and laboratory practice for food innovation.",
     tags: ["2-4 Years", "Advanced"],
-    image: moduleImage("Food Technology.png"),
+    image: moduleImage("Food Technology-640.avif"),
+    imageMedium: moduleImage("Food Technology-480.avif"),
+    imageSmall: moduleImage("Food Technology-320.avif"),
+    imageAlt: "Illustration of a food technologist examining a food sample",
     highlight: false,
   },
   {
@@ -65,7 +83,10 @@ const modules = [
     description:
       "Modern engineering and biosystems approaches to agriculture.",
     tags: ["5 Years", "Engineering"],
-    image: moduleImage("Agricultural Biosystems and Engineering.png"),
+    image: moduleImage("Agricultural Biosystems and Engineering-640.avif"),
+    imageMedium: moduleImage("Agricultural Biosystems and Engineering-480.avif"),
+    imageSmall: moduleImage("Agricultural Biosystems and Engineering-320.avif"),
+    imageAlt: "Illustration representing agricultural and biosystems engineering",
     highlight: false,
   },
 ];
@@ -73,29 +94,8 @@ const modules = [
 const ModulesSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-
-  // Auto-scroll logic
-  useEffect(() => {
-    if (isDragging || isHovered) return;
-
-    const interval = setInterval(() => {
-      if (scrollContainerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        // Check if we've reached the end
-        if (scrollLeft + clientWidth >= scrollWidth - 20) {
-          scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          // Scroll by approximately one card width
-          scrollContainerRef.current.scrollBy({ left: 340, behavior: 'smooth' });
-        }
-      }
-    }, 1500); // Trigger auto-scroll every 3 seconds
-
-    return () => clearInterval(interval);
-  }, [isDragging, isHovered]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollContainerRef.current) return;
@@ -104,13 +104,8 @@ const ModulesSection = () => {
     setScrollLeft(scrollContainerRef.current.scrollLeft);
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
   const handleMouseLeave = () => {
     setIsDragging(false);
-    setIsHovered(false);
   };
 
   const handleMouseUp = () => {
@@ -151,7 +146,6 @@ const ModulesSection = () => {
           <div 
             ref={scrollContainerRef}
             onMouseDown={handleMouseDown}
-            onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
@@ -187,8 +181,14 @@ const ModulesSection = () => {
                   <div className="bg-[#f09e28] relative h-[180px] w-full overflow-hidden rounded-[2rem] sm:h-[220px]">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      srcSet={`${item.imageSmall} 320w, ${item.imageMedium} 480w, ${item.image} 640w`}
+                      sizes="(min-width: 640px) 320px, 260px"
+                      alt={item.imageAlt}
                       className="h-full w-full object-contain object-bottom transition-transform duration-700 group-hover:scale-105 pt-2"
+                      width={320}
+                      height={220}
+                      loading="lazy"
+                      decoding="async"
                     />
 
                     {/* Gradient overlay on image bottom to ensure Read More contrast */}

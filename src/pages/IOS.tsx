@@ -1,9 +1,16 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 const IOS = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEO
+        title="BoardPrep iOS App"
+        description="Learn about the upcoming BoardPrep iOS app for licensure exam review on iPhone and iPad."
+        url="https://www.myboardprep.org/ios"
+        noindex
+      />
       <Header />
       <main className="flex-1 container mx-auto px-6 py-24">
         <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">iOS App</h1>

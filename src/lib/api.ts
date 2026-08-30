@@ -4,8 +4,10 @@ export type ApiError = {
 };
 
 const baseUrl =
-  (import.meta as any).env?.VITE_API_URL?.toString?.() ||
-  "http://localhost:5050/api";
+  import.meta.env.VITE_API_URL?.toString() ||
+  (import.meta.env.DEV
+    ? "/api"
+    : "https://boardprep-backend.vercel.app/api");
 
 export const apiBaseUrl = baseUrl.replace(/\/+$/, "");
 
@@ -21,9 +23,9 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!res.ok) {
-    let payload: any = undefined;
+    let payload: { message?: string } | undefined;
     try {
-      payload = await res.json();
+      payload = (await res.json()) as { message?: string };
     } catch {
       // ignore
     }
@@ -48,4 +50,3 @@ export function apiPost<T>(path: string, body?: unknown, init?: RequestInit) {
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
 }
-

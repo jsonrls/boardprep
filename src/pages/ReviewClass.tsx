@@ -15,7 +15,14 @@ import {
   Wheat,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero.png";
+import heroImage from "@/assets/hero.avif";
+import heroImage640 from "@/assets/hero-640.avif";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import {
+  REVIEW_CLASS_FAQS,
+  REVIEW_PROGRAMS,
+  buildReviewClassPageSchema,
+} from "@/seo/schema";
 
 const benefits = [
   {
@@ -87,6 +94,37 @@ const guaranteePoints = [
   "Built for board exam takers.",
 ];
 
+const programPrice = new Map(REVIEW_PROGRAMS.map((program) => [program.key, program.price]));
+const formatPhp = (price: number) =>
+  new Intl.NumberFormat("en-PH", {
+    style: "currency",
+    currency: "PHP",
+    maximumFractionDigits: 0,
+  }).format(price);
+
+const reviewProcess = [
+  {
+    title: "Diagnose your baseline",
+    description:
+      "Start with the official PRC scope and an honest assessment so your calendar reflects demonstrated gaps, not only favorite subjects.",
+  },
+  {
+    title: "Learn in guided blocks",
+    description:
+      "Use lectures, organized notes, and worked examples to rebuild concepts before asking practice questions to confirm understanding.",
+  },
+  {
+    title: "Drill and correct",
+    description:
+      "Complete focused and mixed question sets, read every rationale, and classify errors as knowledge, application, computation, or pacing problems.",
+  },
+  {
+    title: "Simulate and refine",
+    description:
+      "Use timed mock exams to test subject balance and endurance, then return to the weakest competency with a smaller corrective loop.",
+  },
+] as const;
+
 const ReviewClass = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -94,17 +132,33 @@ const ReviewClass = () => {
         title="Online Review Classes Philippines — Licensure Exam Preparation"
         description="Join BoardPrep Online Review Classes for structured, exam-focused preparation across Vet, Fisheries, Agriculture, FTLE, and ABE licensure programs, guided by board topnotchers."
         url="https://www.myboardprep.org/review-class"
+        preloadImageHref={heroImage}
+        preloadImageSrcSet={`${heroImage640} 640w, ${heroImage} 1600w`}
+        preloadImageSizes="100vw"
+        jsonLd={buildReviewClassPageSchema()}
       />
       <Header />
 
       <main className="flex-grow">
         {/* Hero */}
-        <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-r from-background via-background/80 to-background">
-          <div
-            className="pointer-events-none absolute inset-y-0 right-0 w-full md:w-md bg-cover bg-right bg-no-repeat opacity-100"
-            style={{ backgroundImage: `url(${heroImage})` }}
+        <section data-beasties-container className="critical-render relative pt-32 pb-20 overflow-hidden bg-gradient-to-r from-background via-background/80 to-background">
+          <img
+            src={heroImage}
+            srcSet={`${heroImage640} 640w, ${heroImage} 1600w`}
+            sizes="100vw"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 h-full w-full object-cover object-right opacity-100 md:w-md"
+            width={1600}
+            height={1516}
+            {...{ fetchpriority: "high" }}
+            decoding="async"
           />
           <div className="container relative mx-auto px-6 lg:px-12">
+            <Breadcrumbs
+              className="mb-6 max-w-4xl"
+              items={[{ label: "Home", to: "/" }, { label: "Review Classes" }]}
+            />
             <div className="max-w-4xl">
               <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6 animate-fade-up">
                 <GraduationCap className="w-4 h-4 text-accent" />
@@ -114,10 +168,9 @@ const ReviewClass = () => {
               </div>
 
               <h1 className="animate-fade-up delay-100 text-4xl md:text-5xl lg:text-6xl font-display font-bold text-foreground mb-6">
-                Review classes built
+                Online Review Classes
                 <span className="block">
-                  for <em className="not-italic text-accent">Philippine</em>{" "}
-                  board exams.
+                  for <em className="not-italic text-accent">Philippine Board Exams</em>
                 </span>
               </h1>
 
@@ -248,6 +301,19 @@ const ReviewClass = () => {
                       <p className="text-sm text-muted-foreground leading-relaxed">
                         {program.highlight}
                       </p>
+                      <p className="mt-3 font-display text-lg text-secondary">
+                        {formatPhp(programPrice.get(
+                          program.code === "VET"
+                            ? "vet"
+                            : program.code === "FTLE"
+                              ? "ftle"
+                              : program.code === "AGRI"
+                                ? "agriculture"
+                                : program.code === "AB"
+                                  ? "abe"
+                                  : "fisheries",
+                        ) ?? 0)}
+                      </p>
                     </div>
 
                     <div className="mt-auto flex items-center justify-between pt-2">
@@ -260,6 +326,121 @@ const ReviewClass = () => {
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-border/60 bg-muted/30 py-24 lg:py-32">
+          <div className="container mx-auto px-6 lg:px-12">
+            <div className="grid gap-12 lg:grid-cols-[0.9fr,1.1fr] lg:gap-20">
+              <div>
+                <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                  How online review works
+                </p>
+                <h2 className="mt-4 font-display text-3xl leading-tight text-foreground md:text-4xl">
+                  Turn a broad licensure syllabus into a repeatable weekly system
+                </h2>
+                <div className="mt-6 space-y-5 leading-7 text-muted-foreground">
+                  <p>
+                    A Philippine board exam review class should do more than deliver long lectures.
+                    BoardPrep combines guided instruction with self-paced materials, question drills,
+                    rationales, and exam-focused assessments. The aim is to help each reviewee decide
+                    what to study next and collect evidence that a weak area is improving.
+                  </p>
+                  <p>
+                    AI-supported analytics can organize practice results and surface patterns, such as
+                    a consistently weak subject or a drop in accuracy during timed work. Treat those
+                    signals as planning aids. They do not replace the official PRC Table of
+                    Specifications, qualified instruction, or your own review of a worked solution.
+                  </p>
+                </div>
+                <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3">
+                  <Link to="/question-drills" className="inline-flex items-center gap-2 font-medium text-secondary hover:underline">
+                    Learn how BoardPrep Question Drills work <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link to="/our-products" className="font-medium text-secondary hover:underline">
+                    Compare the complete BoardPrep product suite
+                  </Link>
+                </div>
+              </div>
+
+              <ol className="grid gap-5 sm:grid-cols-2">
+                {reviewProcess.map((step, index) => (
+                  <li key={step.title} className="rounded-2xl border border-border bg-card p-6">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-accent/15 font-display text-sm text-secondary">
+                      {index + 1}
+                    </span>
+                    <h3 className="mt-5 font-display text-xl text-foreground">{step.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{step.description}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-background py-24 lg:py-32">
+          <div className="container mx-auto px-6 lg:px-12">
+            <div className="mx-auto max-w-5xl">
+              <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                Timeline, access, and pricing
+              </p>
+              <h2 className="mt-4 font-display text-3xl text-foreground md:text-4xl">
+                Choose a program you can follow consistently
+              </h2>
+              <div className="mt-6 grid gap-8 text-base leading-7 text-muted-foreground md:grid-cols-2">
+                <div className="space-y-4">
+                  <p>
+                    Candidates with twelve or more weeks can begin with diagnostics and foundations,
+                    rotate through the complete official scope, and preserve several weeks for mixed
+                    drills and mock exams. An eight-week plan can compress those blocks. A four-week
+                    sprint should prioritize verified gaps and high-value cumulative practice rather
+                    than trying to watch every lesson at double speed.
+                  </p>
+                  <p>
+                    The right pace depends on graduation recency, work obligations, baseline scores,
+                    and the number of calculation-heavy subjects. Keep one rest or catch-up block each
+                    week. No review provider can guarantee a passing result; useful progress evidence
+                    includes better accuracy on unseen questions, fewer repeated errors, balanced
+                    subject performance, and improved pacing on timed assessments.
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  <p>
+                    Current listed program fees are transparent: Veterinary Medicine ₱10,999,
+                    Fisheries ₱999, Agriculture ₱6,999, Food Technology ₱4,999, and Agricultural and
+                    Biosystems Engineering ₱4,999. Each dedicated page explains the profession-specific
+                    curriculum and links to an enrollment form with that examination selected.
+                  </p>
+                  <p>
+                    Before paying, confirm the active cohort schedule, access period, live and recorded
+                    arrangements, payment instructions, and exact inclusions. PRC application fees,
+                    travel, accommodation, permitted calculators, and other personal examination costs
+                    are separate. BoardPrep deliberately asks candidates to verify dates because PRC
+                    schedules, deadlines, testing centers, and room assignments can change.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-10 rounded-2xl border border-border bg-muted/30 p-6 md:p-8">
+                <h3 className="font-display text-2xl text-foreground">Official scheduling source</h3>
+                <p className="mt-3 leading-7 text-muted-foreground">
+                  Use the current PRC master schedule for examination dates and filing periods, then
+                  consult the relevant Professional Regulatory Board page for the latest syllabus,
+                  Table of Specifications, resolutions, and examination-day program.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-4 text-sm">
+                  <a href="https://www.prc.gov.ph/2026-schedule-examination" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">
+                    PRC examination schedule
+                  </a>
+                  <a href="https://www.prc.gov.ph/professional-regulatory-boards" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">
+                    PRC Professional Regulatory Boards
+                  </a>
+                  <a href="https://www.prc.gov.ph/list-of-requirements" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">
+                    PRC application requirements
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -354,6 +535,32 @@ const ReviewClass = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" className="border-t border-border/60 bg-background py-24 lg:py-32">
+          <div className="container mx-auto max-w-4xl px-6 lg:px-12">
+            <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-primary">
+              Frequently Asked Questions
+            </p>
+            <h2 className="mb-10 font-display text-3xl leading-tight text-foreground md:text-4xl">
+              About BoardPrep review classes
+            </h2>
+            <div className="divide-y divide-border rounded-2xl border border-border bg-card px-6 md:px-8">
+              {REVIEW_CLASS_FAQS.map(({ question, answer }) => (
+                <details key={question} className="group py-6">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-lg text-foreground">
+                    {question}
+                    <span aria-hidden="true" className="text-2xl text-accent transition-transform group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="max-w-3xl pt-4 font-sans leading-relaxed text-muted-foreground">
+                    {answer}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
         </section>

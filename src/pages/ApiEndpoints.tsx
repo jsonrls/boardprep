@@ -109,7 +109,12 @@ const ApiEndpoints = () => {
 
           {error && (
             <p className="mt-4 text-sm text-destructive">
-              {(error as any)?.message ||
+              {(typeof error === "object" &&
+              error !== null &&
+              "message" in error &&
+              typeof error.message === "string"
+                ? error.message
+                : null) ||
                 "Could not fetch endpoints. Ensure admin-backend is running and CORS allows this origin."}
             </p>
           )}
@@ -121,4 +126,3 @@ const ApiEndpoints = () => {
 };
 
 export default ApiEndpoints;
-

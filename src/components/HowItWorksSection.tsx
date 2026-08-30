@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Globe, MousePointerClick, CreditCard, Rocket } from "lucide-react";
 
 const steps = [
@@ -50,14 +50,6 @@ const HowItWorksSection = () => {
     if (steps.length <= 1) return 0;
     return (activeStep / (steps.length - 1)) * 100;
   }, [activeStep]);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % steps.length);
-    }, 1500);
-
-    return () => window.clearInterval(interval);
-  }, []);
 
   return (
     <section

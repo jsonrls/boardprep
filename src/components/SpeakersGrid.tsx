@@ -54,8 +54,12 @@ export default function SpeakersGrid({ profession, description, sectionClassName
             {speaker.imageUrl ? (
               <img
                 src={speaker.imageUrl}
-                alt={speaker.name}
+                alt={`Portrait of ${speaker.name}, ${speaker.title}`}
                 className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20 object-cover"
+                width={128}
+                height={128}
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="w-32 h-32 rounded-full mx-auto border-4 border-accent/20 bg-accent/10 flex items-center justify-center">
@@ -106,4 +110,3 @@ export default function SpeakersGrid({ profession, description, sectionClassName
 
   return grid;
 }
-

@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: optional;
+  src: url("/fonts/inter-latin-variable.woff2") format("woff2-variations");
+}
 
 @tailwind base;
 @tailwind components;
@@ -230,22 +236,22 @@
 @layer components {
   .animate-fade-up {
     animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    opacity: 0;
+    opacity: 1;
   }
 
   .animate-fade-in {
     animation: fadeIn 0.6s ease-out forwards;
-    opacity: 0;
+    opacity: 1;
   }
 
   .animate-slide-up {
     animation: slideUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    opacity: 0;
+    opacity: 1;
   }
 
   .animate-scale-in {
     animation: scaleIn 0.5s ease-out forwards;
-    opacity: 0;
+    opacity: 1;
   }
 
   .hover-lift {
@@ -307,9 +313,53 @@
   }
 }
 
+/* Prevent delayed text paint for above-the-fold content and for users who
+   request reduced motion. Below-the-fold sections retain their transitions. */
+.critical-render .animate-fade-up,
+.critical-render .animate-fade-in,
+.critical-render .animate-slide-up,
+.critical-render .animate-scale-in {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-scale-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Skip layout and paint work for long, below-the-fold editorial sections. */
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+.decorative-grid {
+  background-image:
+    linear-gradient(hsl(var(--border) / 0.45) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(var(--border) / 0.45) 1px, transparent 1px);
+  background-size: clamp(48px, 6vw, 88px) clamp(48px, 6vw, 88px);
+  pointer-events: none;
+}
+
 @keyframes fadeUp {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(30px);
   }
 
@@ -321,7 +371,7 @@
 
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    opacity: 1;
   }
 
   to {
@@ -331,7 +381,7 @@
 
 @keyframes slideUp {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(60px);
   }
 
@@ -343,7 +393,7 @@
 
 @keyframes scaleIn {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: scale(0.95);
   }
 
@@ -381,6 +431,19 @@
 
 .animate-float {
   animation: float 4s ease-in-out infinite;
+}
+
+.product-float {
+  animation: float 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.product-float-delay-1 {
+  animation-delay: -1.25s;
+}
+
+.product-float-delay-2 {
+  animation-delay: -2.5s;
 }
 
 @keyframes scroll-flow {

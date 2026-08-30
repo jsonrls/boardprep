@@ -9,8 +9,11 @@ import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "@/lib/api";
+import { buildArticlePageSchema } from "@/seo/schema";
+import { absoluteBrandUrl, BRAND } from "@/config/brand";
+import { metaDescriptionFromHtml } from "@/seo/meta";
 
-const BASE_OG_IMAGE = "https://www.myboardprep.org/og-image.png";
+const BASE_OG_IMAGE = absoluteBrandUrl(BRAND.assets.socialImage);
 
 const htmlToText = (html: string) => {
   if (typeof document === "undefined") {
@@ -95,12 +98,14 @@ const renderRichHtml = (html: string): React.ReactNode[] => {
       case "H4":
       case "H5":
       case "H6": {
-        const level = Number(tag.slice(1));
+        // The article title is the page H1. Normalize any CMS-supplied H1 to H2
+        // so editorial content cannot create a competing primary heading.
+        const level = Math.max(2, Number(tag.slice(1)));
         const cls =
           level <= 2
             ? "font-display text-xl md:text-2xl text-foreground pt-2"
             : "font-display text-lg md:text-xl text-foreground pt-2";
-        const Comp = tag.toLowerCase() as keyof JSX.IntrinsicElements;
+        const Comp = `h${level}` as keyof JSX.IntrinsicElements;
         return (
           <Comp key={key} className={cls}>
             {children}
@@ -228,7 +233,11 @@ const PressArticle = () => {
     content: string;
     author: string;
     imageUrl?: string | null;
+    imageAlt?: string | null;
     date: string;
+    updatedAt?: string | null;
+    seoTitle?: string | null;
+    seoDescription?: string | null;
   };
 
   const { data, isLoading } = useQuery({
@@ -294,6 +303,14 @@ const PressArticle = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-background font-sans">
+        {!isLoading && (
+          <SEO
+            title="Article Not Found"
+            description={`The requested ${BRAND.name} press article could not be found.`}
+            url={`/press/${id ?? ""}`}
+            noindex
+          />
+        )}
         <Header />
         <main className="pt-24 pb-20">
           <div className="container mx-auto px-6 lg:px-12">
@@ -317,22 +334,34 @@ const PressArticle = () => {
     );
   }
 
-  const articleUrl = `https://www.myboardprep.org/press/${post.id}`;
+  const articleUrl = absoluteBrandUrl(`/press/${post.id}`);
   const articleImage =
     post.imageUrl && post.imageUrl.startsWith("http")
       ? post.imageUrl
       : post.imageUrl
-        ? `https://www.myboardprep.org${post.imageUrl}`
+        ? absoluteBrandUrl(post.imageUrl)
         : BASE_OG_IMAGE;
-  const articleDescription = htmlToText(post.content ?? "").slice(0, 160);
+  const articleDescription = metaDescriptionFromHtml(
+    post.seoDescription?.trim() || post.content || "",
+  );
 
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20 text-[#121212]">
       <SEO
-        title={post.title}
+        title={post.seoTitle?.trim() || post.title}
         description={articleDescription}
         url={articleUrl}
         image={articleImage}
+        ogType="article"
+        jsonLd={buildArticlePageSchema({
+          id: post.id,
+          title: post.title,
+          description: articleDescription,
+          image: articleImage,
+          author: post.author,
+          datePublished: post.date,
+          dateModified: post.updatedAt ?? post.date,
+        })}
       />
       <Header />
       <main className="pt-24 pb-20">
@@ -350,8 +379,15 @@ const PressArticle = () => {
                     post.imageUrl ||
                     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2670&auto=format&fit=crop"
                   }
-                  alt={post.title}
+                  alt={
+                    post.imageAlt ||
+                    (post.imageUrl
+                      ? post.title
+                      : "Students collaborating during an online learning session")
+                  }
                   className="w-full h-full object-cover"
+                  {...{ fetchpriority: "high" }}
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10">
@@ -378,6 +414,10 @@ const PressArticle = () => {
                           src={logoFull}
                           alt="BoardPrep Solutions logo"
                           className="w-10 h-10 rounded-full bg-primary/10 object-cover"
+                          width={40}
+                          height={40}
+                          loading="lazy"
+                          decoding="async"
                         />
                         <div className="min-w-0">
                           <p className="font-semibold text-foreground truncate">{post.author}</p>
@@ -386,8 +426,7 @@ const PressArticle = () => {
                       </div>
 
                       {(() => {
-                        const pageUrl = window.location.href;
-                        const share = buildShareUrls(pageUrl, post.title);
+                        const share = buildShareUrls(articleUrl, post.title);
                         const iconBtn =
                           "inline-flex items-center justify-center h-9 w-9 rounded-md border transition-all duration-200";
                         return (

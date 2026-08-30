@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import heroImage from "@/assets/hero.png";
+import heroImage from "@/assets/hero.avif";
+import heroImage640 from "@/assets/hero-640.avif";
 import { Link } from "react-router-dom";
-import { trackConversion, withSocialAttribution } from "@/lib/visitTracker";
 
 const HeroSection = () => {
   const handleScrollToStats = () => {
@@ -13,7 +13,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20">
+    <section data-beasties-container className="critical-render relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20">
       {/* Aurora Background Effects */}
       {/* Aurora Background Effects - Stronger colors from palette */}
       <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#ffbd59] blur-[100px] opacity-50 z-0 pointer-events-none mix-blend-multiply dark:mix-blend-screen" />
@@ -22,9 +22,17 @@ const HeroSection = () => {
 
       {/* Text protection gradient - Reduced opacity of 'via' color to let blobs show through */}
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent z-0 pointer-events-none" />
-      <div
-        className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat -mb-16 mt-4 z-10"
-        style={{ backgroundImage: `url(${heroImage})` }}
+      <img
+        src={heroImage}
+        srcSet={`${heroImage640} 640w, ${heroImage} 1600w`}
+        sizes="100vw"
+        alt=""
+        aria-hidden="true"
+        className="hidden md:block absolute inset-0 h-full w-full object-cover object-center -mb-16 mt-4 z-10"
+        width={1600}
+        height={1516}
+        {...{ fetchpriority: "high" }}
+        decoding="async"
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-20">
         <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-12">
@@ -37,8 +45,8 @@ const HeroSection = () => {
 
             {/* Headline */}
             <h1 className="animate-fade-up delay-100 font-display text-6xl md:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-[1.1] mb-8 text-center md:text-left">
-              Ace your board exam with{" "}
-              <em className="not-italic text-accent">top-notch</em> drills.
+              Online board exam review for{" "}
+              <em className="not-italic text-accent">Philippine</em> licensure exams.
             </h1>
 
             {/* Subheadline */}
@@ -69,26 +77,19 @@ const HeroSection = () => {
                 className="text-foreground w-full sm:w-auto font-display"
                 asChild
               >
-                <a
-                  href={withSocialAttribution("https://www.myboardprep.com")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackConversion({ type: "drills_click" })}
-                >
-                  Start Practice Drills
-                </a>
+                <Link target="_blank" to="https://myboardprep.com/">Start Practice Drills</Link>
               </Button>
             </div>
           </div>
 
-          {/* Image spacer - Optional: if we want to ensure text stays left and doesn't center if we used justify-center. 
+          {/* Image spacer - Optional: if we want to ensure text stays left and doesn't center if we used justify-center.
               The current flex is "items-center". If there is only one child, it will sit there.
               However, if the user wants the text on the left, we should verify "container" width.
           */}
         </div>
       </div>
 
-      {/* Overlay to ensure text readability if needed - adding a subtle gradient or wash might be safe? 
+      {/* Overlay to ensure text readability if needed - adding a subtle gradient or wash might be safe?
           User didn't ask for it, but if the image is busy, text is hard to read.
           Let's try to infer from "make it background". Often implies hero background.
           I will add a slight overlay just in case, but maybe transparent for now or light white fade if the image is orange?

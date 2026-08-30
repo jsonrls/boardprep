@@ -5,6 +5,11 @@ const CustomCursor = () => {
   const innerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (!finePointer.matches) {
+      return;
+    }
+
     const cursor = cursorRef.current;
     const inner = innerRef.current;
 
@@ -12,11 +17,22 @@ const CustomCursor = () => {
       return;
     }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      cursor.style.transform = `translate3d(calc(${clientX}px - 50%), calc(${clientY}px - 50%), 0)`;
-      inner.style.left = `${clientX}px`;
-      inner.style.top = `${clientY}px`;
+    let animationFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    const positionCursor = () => {
+      cursor.style.transform = `translate3d(calc(${pointerX}px - 50%), calc(${pointerY}px - 50%), 0)`;
+      inner.style.transform = `translate3d(calc(${pointerX}px - 50%), calc(${pointerY}px - 50%), 0)`;
+      animationFrame = 0;
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(positionCursor);
+      }
     };
 
     const handleMouseDown = () => {
@@ -50,6 +66,7 @@ const CustomCursor = () => {
     document.addEventListener("mouseout", handleMouseOut);
 
     return () => {
+      window.cancelAnimationFrame(animationFrame);
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -60,11 +77,10 @@ const CustomCursor = () => {
 
   return (
     <>
-      <div ref={cursorRef} className="custom-cursor" />
-      <div ref={innerRef} className="custom-cursor-inner" />
+      <div ref={cursorRef} className="custom-cursor" aria-hidden="true" />
+      <div ref={innerRef} className="custom-cursor-inner" aria-hidden="true" />
     </>
   );
 };
 
 export default CustomCursor;
-

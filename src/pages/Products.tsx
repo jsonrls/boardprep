@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import { useMemo, useState, type ComponentType } from "react";
 import { Link } from "react-router-dom";
+import { buildBasicPageSchema } from "@/seo/schema";
+import { PAGE_METADATA } from "@/seo/routes";
+import { PRODUCT_LINKS } from "@/config/brand";
 
 type ProductCategory = "All" | "Apps" | "Platform" | "Programs";
 
@@ -76,7 +79,7 @@ const Products = () => {
           "Question drills built for board exam readiness—practice anywhere, track progress, and stay consistent.",
         category: "Platform",
         Icon: BookOpen,
-        link: { kind: "external", href: "https://www.myboardprep.com" },
+        link: { kind: "external", href: PRODUCT_LINKS.drills },
         cta: "Open Drills",
         badges: ["Web"],
       },
@@ -88,7 +91,7 @@ const Products = () => {
         Icon: Smartphone,
         link: {
           kind: "external",
-          href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
+          href: PRODUCT_LINKS.mobileApp,
         },
         cta: "Get on Google Play",
         badges: ["Android", "iOS"],
@@ -96,12 +99,12 @@ const Products = () => {
           {
             platform: "play",
             label: "Get on Google Play",
-            href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
+            href: PRODUCT_LINKS.mobileApp,
           },
           {
             platform: "appstore",
             label: "Get on the App Store",
-            href: "https://apps.apple.com/ph/app/boardprep/id6741724168",
+            href: PRODUCT_LINKS.mobileAppIos,
           },
         ],
       },
@@ -111,7 +114,7 @@ const Products = () => {
           "A classroom-friendly LMS for teachers and students with analytics that help guide review strategy.",
         category: "Platform",
         Icon: Monitor,
-        link: { kind: "external", href: "https://lms2.myboardprep.com/" },
+        link: { kind: "external", href: PRODUCT_LINKS.classroom },
         cta: "Open Classroom",
         badges: ["Web"],
       },
@@ -133,7 +136,7 @@ const Products = () => {
         Icon: Sparkles,
         link: {
           kind: "external",
-          href: "https://apps.apple.com/ca/app/boardprep-lite/id6756837074",
+          href: PRODUCT_LINKS.lite,
         },
         cta: "Get on the App Store",
         badges: ["Android", "iOS"],
@@ -141,12 +144,12 @@ const Products = () => {
           {
             platform: "play",
             label: "Get on Google Play",
-            href: "https://play.google.com/store/apps/details?id=com.boardprepsolutionsincorporated.boardpreprlite",
+            href: PRODUCT_LINKS.liteAndroid,
           },
           {
             platform: "appstore",
             label: "Get on the App Store",
-            href: "https://apps.apple.com/ca/app/boardprep-lite/id6756837074",
+            href: PRODUCT_LINKS.lite,
           },
         ],
       },
@@ -156,7 +159,7 @@ const Products = () => {
           "Career-forward programs to help you progress beyond exams—skills, direction, and momentum.",
         category: "Programs",
         Icon: Rocket,
-        link: { kind: "external", href: "https://nextstepsph.com/" },
+        link: { kind: "external", href: PRODUCT_LINKS.nextSteps },
         cta: "Explore Next Steps",
         badges: ["Program"],
       },
@@ -174,13 +177,27 @@ const Products = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="Products"
-        description="Explore all BoardPrep products: question drills, Classroom LMS, online review classes, and BoardPrep Lite."
-        url="https://www.myboardprep.org/products"
+        title={PAGE_METADATA["/our-products"].title}
+        description={PAGE_METADATA["/our-products"].description}
+        url="/our-products"
+        jsonLd={buildBasicPageSchema({
+          path: "/our-products",
+          name: "BoardPrep Products",
+          description:
+            PAGE_METADATA["/our-products"].description,
+          type: "CollectionPage",
+          breadcrumbs: [
+            { name: "Home", path: "/" },
+            { name: "Products", path: "/our-products" },
+          ],
+        })}
       />
       <Header />
       <main className="flex-1 pt-24">
-        <section className="relative pt-12 pb-8 lg:pt-16">
+        <section
+          data-beasties-container
+          className="critical-render relative pt-12 pb-8 lg:pt-16"
+        >
           <div className="container mx-auto px-6 lg:px-12">
             <div className="max-w-3xl">
               <p className="text-sm font-sans text-muted-foreground">
@@ -193,8 +210,8 @@ const Products = () => {
               </p>
 
               <h1 className="mt-5 font-display text-4xl md:text-5xl lg:text-6xl text-foreground font-bold tracking-tight">
-                Choose the{" "}
-                <span className="text-gradient">right product</span> for your review
+                Board exam review{" "}
+                <span className="text-gradient">products and study tools</span>
               </h1>
               <p className="mt-5 text-lg md:text-xl text-muted-foreground font-sans leading-relaxed">
                 Drills, classroom tools, and guided programs designed to help you prepare with
@@ -337,4 +354,3 @@ const Products = () => {
 };
 
 export default Products;
-

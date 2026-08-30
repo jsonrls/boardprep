@@ -6,74 +6,91 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import logoFull from "@/assets/logo-white.png";
+import { Link } from "react-router-dom";
+import logoFull from "@/assets/logo-white.webp";
+import logoFullSmall from "@/assets/logo-white-400.webp";
+import { BRAND } from "@/config/brand";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const location = useLocation();
-
   const quickLinks = [
-    {
-      label: "BoardPrep® Classroom",
-      href: "https://lms2.myboardprep.com/",
-      isHash: false,
-    },
-    {
-      label: "Mobile App",
-      href: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
-      isHash: false,
-    },
-    { label: "About Us", href: "/about", isHash: false },
-    { label: "Contact Us", href: "/contact", isHash: false },
+    { label: "All Products", href: "/our-products" },
+    { label: "Review Classes", href: "/review-class" },
+    { label: "Veterinary Review", href: "/review/vet" },
+    { label: "Fisheries Review", href: "/review/fisheries" },
+    { label: "Agriculture Review", href: "/review/agriculture" },
+    { label: "Food Technology Review", href: "/review/ftle" },
+    { label: "Agricultural Engineering Review", href: "/review/abe" },
+    { label: "Question Drills", href: "/question-drills" },
+    { label: "Press", href: "/press" },
+    { label: "About Us", href: "/about" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   return (
-    <footer className="bg-secondary text-secondary-foreground">
+    <footer className="relative overflow-hidden bg-[#3971C2] text-white">
+      <div
+        className="pointer-events-none absolute -right-32 -top-40 h-96 w-96 rounded-full bg-accent/10 blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-accent/50 to-transparent"
+        aria-hidden="true"
+      />
       <div className="container mx-auto px-6 lg:px-12">
         {/* Main Footer */}
-        <div className="py-16 lg:py-20 grid md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="relative grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10 lg:py-14">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-5">
             <img
               src={logoFull}
-              alt="BoardPrep"
-              className="h-12 mb-6 brightness-0 invert"
+              srcSet={`${logoFullSmall} 400w, ${logoFull} 800w`}
+              sizes="180px"
+              alt="BoardPrep Solutions"
+              className="mb-5 h-11 w-auto object-contain"
+              width={800}
+              height={245}
+              loading="lazy"
+              decoding="async"
             />
-            <p className="text-secondary-foreground/60 leading-relaxed mb-8 max-w-sm font-sans">
-              Leading provider of accessible and high-quality board exam review
-              materials. Trusted by future licensed professionals.
+            <p className="mb-6 max-w-sm font-sans text-sm leading-6 text-white/65">
+              Online review classes, question drills, and study tools for
+              Philippine licensure exam candidates.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <a
-                href="https://web.facebook.com/myboardprep"
+                href={BRAND.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-colors duration-300"
+                aria-label={`${BRAND.name} on Facebook`}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#1877F2] hover:bg-[#1877F2] hover:text-white"
               >
                 <Facebook size={18} />
               </a>
               <a
-                href="https://www.instagram.com/myboardprep"
+                href={BRAND.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#E4405F] hover:text-white transition-colors duration-300"
+                aria-label={`${BRAND.name} on Instagram`}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#E4405F] hover:bg-[#E4405F] hover:text-white"
               >
                 <Instagram size={18} />
               </a>
               <a
-                href="https://ph.linkedin.com/company/board-prep"
+                href={BRAND.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#0A66C2] hover:text-white transition-colors duration-300"
+                aria-label={`${BRAND.name} on LinkedIn`}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#0A66C2] hover:bg-[#0A66C2] hover:text-white"
               >
                 <Linkedin size={18} />
               </a>
               <a
-                href="https://www.tiktok.com/@myboardprep"
+                href={BRAND.social.tiktok}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 flex items-center justify-center hover:bg-[#000000] hover:text-white transition-colors duration-300"
+                aria-label={`${BRAND.name} on TikTok`}
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/30 hover:bg-black hover:text-white"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,69 +110,55 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-display text-xl mb-6">Quick Links</h4>
-            <ul className="space-y-4">
-              {quickLinks.map((link) => {
-                if (link.isHash) {
-                  // For hash links, navigate to home page with hash if not already there
-                  const href =
-                    location.pathname === "/" ? link.href : `/${link.href}`;
-                  return (
-                    <li key={link.label}>
-                      <a
-                        href={href}
-                        className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  );
-                }
-                return (
-                  <li key={link.label}>
-                    <Link
-                      to={link.href}
-                      className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                );
-              })}
+          <div className="lg:col-span-4">
+            <p className="mb-5 font-display text-lg font-semibold text-white">
+              Quick Links
+            </p>
+            <ul className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
+                    className="font-sans text-sm text-white/60 transition-colors duration-300 hover:text-accent"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
-          <div>
-            <h4 className="font-display text-xl mb-6">Contact</h4>
+          <div className="lg:col-span-3">
+            <p className="mb-5 font-display text-lg font-semibold text-white">
+              Contact
+            </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin
                   size={18}
-                  className="text-primary mt-0.5 flex-shrink-0"
+                  className="mt-0.5 flex-shrink-0 text-accent"
                 />
-                <span className="text-secondary-foreground/60 text-sm font-sans">
-                  Level 10-1 Fort Legend Tower, 31st Street & 3rd Avenue,
-                  Bonifacio Global City, Taguig City, 1634, Philippines
+                <span className="font-sans text-sm leading-6 text-white/60">
+                  {BRAND.address.full}
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone size={18} className="text-primary flex-shrink-0" />
+                <Phone size={18} className="flex-shrink-0 text-accent" />
                 <a
-                  href="tel:+639171429725"
-                  className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
+                  href={`tel:${BRAND.phone.e164}`}
+                  className="font-sans text-sm text-white/60 transition-colors duration-300 hover:text-accent"
                 >
-                  +63 917 142 9725
+                  {BRAND.phone.display}
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail size={18} className="text-primary flex-shrink-0" />
+                <Mail size={18} className="flex-shrink-0 text-accent" />
                 <a
-                  href="mailto:acewithboardprep@gmail.com "
-                  className="text-secondary-foreground/60 hover:text-primary transition-colors duration-300 text-sm font-sans"
+                  href={`mailto:${BRAND.email}`}
+                  className="break-all font-sans text-sm text-white/60 transition-colors duration-300 hover:text-accent"
                 >
-                  acewithboardprep@gmail.com
+                  {BRAND.email}
                 </a>
               </li>
             </ul>
@@ -163,25 +166,14 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        {/* <div className="border-t border-secondary-foreground/10 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-secondary-foreground/50 text-sm font-sans">
-            © {currentYear} BoardPrep. All rights reserved.
+        <div className="relative flex flex-col items-center justify-between gap-3 border-t border-white/10 py-5 md:flex-row">
+          <p className="font-sans text-xs text-white/45 sm:text-sm">
+            © {currentYear} {BRAND.legalName}. All rights reserved.
           </p>
-          <div className="flex gap-8 text-sm">
-            <a
-              href="#"
-              className="text-secondary-foreground/50 hover:text-primary transition-colors duration-300 font-sans"
-            >
-              Privacy Policy
-            </a>
-            <a
-              href="#"
-              className="text-secondary-foreground/50 hover:text-primary transition-colors duration-300 font-sans"
-            >
-              Terms of Service
-            </a>
-          </div>
-        </div> */}
+          <p className="font-sans text-xs text-white/45 sm:text-sm">
+            {BRAND.name} — online licensure exam review in the Philippines.
+          </p>
+        </div>
       </div>
     </footer>
   );

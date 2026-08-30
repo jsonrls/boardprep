@@ -6,14 +6,11 @@ import {
   BookOpen,
   Video,
   Award,
-  Users,
   Clock,
   CheckCircle2,
-  Star,
   ArrowRight,
   GraduationCap,
   Target,
-  TrendingUp,
   UserPlus,
   Rocket,
   ChevronDown,
@@ -22,8 +19,15 @@ import {
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-import vetHeroBg from "@/assets/vet-hero-bg.png";
+import vetHeroBg from "@/assets/vet-hero-bg.avif";
+import vetHeroBg640 from "@/assets/vet-hero-bg-640.avif";
 import SpeakersGrid from "@/components/SpeakersGrid";
+import ProgramPrice from "@/components/ProgramPrice";
+import ReviewProgramGuide from "@/components/ReviewProgramGuide";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { veterinaryReviewGuide } from "@/content/reviewGuides";
+import { buildReviewProgramPageSchema } from "@/seo/schema";
+import { PAGE_METADATA } from "@/seo/routes";
 
 const courseFeatures = [
   {
@@ -48,7 +52,7 @@ const courseFeatures = [
     icon: Target,
     title: "Mock Exams",
     description:
-      "Test your knowledge with hundreds of TOO practice questions and detailed explanations.",
+      "Test your knowledge with hundreds of TOS-aligned practice questions and detailed explanations.",
   },
 ];
 
@@ -132,9 +136,9 @@ const curriculumTopics = [
 ];
 
 const stats = [
-  { icon: Users, value: "1000+", label: "Enrolled DVM" },
-  { icon: Clock, value: "150+", label: "Hours of Content" },
-  { icon: Star, value: "4.9/5", label: "Reviewee Rating" },
+  { icon: BookOpen, value: "9", label: "Official Exam Subjects" },
+  { icon: Clock, value: "14 weeks", label: "Suggested Review Plan" },
+  { icon: Target, value: "₱10,999", label: "Listed Program Fee" },
 ];
 
 const VetDetails = () => {
@@ -147,44 +151,44 @@ const VetDetails = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SEO
-        title="VLE Review Class 2026 — Veterinarian Licensure Exam"
-        description="Prepare for the Veterinarian Licensure Examination (VLE) with BoardPrep. Expert instructors, complete study materials, practice drills, and proven results."
-        url="https://www.myboardprep.org/review/vet"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "Course",
-          "name": "VLE Review Class — Veterinarian Licensure Examination",
-          "description": "Comprehensive review program for the Veterinarian Licensure Examination (VLE) in the Philippines. Includes guided video lessons, practice drills, and mock exams.",
-          "url": "https://www.myboardprep.org/review/vet",
-          "provider": {
-            "@type": "Organization",
-            "name": "BoardPrep",
-            "url": "https://www.myboardprep.org"
-          },
-          "courseMode": "online",
-          "inLanguage": "en-PH",
-          "offers": {
-            "@type": "Offer",
-            "price": "10999",
-            "priceCurrency": "PHP",
-            "url": "https://www.myboardprep.org/enroll?exam=vet"
-          }
-        }}
+        title={PAGE_METADATA["/review/vet"].title}
+        description={PAGE_METADATA["/review/vet"].description}
+        url="/review/vet"
+        preloadImageHref={vetHeroBg}
+        preloadImageSrcSet={`${vetHeroBg640} 640w, ${vetHeroBg} 1200w`}
+        preloadImageSizes="100vw"
+        jsonLd={buildReviewProgramPageSchema("vet", vetHeroBg, veterinaryReviewGuide.faqs)}
       />
       <Header />
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section data-beasties-container className="critical-render relative pt-32 pb-20 overflow-hidden">
           {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${vetHeroBg})` }}
+          <img
+            src={vetHeroBg}
+            srcSet={`${vetHeroBg640} 640w, ${vetHeroBg} 1200w`}
+            sizes="100vw"
+            alt="Veterinary professionals examining a dog during a clinical checkup"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            width={1200}
+            height={1200}
+            {...{ fetchpriority: "high" }}
+            decoding="async"
           />
           {/* Gradient Overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/40 via-secondary/60 to-secondary/60" />
 
           <div className="container mx-auto px-6 lg:px-12 relative z-10">
+            <Breadcrumbs
+              variant="inverse"
+              className="mx-auto mb-6 max-w-4xl text-left"
+              items={[
+                { label: "Home", to: "/" },
+                { label: "Review Classes", to: "/review-class" },
+                { label: "Veterinary Medicine" },
+              ]}
+            />
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-2 mb-6 animate-fade-up">
                 <GraduationCap className="w-4 h-4 text-accent" />
@@ -194,15 +198,17 @@ const VetDetails = () => {
               </div>
 
               <h1 className="animate-fade-up delay-100 text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6">
-                Online Vet Review Class
+                Online Veterinary Medicine Board Exam Review
               </h1>
 
               <p className="animate-fade-up delay-200 text-lg md:text-xl text-white/90 mb-8 leading-relaxed font-sans">
                 Ace the Veterinarian Licensure Examination with comprehensive review materials, expert instructors, and a proven review program designed by board topnotchers.
               </p>
 
+              <ProgramPrice program="vet" className="mb-8" />
+
               <div className="animate-fade-up delay-300 flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/enroll" className="w-full sm:w-auto">
+                <Link to="/enroll?exam=vet" className="w-full sm:w-auto">
                   <Button
                     variant="hero"
                     size="lg"
@@ -245,18 +251,7 @@ const VetDetails = () => {
                   className={`animate-fade-up delay-${index * 100} text-center`}
                 >
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
-                    {stat.label === "Student Rating" ? (
-                      <div className="flex items-center gap-1">
-                        {[0, 1, 2].map((i) => (
-                          <Star
-                            key={i}
-                            className="w-4 h-4 text-accent fill-accent"
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <stat.icon className="w-6 h-6 text-accent" />
-                    )}
+                    <stat.icon className="w-6 h-6 text-accent" />
                   </div>
                   <div className="text-3xl md:text-4xl font-display font-bold text-secondary mb-2">
                     {stat.value}
@@ -384,6 +379,8 @@ const VetDetails = () => {
             </div>
           </div>
         </section>
+
+        <ReviewProgramGuide content={veterinaryReviewGuide} />
 
         {/* Speakers Section */}
         <SpeakersGrid

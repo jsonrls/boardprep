@@ -1,26 +1,32 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { cn } from "@/lib/utils";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
-import phone from "@/assets/phone.png";
-import laptop from "@/assets/laptop.png";
-import img2 from "@/assets/2.png";
-import img3 from "@/assets/3.png";
-import img4 from "@/assets/4.png";
-import lite2 from "@/assets/boardprep-lite/2.png";
-import lite3 from "@/assets/boardprep-lite/3.png";
-import lite4 from "@/assets/boardprep-lite/4.png";
-import lms2 from "@/assets/lms/2.png";
-import lms3 from "@/assets/lms/3.png";
+import img2 from "@/assets/2-800.avif";
+import img2Small from "@/assets/2-480.avif";
+import img3 from "@/assets/3-800.avif";
+import img3Small from "@/assets/3-480.avif";
+import img4 from "@/assets/4-800.avif";
+import img4Small from "@/assets/4-480.avif";
+import lite2 from "@/assets/boardprep-lite/2-800.avif";
+import lite2Small from "@/assets/boardprep-lite/2-480.avif";
+import lite3 from "@/assets/boardprep-lite/3-800.avif";
+import lite3Small from "@/assets/boardprep-lite/3-480.avif";
+import lite4 from "@/assets/boardprep-lite/4-800.avif";
+import lite4Small from "@/assets/boardprep-lite/4-480.avif";
+import lms2 from "@/assets/lms/2-800.avif";
+import lms2Small from "@/assets/lms/2-480.avif";
+import lms3 from "@/assets/lms/3-800.avif";
+import lms3Small from "@/assets/lms/3-480.avif";
 // import lms5 from "@/assets/lms/5.png";
-import rc1 from "@/assets/rc-10.png";
-import rc2 from "@/assets/rc-9.png";
-import rc3 from "@/assets/rc-3.png";
-import lms5 from "@/assets/classroom-1.png";
-import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
-import { useRef } from "react";
+import rc2 from "@/assets/rc-9-800.avif";
+import rc2Small from "@/assets/rc-9-480.avif";
+import rc2Thumbnail from "@/assets/rc-9-320.avif";
+import rc3 from "@/assets/rc-3-800.avif";
+import rc3Small from "@/assets/rc-3-480.avif";
+import lms5 from "@/assets/classroom-1-800.avif";
+import lms5Small from "@/assets/classroom-1-480.avif";
 import {
   ArrowRight,
   Rocket,
@@ -45,7 +51,6 @@ import {
   Settings,
   WifiOff,
 } from "lucide-react";
-import Blocks from "@/components/ui/blocks";
 
 export interface BoxesProps {
   className?: string;
@@ -53,17 +58,17 @@ export interface BoxesProps {
   cols?: number;
 }
 
+const productImageSizes =
+  "(min-width: 1280px) 520px, (min-width: 768px) 40vw, 55vw";
+
 interface ProductCardData {
   title: string;
   description: React.ReactNode;
-  image: string;
-  imageAlt: string;
   color: string;
   textColor: string;
-  imageClass?: string;
   link?: string;
   linkLabel?: string;
-  customVisual?: React.ReactNode;
+  customVisual: React.ReactNode;
 }
 
 const cards: ProductCardData[] = [
@@ -91,40 +96,28 @@ const cards: ProductCardData[] = [
       <div className="relative w-full h-full flex items-center justify-center group overflow-visible">
         {/* Left phone */}
         <div className="absolute left-[-5%] md:left-[5%] w-[55%] md:w-[65%] z-10 transform -rotate-[15deg] -translate-x-[20%] translate-y-8 opacity-80 transition-all duration-700 ease-out group-hover:-rotate-[25deg] group-hover:-translate-x-[35%] group-hover:scale-105 group-hover:opacity-100 drop-shadow-xl">
-          <motion.div
-            animate={{ y: [-8, 8, -8] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0 }}
-          >
-            <img src={img2} alt="App Screen 1" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float">
+            <img src={img2} srcSet={`${img2Small} 480w, ${img2} 800w`} sizes={productImageSizes} alt="BoardPrep mobile app Learning Board welcome screen" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
 
         {/* Right phone */}
         <div className="absolute right-[-5%] md:right-[5%] w-[55%] md:w-[65%] z-10 transform rotate-[15deg] translate-x-[20%] translate-y-8 opacity-80 transition-all duration-700 ease-out group-hover:rotate-[25deg] group-hover:translate-x-[35%] group-hover:scale-105 group-hover:opacity-100 drop-shadow-xl">
-          <motion.div
-            animate={{ y: [-8, 8, -8] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          >
-            <img src={img3} alt="App Screen 3" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float product-float-delay-1">
+            <img src={img3} srcSet={`${img3Small} 480w, ${img3} 800w`} sizes={productImageSizes} alt="BoardPrep mobile app learning-performance analytics dashboard" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
 
         {/* Center phone (now tilted) */}
         <div className="relative w-[65%] md:w-[75%] z-20 transform -rotate-[5deg] translate-y-[-10px] transition-all duration-700 ease-out group-hover:rotate-[0deg] group-hover:-translate-y-4 group-hover:scale-110 drop-shadow-2xl">
-          <motion.div
-            animate={{ y: [-12, 12, -12] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          >
-            <img src={img4} alt="Main Screen" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float product-float-delay-2">
+            <img src={img4} srcSet={`${img4Small} 480w, ${img4} 800w`} sizes={productImageSizes} alt="BoardPrep mobile app Top Performers leaderboard" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
     ),
-    image: phone,
-    imageAlt: "Mobile App Interface",
     color: "bg-product-lavender", // Soft Lavender
     textColor: "text-slate-900",
-    imageClass: "w-[60%]",
     link: "https://play.google.com/store/apps/details?id=com.myboardprep.bpsmobile&hl=en-US",
     linkLabel: "Download BoardPrep Mobile App",
   },
@@ -150,44 +143,29 @@ const cards: ProductCardData[] = [
         </li>
       </ul>
     ),
-    image: laptop,
-    imageAlt: "LMS Dashboard Interface",
     color: "bg-product-pink", // Pink
     textColor: "text-slate-900",
-    imageClass: "w-[90%]",
     customVisual: (
       <div className="relative w-full h-[350px] md:h-[450px] flex items-center justify-center group overflow-visible">
         {/* Back Left Image */}
         <div className="absolute left-[-15%] md:left-[-5%] w-[60%] md:w-[65%] z-10 transform -rotate-6 -translate-y-4 opacity-80 transition-all duration-700 ease-out group-hover:-rotate-12 group-hover:-translate-x-8 group-hover:-translate-y-8 group-hover:opacity-100">
-          <motion.div
-            animate={{ y: [-4, 4, -4] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-            className="w-full h-full flex items-center justify-center filter drop-shadow-xl"
-          >
-            <img src={lms2} alt="LMS Screen 1" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float w-full h-full flex items-center justify-center filter drop-shadow-xl">
+            <img src={lms2} srcSet={`${lms2Small} 480w, ${lms2} 800w`} sizes={productImageSizes} alt="BoardPrep Classroom teacher dashboard with veterinary and fisheries courses" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
 
         {/* Back Right Image */}
         <div className="absolute right-[-15%] md:right-[-5%] w-[60%] md:w-[65%] z-10 transform rotate-6 -translate-y-4 opacity-80 transition-all duration-700 ease-out group-hover:rotate-12 group-hover:translate-x-8 group-hover:-translate-y-8 group-hover:opacity-100">
-          <motion.div
-            animate={{ y: [-5, 5, -5] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="w-full h-full flex items-center justify-center filter drop-shadow-xl"
-          >
-            <img src={lms3} alt="LMS Screen 2" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float product-float-delay-1 w-full h-full flex items-center justify-center filter drop-shadow-xl">
+            <img src={lms3} srcSet={`${lms3Small} 480w, ${lms3} 800w`} sizes={productImageSizes} alt="BoardPrep Classroom veterinary medicine course modules" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
 
         {/* Center Main Image */}
         <div className="absolute w-[80%] md:w-[85%] z-20 transform -translate-y-2 transition-all duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-4">
-          <motion.div
-            animate={{ y: [-8, 8, -8] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0 }}
-            className="w-full h-full flex items-center justify-center filter drop-shadow-2xl"
-          >
-            <img src={lms5} alt="LMS Main Screen" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float product-float-delay-2 w-full h-full flex items-center justify-center filter drop-shadow-2xl">
+            <img src={lms5} srcSet={`${lms5Small} 480w, ${lms5} 800w`} sizes={productImageSizes} alt="BoardPrep Classroom student veterinary physiology lesson" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
     ),
@@ -210,40 +188,41 @@ const cards: ProductCardData[] = [
         </li>
       </ul>
     ),
-    image: laptop,
-    imageAlt: "Review Class Interface",
     color: "bg-product-teal", // Teal
     textColor: "text-slate-900",
-    imageClass: "w-[90%]",
     customVisual: (
       <div className="w-full h-[400px] md:h-[520px] flex items-center justify-center overflow-visible">
         <div className="flex w-full h-full items-center justify-center px-2 md:px-4">
           <div className="basis-[76%] md:basis-[100%] shrink-0">
-            <motion.div
-              animate={{ y: [-10, 10, -10] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-              className="w-full h-full flex items-center justify-center drop-shadow-2xl"
-            >
+            <div className="product-float w-full h-full flex items-center justify-center drop-shadow-2xl">
               <img
                 src={rc3}
-                alt="Online Review Class - Laptop"
+                srcSet={`${rc3Small} 480w, ${rc3} 800w`}
+                sizes={productImageSizes}
+                alt="BoardPrep students attending a live online review class"
                 className="w-full h-auto object-contain rounded-lg"
+                width={800}
+                height={800}
+                loading="lazy"
+                decoding="async"
               />
-            </motion.div>
+            </div>
           </div>
 
           <div className="basis-[34%] md:basis-[50%] shrink-0 -ml-6 md:-ml-12">
-            <motion.div
-              animate={{ y: [-5, 5, -5] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-              className="w-full h-full flex items-center justify-center drop-shadow-xl"
-            >
+            <div className="product-float product-float-delay-1 w-full h-full flex items-center justify-center drop-shadow-xl">
               <img
                 src={rc2}
-                alt="Online Review Class - Tablet"
+                srcSet={`${rc2Thumbnail} 320w, ${rc2Small} 480w, ${rc2} 800w`}
+                sizes="(min-width: 1280px) 260px, (min-width: 768px) 20vw, 28vw"
+                alt="BoardPrep veterinary pathology review notes on a tablet"
                 className="w-full h-auto object-contain rounded-lg"
+                width={800}
+                height={800}
+                loading="lazy"
+                decoding="async"
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
@@ -267,41 +246,29 @@ const cards: ProductCardData[] = [
         </li>
       </ul>
     ),
-    image: phone,
-    imageAlt: "Lite Version Interface",
     color: "bg-product-green", // Green
     textColor: "text-slate-900",
-    imageClass: "w-[60%]",
     customVisual: (
       <div className="relative w-full h-full flex items-center justify-center group overflow-visible">
         {/* Left phone */}
         <div className="absolute left-[-5%] md:left-[5%] w-[55%] md:w-[65%] z-10 transform -rotate-[15deg] -translate-x-[20%] translate-y-8 opacity-80 transition-all duration-700 ease-out group-hover:-rotate-[25deg] group-hover:-translate-x-[35%] group-hover:scale-105 group-hover:opacity-100 drop-shadow-xl">
-          <motion.div
-            animate={{ y: [-8, 8, -8] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0 }}
-          >
-            <img src={lite3} alt="BoardPrep Lite Create Deck Layout" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float">
+            <img src={lite3} srcSet={`${lite3Small} 480w, ${lite3} 800w`} sizes={productImageSizes} alt="BoardPrep Lite dashboard showing a Vet Med flashcard deck" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
 
         {/* Right phone */}
         <div className="absolute right-[-5%] md:right-[5%] w-[55%] md:w-[65%] z-10 transform rotate-[15deg] translate-x-[20%] translate-y-8 opacity-80 transition-all duration-700 ease-out group-hover:rotate-[25deg] group-hover:translate-x-[35%] group-hover:scale-105 group-hover:opacity-100 drop-shadow-xl">
-          <motion.div
-            animate={{ y: [-8, 8, -8] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          >
-            <img src={lite2} alt="BoardPrep Lite Dashboard" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float product-float-delay-1">
+            <img src={lite2} srcSet={`${lite2Small} 480w, ${lite2} 800w`} sizes={productImageSizes} alt="BoardPrep Lite Vet Med deck with 200 review cards" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
 
         {/* Center phone (now tilted) */}
         <div className="relative w-[65%] md:w-[75%] z-20 transform -rotate-[5deg] translate-y-[-10px] transition-all duration-700 ease-out group-hover:rotate-[0deg] group-hover:-translate-y-4 group-hover:scale-110 drop-shadow-2xl">
-          <motion.div
-            animate={{ y: [-12, 12, -12] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          >
-            <img src={lite4} alt="BoardPrep Lite Main Screen" className="w-full h-auto object-contain" />
-          </motion.div>
+          <div className="product-float product-float-delay-2">
+            <img src={lite4} srcSet={`${lite4Small} 480w, ${lite4} 800w`} sizes={productImageSizes} alt="BoardPrep Lite create-your-deck screen for custom flashcards" className="w-full h-auto object-contain" width={800} height={800} loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
     ),
@@ -314,14 +281,8 @@ const Card = ({
   i,
   title,
   description,
-  image,
-  imageAlt,
   color,
   textColor,
-  progress,
-  range,
-  targetScale,
-  imageClass,
   link,
   linkLabel,
   customVisual,
@@ -329,54 +290,21 @@ const Card = ({
   i: number;
   title: string;
   description: React.ReactNode;
-  image: string;
-  imageAlt: string;
   color: string;
   textColor: string;
-  progress: MotionValue<number>;
-  range: number[];
-  targetScale: number;
-  imageClass?: string;
   link?: string;
   linkLabel?: string;
-  customVisual?: React.ReactNode;
+  customVisual: React.ReactNode;
 }) => {
-  const container = useRef(null);
-  const scale = useTransform(progress, range, [1, targetScale]);
-
   return (
     <div
-      ref={container}
       className="h-[calc(100vh-6rem)] flex items-start justify-center sticky top-24"
     >
-      <motion.div
-        initial={
-          i === 0
-            ? {
-                opacity: 0,
-                y: 40,
-              }
-            : undefined
-        }
-        animate={
-          i === 0
-            ? {
-                opacity: 1,
-                y: 0,
-                transition: {
-                  type: "spring" as const,
-                  stiffness: 120,
-                  damping: 16,
-                },
-              }
-            : undefined
-        }
+      <div
         style={{
-          scale,
           top: `calc(${i * 45}px)`,
         }}
-        className={`relative h-[700px] lg:h-[550px] w-full max-w-6xl rounded-md px-6 pt-8 md:px-12 lg:px-20 md:pt-12 ${customVisual ? "pb-8 md:pb-12" : "pb-0"
-          } origin-top shadow-xl overflow-hidden ${color} flex flex-col justify-center`}
+        className={`relative h-[700px] lg:h-[550px] w-full max-w-6xl rounded-md px-6 pt-8 pb-8 md:px-12 lg:px-20 md:pt-12 md:pb-12 origin-top shadow-xl overflow-hidden transition-transform duration-500 ${color} flex flex-col justify-center`}
       >
         <div className="grid md:grid-cols-2 gap-12 h-full">
           {/* Left Column: Content */}
@@ -412,73 +340,23 @@ const Card = ({
           </div>
 
           <div
-            className={`relative h-full flex justify-center ${customVisual ? "items-center" : "items-end"
-              }`}
+            className="relative h-full flex items-center justify-center"
           >
-            {customVisual ? (
-              customVisual
-            ) : (
-              <div
-                className={`relative ${imageClass} transform transition-transform duration-500 hover:scale-[1.02]`}
-              >
-                <motion.div
-                  animate={{ y: [-10, 10, -10] }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <img
-                    src={image}
-                    alt={imageAlt}
-                    className="w-full h-auto object-contain"
-                  />
-                </motion.div>
-              </div>
-            )}
+            {customVisual}
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
 
 const ProductDualSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
   return (
     <section
-      className="py-24 mb-0 border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
-      ref={containerRef}
+      className="content-auto py-24 mb-0 border-t border-border/50 dark:bg-black bg-white before:absolute before:w-full before:h-full before:bg-linear-to-t  dark:before:from-[#070707] before:from-[#dbdbdb] before:z-1 w-full relative"
       id="product-dual"
     >
-      <Blocks
-        activeDivsClass="dark:bg-[#131212]  bg-[#9ba1a131]  "
-        divClass="dark:border-[#131212] border-[#9ba1a131] "
-        classname="w-full opacity-25"
-        containerRef={containerRef}
-        activeDivs={{
-          0: new Set([2, 4, 6]),
-          1: new Set([0, 8]),
-          2: new Set([1, 3, 5]),
-          4: new Set([0, 5, 8]),
-          5: new Set([2, 4]),
-          7: new Set([2, 6, 9]),
-          8: new Set([0, 4]),
-          9: new Set([5]),
-          10: new Set([3, 6]),
-          11: new Set([1, 5]),
-          12: new Set([7]),
-          13: new Set([2, 4]),
-          14: new Set([5]),
-          15: new Set([1, 6]),
-        }}
-      />
+      <div aria-hidden="true" className="decorative-grid absolute inset-0 opacity-25" />
       <div className="container mx-auto px-6 lg:px-12">
         <div className="text-center space-y-4 mb-20">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
@@ -490,18 +368,11 @@ const ProductDualSection = () => {
         </div>
 
         {cards.map((card, i) => {
-          const step = 1 / cards.length;
-          const targetScale = 1 - (cards.length - 1 - i) * 0.05;
-          const rangeStart = step * i;
-
           return (
             <Card
               key={i}
               i={i}
               {...card}
-              progress={scrollYProgress}
-              range={[rangeStart, 1]}
-              targetScale={targetScale}
               customVisual={card.customVisual}
             />
           );
